@@ -1133,6 +1133,8 @@ System.debug('Opplist size '+ oppList.size());
                     vlocity_cmt__Product2Id__c = pbeList[i].Product2Id,
                     vlocity_cmt__LineNumber__c = '000'+ i,
                     Product2Id = pbeList[i].Product2Id
+                    
+    
                 ));    
             }
         }
