@@ -1,0 +1,5 @@
+<apex:page standardController="case" extensions="redirectController" action="{!redirectPage}">
+<script>
+//location.href='/500/e?retURL=%2F500%2Fo&RecordType=0122D0000004IF7&ent=Case';
+</script>  
+</apex:page>

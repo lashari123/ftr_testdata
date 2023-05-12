@@ -1,0 +1,24 @@
+<!--
+  @File Name          : textlwc.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 10/16/2019, 10:31:43 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/8/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="Validate Query" icon-name="standard:record"> 
+            <div class="slds-m-around_medium">
+                <template if:true={dedupconfig.data}>
+                        <p>Click the below button to Validate the Query </p>
+                        <lightning-button label="Validate Query" variant="brand" onclick={customernumber} ></lightning-button>
+                </template>
+                <template if:true={contact.error}>
+                    <!-- handle Apex error -->
+                </template>
+            </div>
+        </lightning-card>
+    </template>

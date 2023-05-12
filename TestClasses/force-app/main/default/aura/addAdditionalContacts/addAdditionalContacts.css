@@ -1,0 +1,9 @@
+.THIS.btn, .THIS.btn:focus, .THIS.btn:active, .THIS.btn:hover 
+{ background-color: #C23934; color: white; border-color: #C23934; }
+.THIS .wid{
+    max-width:none;
+    width: 65%;
+}
+.THIS .modal__content {
+    /*height: 600px;*/
+}

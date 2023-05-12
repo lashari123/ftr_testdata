@@ -1,0 +1,19 @@
+<aura:component >
+	<aura:attribute name="columns" type="List"/>
+	<aura:attribute name="products" type="List"/>
+	<aura:attribute name="draftValues" type="Object" default="[]"/>
+
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    
+    <div style="height: 60%">
+        <lightning:datatable
+            columns="{! v.columns }"
+            data="{! v.products }"
+            keyField="Id" 
+			hideCheckboxColumn="true" 
+			onrowaction="{! c.handleRowAction }" 
+			draftValues="{! v.draftValues }"
+			onsave="{! c.handleSave }" />
+    </div>
+
+</aura:component>

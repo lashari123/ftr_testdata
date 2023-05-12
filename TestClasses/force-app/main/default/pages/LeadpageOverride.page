@@ -1,0 +1,164 @@
+<apex:page action="{!reDirect}" standardController="Lead" extensions="LeadOverrideController" tabStyle="Lead">
+<script>
+
+
+    function SetSIC(code, descr)
+    {
+        var Sicinput = document.getElementById('{!$Component.editForm.leEdit.addlInfo.sicSect.siccode}');
+        var hSicinput = document.getElementById('{!$Component.editForm.leEdit.addlInfo.hsiccode}');
+        if (Sicinput != null)
+        {
+            //alert("GetVars-- Old value was " + Sicinput.innerHTML + " and new is " + code);
+            Sicinput.innerHTML = code;
+            hSicinput.value = code ;
+        
+        } 
+                /*  this works fine, use with hidden real siccode and descr
+                    var wsite = document.getElementById("{!$Component.editForm.coEdit.coInf.Website}");
+                    if (wsite != null)
+                        wsite.value = code;
+                    else alert("Wsite is " + wsite);
+                */
+                
+         var desc = document.getElementById('{!$Component.editForm.leEdit.addlInfo.sdesc.ShortDesc}');
+         var hdescinput = document.getElementById('{!$Component.editForm.leEdit.addlInfo.hdesc}');
+         if (desc != null){
+              desc.innerHTML = descr;
+              hdescinput.value = descr;
+
+        }
+    }
+
+</script>
+
+    <apex:form id="editForm" >
+        <apex:pageMessages />
+        <apex:pageBlock title="Lead Edit" mode="edit" id="leEdit">
+
+            <apex:pageBlockButtons >
+                <apex:commandButton id="save" action="{!save1}" title="Save" value="Save"/>
+                <apex:commandButton id="save_new" action="{!saveAndnew}" title="Save & New" value="Save & New"/>
+                <apex:commandButton id="cancel" action="{!cancel}" title="Cancel" value="Cancel"/>
+            </apex:pageBlockButtons>
+     
+            <apex:pageBlockSection collapsible="false" columns="2" title="Lead Information" id="leInf">
+                    <apex:outputField value="{!Lead.OwnerId}" id="LOwner" /> 
+                    <apex:inputField value="{!Lead.Status}" required="true" id="LeadStatus"/>
+                       <apex:pageBlockSectionItem >
+                           <apex:outputLabel value=" First Name"/>                       
+                           <apex:outputPanel >
+                            <apex:inputField value="{!Lead.Salutation}" id="salutation"/>
+                            <apex:inputText value="{!Lead.FirstName}" id="fName"/>
+                           </apex:outputPanel>
+                       </apex:pageBlockSectionItem> 
+                    <apex:inputField value="{!Lead.Phone}" id="Phone"/>
+                    <apex:inputField value="{!Lead.LastName}" required="true" id="lName"/>
+                    <apex:inputField value="{!Lead.Email}" id="Email"/>                
+                    <apex:inputField value="{!Lead.Company}" required="true" id="Company"/>
+                    <apex:inputField value="{!Lead.Rating}" id="Rating"/>
+                   
+                    <apex:inputField value="{!Lead.Region__c}" id="Region"/>
+                    <apex:inputField value="{!Lead.Title}" id="Title"/>                   
+                    <apex:inputField value="{!Lead.Local_Area_Market__c}" id="LocalAreaMarket"/>
+                    <apex:inputField value="{!Lead.DW_Account_Join_Key__c}" id="AcctJoinKey"/>
+         
+                    <apex:inputField value="{!Lead.Competitive_Carrier__c}" id="ICarrier"/>
+                    <apex:inputField value="{!Lead.DW_Customer_Id__c}" id="CustId"/>
+                      <apex:inputField value="{!Lead.Disposition_Category__c}" />
+                 
+                    <apex:inputField value="{!Lead.Disposition__c}" />
+            </apex:pageBlockSection>       
+
+            <apex:pageBlockSection collapsible="false" id="addrInfo" columns="1" title="Address Information">
+                    <!-- Following Fields are DISPLAYED for Agents,Sub Agents & Internal Alternate Executives. Profile Users -->
+                         <apex:inputField value="{!lead.Street_Number__c}" id="streetNumCust" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'true','false')}"/>
+                        <apex:inputField value="{!Lead.Street_Name__c}" required="true" id="streetNameCust" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'true','false')}"/>
+                        <apex:inputField value="{!Lead.Street_Subtitle__c}" id="subTitleCust" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'true','false')}"/>
+                        <apex:inputField value="{!Lead.City__c}" required="true" id="cityCust" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'true','false')}"/>
+                        <!-- <apex:inputField value="{!Lead.State__c}" required="true" id="stateCust" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'true','false')}"/>   -->
+                        
+                         <apex:pageBlockSectionItem >   
+                        State   <apex:selectList style="font-size:8pt" title="State" value="{!Lead.State__c}" size="1" required="true" id="stateCust" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'true','false')}" >                            
+                                    <apex:selectOptions value="{!statesList}" ></apex:selectOptions>
+                        </apex:selectList>
+                         </apex:pageBlockSectionItem>   
+                        
+                        <apex:inputField value="{!Lead.Zip_Code__c}" required="true" id="zipCodeCust" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'true','false')}"/>
+                        <apex:inputField value="{!Lead.Street_Subtitle_Ln_Ave_etc__c}" id="subTitleLnCust" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'true','false')}"/>
+                        <!-- Following Fields are NOT DISPLAYED for Agents,Sub Agents & Internal Alternate Channel Executives. Profile Users -->
+                        <apex:inputField value="{!Lead.Street}" id="Street" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+                        <apex:inputField value="{!Lead.Website}" id="Website" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+                        <apex:inputField value="{!Lead.City}" id="City" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+                        <apex:outputLabel rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+                        <apex:inputField value="{!Lead.State}" id="State" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+                        <apex:outputLabel rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+                        <apex:inputField value="{!Lead.PostalCode}" id="Zip" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+                        <apex:outputLabel rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+                        <apex:inputField value="{!Lead.Country}" id="Country" rendered="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+
+            </apex:pageBlockSection>                    
+            <apex:pageBlockSection collapsible="false" columns="2" title="Additional Information" id="addlInfo">
+                    <apex:inputField value="{!Lead.Campaign__c}" id="CampaignId" rendered="{!IF(Lead.Id == null || clonePgVar == '1','true','false')}" /> 
+                    <apex:inputField value="{!Lead.Customer_Status__c}" id="CustomerStatus"/>
+                    <apex:inputField value="{!Lead.NumberOfEmployees}" id="NoofEmployees"/>
+                    <apex:inputField value="{!Lead.AnnualRevenue}" id="Revenue"/>
+                    <apex:inputField value="{!Lead.IT_Spend__c}" id="ITSpend"/>
+                    <apex:inputField value="{!Lead.Communication_Spend__c}" id="CommSpend"/>
+                    <apex:inputField value="{!Lead.Max_Contract_End_Date__c}" id="ContractEndDate"/>
+                    <apex:inputField value="{!Lead.LeadSource}" id="LeadSource"/>
+                    <apex:inputField value="{!Lead.Market_Segment_Type__c}" id="MarketSegmentType"/>
+                    <apex:inputField value="{!Lead.Industry}" id="Industry"/>
+                    <apex:inputField value="{!Lead.Type__c}" id="CType"/>
+                    <apex:inputField value="{!Lead.Year_Incorporated__c}" id="YIncorp"/>
+                    
+                    <apex:inputField value="{!Lead.BAL_Customer__c}" id="BalCustomer"/>
+                    <apex:inputField value="{!Lead.BAL_COUNT__c}" id="BalCount"/>
+                    <apex:inputField value="{!Lead.Good_Creditr__c}" id="GoodCredit"/>
+                    <apex:inputField value="{!Lead.Feature_Pack_Customer__c}" id="FPackCust"/>
+                    <apex:inputField value="{!Lead.DW_Assignee__c}" id="DWAssignee"/>
+                    
+                    <apex:pageBlockSectionItem id="sicSect" >
+                        <apex:outputLabel value="SIC Code" for="my_field"/>
+                        <apex:outputPanel id="p2">
+                             <apex:outputText value="{!Lead.SIC__c}" id="siccode"></apex:outputText>
+                             <a href="javascript: openPopup(%27/apex/SIC_SearchPopUp?id={!Lead.Id}%27, %27CCBCCLookup%27, 520, 490, %27width=540,height=490,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=yes%27,true);" onclick="javascript: setLastMousePosition(event);" title="SIC Search"><img src="/s.gif" alt="SIC Search"  class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" title="SIC Search"/>
+                             </a>                                 
+                        </apex:outputPanel>                         
+                    </apex:pageBlockSectionItem> 
+                                        
+                    <apex:pageBlockSectionItem id="sdesc">                
+                        <apex:outputLabel value="SIC Description" for="my_field"/>
+                        <apex:outputText value="{!Lead.SIC_Description__c}" id="ShortDesc" />
+                    </apex:pageBlockSectionItem>  
+                    
+                    <apex:inputHidden value="{!Lead.SIC__c}" id="hsiccode"/>
+                    <apex:inputHidden value="{!Lead.SIC_Description__c}" id="hdesc" />
+                    
+                    <apex:inputField value="{!Lead.Public_Company__c}" id="PubComp"/>
+                    <apex:inputField value="{!Lead.Assigned_Base__c}" id="AssignedBase"/>
+                    <apex:inputField value="{!Lead.Package_Description__c}" id="PackageDesc"/>
+                    <apex:inputField value="{!Lead.DIAL_Customer__c}" id="DialCust"/>
+                    <apex:inputField value="{!Lead.BHSI_Customer__c}" id="BHSICust"/>
+                    <apex:inputField value="{!Lead.INTERLATA_CZN_IND__c}" id="InterCZNIND"/>
+                    <apex:inputField value="{!Lead.INTRALATA_CZN_IND__c}" id="IntraCZNIND"/>
+                    <apex:inputField value="{!Lead.Switched_Access_Lines__c}" />
+                    <apex:inputField value="{!Lead.Total_Wire_Line_BIll__c}" />
+                    <apex:inputField value="{!Lead.VOIP_Index__c}" />
+                    <apex:inputField value="{!Lead.Metro_E_Index__c}" />
+                    <apex:inputField value="{!Lead.Node_Distance__c}" />
+                    <apex:inputField value="{!Lead.Node_City__c}" />
+                    <apex:inputField value="{!Lead.HSI_Lines_Replaced__c}" />
+                    
+            </apex:pageBlockSection>            
+            <apex:pageBlockSection collapsible="false" columns="1" title="Description Information" id="DescInfo">
+                <apex:inputField value="{!Lead.Description}" id="Description"/>
+            </apex:pageBlockSection>            
+            <apex:pageBlockSection collapsible="false" columns="1" title="Optional" id="Optional">
+                <apex:outputPanel >
+                    <apex:inputCheckbox value="{!useAssignRule}" id="boolAssignRule"  />
+                    <apex:outputLabel value="Assign using active assignment rule"></apex:outputLabel>
+                </apex:outputPanel>                         
+            </apex:pageBlockSection>            
+        </apex:pageBlock>        
+     </apex:form>
+</apex:page>

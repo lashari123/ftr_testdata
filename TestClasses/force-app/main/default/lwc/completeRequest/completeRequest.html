@@ -1,0 +1,26 @@
+<!--
+  @File Name          : textlwc.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 11/12/2019, 11:20:17 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/8/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="Complete Order" icon-name="standard:record">
+            <div class="slds-m-around_medium">
+                <template if:true={order.data}>
+                    <div class="slds-m-around_medium">
+                    <p>Please Click Below Button to Complete Order</p>
+                    </div>
+                    <lightning-button label="Complete Order" variant="brand" onclick={updateOrder} ></lightning-button>
+                </template>
+                <template if:true={order.error}>
+                    <!-- handle Apex error -->
+                </template>
+            </div>
+        </lightning-card>
+    </template>

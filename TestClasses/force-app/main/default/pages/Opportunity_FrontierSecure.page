@@ -1,0 +1,99 @@
+<apex:page standardController="Opportunity" extensions="Opportunity_FrontierSecure" showHeader="true" sidebar="true" docType="html-5.0">
+	<apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery/jquery-1.9.1.js')}"/>
+	<apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery/jquery-numeric-1.4.1.js')}"/>
+	<apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/salesforce/frontier-secure-1.0.js')}"/>
+	<apex:stylesheet value="{!URLFOR($Resource.jQuery, '/css/salesforce/frontier-secure-1.0.css')}"/>			
+	
+	<script>
+		function setFocusOnLoad(){}
+	</script>
+	
+	<div id="processing_background"/>
+	<div id="processing_content">
+		<apex:image id="loadingLogo" value="{!$Resource.ajax_secure_logo}"/>							
+		<br/><br/>
+		<apex:image id="loadingAnimation" value="{!$Resource.ajax_loader}"/>
+	</div>
+
+	<apex:form >
+		
+		<apex:actionFunction oncomplete="up_submit_complete();" name="getDetailSection" rerender="op_detail"/>
+		<apex:variable var="Disabled" value="{!IF(OR(AND(PendingApproval == true,IsCurrentApprover == false),CurrentOpportunity.StageName == 'Closed/Won'),TRUE,FALSE)}"/>
+		
+		<apex:outputpanel id="op_detail">			
+			<apex:detail relatedlist="false" showchatter="true"/>
+		</apex:outputpanel>
+		
+		<apex:pageblock title="Products">
+		
+			<apex:pageblockbuttons location="top">
+				<apex:commandbutton value="Update Products" action="{!UpdateProducts}" disabled="{!Disabled}" onclick="up_submit_click();" oncomplete="getDetailSection();" rerender="pbs_commercial,pbt_commercial_products,pbt_commercial_techsupport,pg_messages"/>
+				<apex:commandbutton value="Reset Products" action="{!ResetProducts}" disabled="{!Disabled}" onclick="up_submit_click();" oncomplete="getDetailSection();" rerender="pbs_commercial,pbt_commercial_products,pbt_commercial_techsupport,pg_messages"/>
+			</apex:pageblockbuttons>
+			
+			<apex:pageMessages id="pg_messages"/>
+			
+			<apex:tabPanel switchType="client" selectedTab="Commercial" id="tp_ProductTabs" tabClass="activeTab" inactiveTabClass="inactiveTab">
+				<apex:tab label="Commercial" name="Commercial" id="tabCommercial">
+					<apex:pageblocksection id="pbs_commercial" columns="2">
+						<apex:pageblocksectionitem helpText="How many years is the contract for?">
+							<apex:outputlabel value="Contract Duration (Product Offerings)"/>
+							<apex:outputpanel >								
+								<apex:inputfield styleclass="numeric" rendered="{!NOT(Disabled)}" value="{!CurrentOpportunity.FSecure_ProductContractDuration__c}"/>								
+								<apex:outputfield rendered="{!Disabled}" value="{!CurrentOpportunity.FSecure_ProductContractDuration__c}"/>
+							</apex:outputpanel>
+						</apex:pageblocksectionitem>
+						<apex:pageblocksectionitem helpText="How many months is the contract for?">
+							<apex:outputlabel value="Contract Duration (Technical Support)"/>
+							<apex:outputpanel >								
+								<apex:inputfield styleclass="numeric" rendered="{!NOT(Disabled)}" value="{!CurrentOpportunity.FSecure_TechSupportContractDuration__c}"/>
+								<apex:outputfield rendered="{!Disabled}" value="{!CurrentOpportunity.FSecure_TechSupportContractDuration__c}"/>
+							</apex:outputpanel>
+						</apex:pageblocksectionitem>
+						
+						<apex:pageblocksectionitem helpText="How many new licenses per month?">
+							<apex:outputLabel value="Monthly Net Additions"/>
+							<apex:inputtext disabled="{!Disabled}" maxlength="4" styleclass="numeric" value="{!CurrentOpportunity.FSecure_MonthlyNetAdditions__c}"/>
+						</apex:pageblocksectionitem>
+						<apex:pageblocksectionitem helpText="How many full-time employees?">
+							<apex:outputLabel value="Estimated FTE's"/>
+							<apex:inputtext disabled="{!Disabled}" maxlength="4" styleclass="numeric" value="{!CurrentOpportunity.FSecure_EstimatedFTEs__c}"/>
+						</apex:pageblocksectionitem>
+						
+						<apex:pageblocktable id="pbt_commercial_products" value="{!Products}" var="p">
+							<apex:column headervalue="Product Offering" value="{!p.Name}"/>
+							<apex:column headervalue="Included">
+								<apex:inputCheckbox disabled="{!Disabled}" value="{!p.Included}"/>
+							</apex:column>
+							<apex:column headervalue="Monthly Charge">																
+								<apex:inputtext disabled="{!Disabled}" styleclass="numeric" value="{!p.MRC}"/>
+							</apex:column>
+						</apex:pageblocktable>
+						<apex:pageblocktable id="pbt_commercial_techsupport" value="{!TechSupport}" var="ts">
+							<apex:column headervalue="Product Offering" value="{!ts.Name}"/>
+							<apex:column headervalue="Included">
+								<apex:inputCheckbox disabled="{!Disabled}" value="{!ts.Included}"/>
+							</apex:column>
+							<apex:column headervalue="Yearly Charge">
+								<apex:inputtext disabled="{!Disabled}" styleclass="numeric" value="{!ts.MRC}"/>
+							</apex:column>
+						</apex:pageblocktable>
+					</apex:pageblocksection>
+				</apex:tab>
+				<apex:tab label="Wholesale" name="Wholesale" id="tabWholesale" rendered="false">
+				</apex:tab>				
+			</apex:tabPanel>
+			
+			<script>
+				j$('.numeric').numeric();
+			</script>			
+			 
+		</apex:pageblock>
+	</apex:form>
+	
+	<apex:relatedlist list="OpportunityHistories"/>
+	<apex:relatedlist list="OpenActivities"/>
+	<apex:relatedlist list="ActivityHistories"/>
+	<apex:relatedlist list="CombinedAttachments"/>
+	<apex:relatedlist list="ProcessSteps"/>
+</apex:page>

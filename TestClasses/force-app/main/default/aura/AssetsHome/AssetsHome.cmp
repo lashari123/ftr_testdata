@@ -1,0 +1,930 @@
+<aura:component
+  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+  access="global"
+  controller="AssetHomeController"
+>
+  <aura:attribute name="assetStates" type="List" />
+  <aura:attribute name="assetCities" type="List" />
+  <aura:attribute name="dummyAssetCities" type="List" />
+  <aura:attribute name="assets" type="List" />
+  <aura:attribute name="assetsCat" type="List" />
+  <aura:attribute name="assetWTN" type="List" />
+  <aura:attribute name="assetsProd" type="List" />
+  <aura:attribute name="prodAsserts" type="List" />
+  <aura:attribute name="assetsCircuit" type="List" />
+  <aura:attribute name="filterdData" type="List" />
+  <aura:attribute name="assetsMap" type="Map" />
+    <aura:attribute name="errorPhoneFields" type="String" default="" />
+    <aura:attribute name="errorNameFields" type="String" default="" />
+  <aura:attribute name="sun" type="Boolean" default="false" />
+  <aura:attribute name="showMoreContacts" type="Boolean" default="false" />
+  <aura:attribute name="showPhone" type="Boolean" default="true" />
+  <aura:attribute name="showCircuit" type="Boolean" default="true" />
+  <aura:attribute name="selectedState" type="String" />
+  <aura:attribute name="selectedStreet" type="String" />
+  <aura:attribute name="selectedCity" type="String" />
+  <aura:attribute name="selectedCat" type="String" />
+  <aura:attribute name="selectedProdDesc" type="String" />
+  <aura:attribute name="streetLst" type="String[]" />
+  <aura:attribute name="streetLstDummy" type="String[]" />
+  <aura:attribute name="selectedAstId" type="String" />
+  <aura:attribute name="filterd" type="String" />
+  <aura:attribute name="selectedContactId" type="String" />
+  <aura:attribute name="searchText" type="string" access="public" />
+  <aura:attribute name="category" type="string" />
+  <aura:attribute name="Product" type="string" />
+  <aura:attribute name="filter" type="string" />
+  <aura:attribute name="disFields" type="Boolean" default="true" />
+  <aura:attribute name="troubleTicketOptions" type="list" />
+  <aura:attribute name="preferredStartTimeLst" type="list" />
+  <aura:attribute name="preferredEndTimeLst" type="list" />
+  <aura:attribute name="alternateStartTimeLst" type="list" />
+  <aura:attribute name="alternateEndTimeLst" type="list" />
+  <aura:attribute name="asset" type="object" />
+  <aura:attribute name="showAssetLst" type="boolean" default="true" />
+  <aura:attribute name="singleAsset" type="boolean" default="false" />
+  <aura:attribute name="check" type="boolean" default="false" />
+  <aura:attribute name="id" type="string" default="" />
+  <aura:attribute name="ticketCreated" type="boolean" default="false" />
+  <aura:attribute name="dis" type="boolean" default="false" />
+  <aura:attribute name="preferredStartTime" type="string" />
+  <aura:attribute name="preferredEndTime" type="string" />
+  <aura:attribute name="alternateStartTime" type="string" />
+  <aura:attribute name="selectedPreferredMethod" type="string" />
+  <aura:attribute name="alternateEndTime" type="string" />
+  <aura:attribute name="chkboxvalue" type="boolean" />
+  <aura:attribute name="preSun" type="boolean" default="false" />
+  <aura:attribute name="preMon" type="boolean" default="false" />
+  <aura:attribute name="preTue" type="boolean" default="false" />
+  <aura:attribute name="preWed" type="boolean" default="false" />
+  <aura:attribute name="preThr" type="boolean" default="false" />
+  <aura:attribute name="preFri" type="boolean" default="false" />
+  <aura:attribute name="preSat" type="boolean" default="false" />
+  <aura:attribute name="altSun" type="boolean" default="false" />
+  <aura:attribute name="altMon" type="boolean" default="false" />
+  <aura:attribute name="altTue" type="boolean" default="false" />
+  <aura:attribute name="altWed" type="boolean" default="false" />
+  <aura:attribute name="altThr" type="boolean" default="false" />
+  <aura:attribute name="altFri" type="boolean" default="false" />
+  <aura:attribute name="altSat" type="boolean" default="false" />
+  <aura:attribute name="showLayout" type="boolean" default="false" />
+  <aura:attribute name="showPreferredMethod" type="boolean" default="false" />
+    <aura:attribute name="makeLCEmailRq" type="boolean" default="false" />
+    <aura:attribute name="isLCEmailRq" type="boolean" default="false" />
+    <aura:attribute name="makeLCTextRq" type="boolean" default="false" />
+    <aura:attribute name="makeRptByEmailRq" type="boolean" default="false" />
+    <aura:attribute name="makeRptByTextRq" type="boolean" default="false" />
+   <aura:attribute name="errors" type="string"  />
+  <aura:attribute name="showCircuitSpinner" type="boolean" default="false" />
+  <aura:attribute name="showStreetSpinner" type="boolean" default="false" />
+  <aura:attribute name="hideEmail" type="boolean" default="true" />
+    <aura:attribute name="hideAddContact" type="boolean" default="false" />
+    <aura:attribute name="hideText" type="boolean" default="false" />
+  <aura:attribute name="accessHours" type="String" default="" />
+
+  <aura:handler
+    name="change"
+    value="{!v.selectedContactId}"
+    action="{!c.handleContact}"
+  />
+
+  <aura:attribute
+    type="Remedy_Ticket__c"
+    name="ticketInfo"
+    default="{'sObjectType':'Remedy_Ticket__c'}"
+  />
+  <aura:attribute
+    name="options"
+    type="List"
+    default="[
+                             {'label': 'S', 'value': 'sunday'},
+                             {'label': 'M', 'value': 'monday'},
+                             {'label': 'T', 'value': 'tuesday'},
+                             {'label': 'W', 'value': 'wednesday'},
+                             {'label': 'T', 'value': 'thursday'},
+                             {'label': 'F', 'value': 'friday'},
+                             {'label': 'S', 'value': 'satarday'},
+                             ]"
+  />
+  <aura:attribute name="value" type="List" />
+  <aura:attribute name="serviceAddress" type="string" />
+  <!-- Picklist attributes starts here -->
+  <aura:attribute name="optionsCircuit" type="List" />
+  <aura:attribute name="selectedValueCircuit" type="String" />
+  <aura:attribute name="optionsPhone" type="List" />
+  <aura:attribute name="selectedValuePhone" type="String" />
+  <aura:attribute name="disabledPhone" type="boolean" default="true" />
+  <aura:attribute name="disabledCircuit" type="boolean" default="true" />
+  <aura:attribute name="disableSubmitTkt" type="boolean" default="true" />
+  <aura:attribute name="showCirPhone" type="boolean" default="false" />
+  <aura:attribute name="showInfo" type="boolean" default="true" />
+  <aura:attribute name="showCircuitPhoneList" type="boolean" default="false" />
+  <aura:attribute name="assetJSON" type="String" />
+  <aura:attribute name="selectedCircuit" type="String" />
+  <aura:attribute name="selectedPhone" type="String" />
+  <aura:attribute name="descriptionLen" type="String" default="500" />
+  <aura:attribute name="charsRemaining" type="Integer" />
+  <aura:attribute name="items" type="Object" access="PRIVATE" />
+  <aura:attribute name="selected" type="String" default="" />
+  <aura:attribute name="assetId" type="String" />
+  <aura:attribute name="descSpecialChar" type="boolean" default="false" />
+    
+  <!-- picklist attributes ends here-->
+  <aura:handler name="init" value="{!this}" action="{!c.init }" />
+  <aura:if isTrue="{!v.ticketCreated}">
+    <lightning:spinner alternativeText="Loading" size="large" />
+    <aura:set attribute="else">
+      <lightning:layout multipleRows="true" class="border">
+        <lightning:layoutItem padding="around-small" size="12" class="border2">
+          <center>
+            <b style="font-size:20px;">Create Ticket</b>
+            <div style="float:right;">
+              <c:Feedback pageName="Create Ticket" />
+            </div>
+          </center>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="4">
+          <div onkeyup="{! c.filter }">
+            <!--   <lightning:input
+              type="search"
+              onchange="{!c.showLst}"
+              value="{!v.filter}"
+              placeholder="Enter complete phone number and press enter"
+            /> -->
+            <br />
+          </div>
+          <br />
+          <div class="slds-box--x-small slds-theme--alt-inverse">
+            <p style="text-align:center">Service Locations</p> </div
+          ><br />
+          <div style="height:800px;overflow-y:auto;">
+            <aura:if isTrue="{!v.showAssetLst}">
+              <div style="height:800px;overflow-y:auto;">
+                <lightning:tree
+                  items="{! v.items }"
+                  onselect="{! c.handleSelect }"
+                />
+              </div>
+              <aura:set attribute="else">
+                <lightning:accordion aura:id="accordion">
+                  <lightning:accordionSection
+                    name="{!v.asset.dpi_STATE__c}"
+                    label="{!v.asset.dpi_STATE__c}"
+                  >
+                    <lightning:accordion aura:id="accordion">
+                      <lightning:accordionSection
+                        name="{!v.asset.dpi_CITY__c}"
+                        label="{!v.asset.dpi_CITY__c}"
+                      >
+                        <lightning:accordion aura:id="accordion">
+                          <lightning:accordionSection
+                            name="{!v.asset.DPI_SERVICEADDRESS__c}"
+                            label="{!v.asset.DPI_SERVICEADDRESS__c}"
+                          >
+                            <lightning:accordion aura:id="accordion">
+                              <!--<lightning:accordionSection name="{!v.asset.CATEGORY__c}" label="{!v.asset.CATEGORY__c}">
+                                                                                                                                                                                                                                                <lightning:accordion aura:id="accordion" >
+                                                        <lightning:accordionSection name="{!v.asset.PRODUCT_DESCRIPTION_c__c}" label="{!v.asset.PRODUCT_DESCRIPTION_c__c}">
+                                                           -->
+                              <lightning:accordion>
+                                <aura:if
+                                  isTrue="{!v.asset.CircuitId__c != null}"
+                                >
+                                  <lightning:accordionSection label="Circuit">
+                                    <lightning:button
+                                      class="slds-button slds-button_outline-brand"
+                                      variant="netural"
+                                      title="Circuit"
+                                      name="{!v.asset.Id}"
+                                      onclick="{!c.setTicket }"
+                                      label="{!v.asset.CircuitId__c  +' - '+ v.asset.PRODUCT_DESCRIPTION_c__c}"
+                                    />
+                                  </lightning:accordionSection>
+                                  <br /> <br />
+                                </aura:if>
+                                <aura:if
+                                  isTrue="{!v.asset.CircuitId__c == null}"
+                                >
+                                  <lightning:accordionSection label="Phone">
+                                    <lightning:button
+                                      class="slds-button slds-button_outline-brand"
+                                      variant="netural"
+                                      title="WTN"
+                                      name="{!v.asset.Id}"
+                                      onclick="{!c.setTicket }"
+                                      label="{!v.asset.dpi_WTN__c  +' - '+ v.asset.PRODUCT_DESCRIPTION_c__c}"
+                                    />
+                                  </lightning:accordionSection>
+                                </aura:if>
+                              </lightning:accordion>
+                              <!--  </lightning:accordionSection>
+                                                    </lightning:accordion> -->
+                            </lightning:accordion>
+                          </lightning:accordionSection>
+                        </lightning:accordion>
+                      </lightning:accordionSection>
+                    </lightning:accordion>
+                  </lightning:accordionSection>
+                </lightning:accordion>
+              </aura:set>
+            </aura:if>
+          </div>
+        </lightning:layoutItem>
+        <aura:if isTrue="{!v.showLayout}">
+          <lightning:layoutItem padding="around-small" size="8" class="border2">
+            <lightning:recordEditForm>
+              <!-- Picklist code starts here-->
+              <aura:if isTrue="{!v.showCircuitPhoneList}">
+                <lightning:layout multipleRows="true">
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <lightning:select
+                      name="select"
+                      label="Select Circuit Id"
+                      disabled="{!v.disabledCircuit}"
+                      onchange="{!c.onChange}"
+                      aura:id="select"
+                      value="{!v.selectedCircuit}"
+                      class="font"
+                    >
+                      <option
+                        text="--Select One--"
+                        value="--Select One--"
+                      ></option>
+                      <aura:iteration items="{!v.optionsCircuit}" var="circuit">
+                        <option
+                          value="{!circuit.value}"
+                          text="{!circuit.label}"
+                          selected="{!circuit.selected}"
+                        ></option>
+                      </aura:iteration>
+                    </lightning:select>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <lightning:select
+                      name="select"
+                      label="Select Phone Number"
+                      disabled="{!v.disabledPhone}"
+                      onchange="{!c.onChange1}"
+                      aura:id="select1"
+                      value="{!v.selectedPhone}"
+                      class="font"
+                    >
+                      <option
+                        text="--Select One--"
+                        value="--Select One--"
+                      ></option>
+                      <aura:iteration items="{!v.optionsPhone}" var="phone">
+                        <option
+                          value="{!phone.value}"
+                          selected="{!phone.selected}"
+                          >{!phone.label}</option
+                        >
+                      </aura:iteration>
+                    </lightning:select>
+                  </lightning:layoutItem>
+                  <aura:if isTrue="{!v.showInfo}">
+                    <lightning:layoutItem padding="around-small" size="12">
+                      <div
+                        class="slds-text-heading_medium"
+                        style="margin-top: 100px;"
+                      >
+                        <h1 style="text-align:center;"
+                          ><span style="text-align:center;"
+                            >Please select Circuit ID or Phone Number to
+                            Continue</span
+                          ></h1
+                        >
+                      </div>
+                    </lightning:layoutItem>
+                  </aura:if>
+                </lightning:layout>
+              </aura:if>
+              <!-- picklist code ends here-->
+
+              <aura:if isTrue="{!v.showCirPhone}">
+                <lightning:layout multipleRows="true">
+                  <lightning:layoutItem padding="around-small" size="12">
+                    <lightning:textarea
+                      aura:id="fieldId"
+                      required="true"
+                      value="{!v.ticketInfo.Description__c}"
+                      name="desc"
+                      label="Ticket Description"
+                      maxlength="{!v.descriptionLen}"
+                      onchange="{!c.handleKeyup}"
+                      class="font"
+                    />
+                      <aura:if isTrue="{!v.descSpecialChar}">
+                        <span
+                          padding="around-small"
+                          class="slds-form-element__label" style="color:red"
+                          >Special Characters are not allowed.</span
+                        >  
+                      <aura:set attribute="else">
+                          <span
+                                padding="around-small"
+                                class="slds-form-element__label"
+                                >{!v.charsRemaining} characters remaining</span
+                              >
+                      </aura:set>
+                      </aura:if>
+                  </lightning:layoutItem>
+                </lightning:layout>
+                <lightning:layout multipleRows="true">
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <aura:if isTrue="{!v.disFields}">
+                      <div class="font">
+                        <lightning:select
+                          class="{!v.ticketInfo.Trouble_Type__c == '' ? 'placeholder' :''}"
+                          aura:id="fieldId"
+                          required="true"
+                          name="trouble_type"
+                          value="{!v.ticketInfo.Trouble_Type__c}"
+                          label="Trouble Type"
+                        >
+                          <option value="">--Select One--</option>
+                          <option value="Alarm">Alarm</option>
+                          <option value="Circuit Down">Circuit Down</option>
+                          <option value="Outage">Outage</option>
+                          <option value="Power">Power</option>
+                          <option value="Real Estate">Real Estate</option>
+                          <option value="Simplex">Simplex</option>
+                          <option value="Transport Trouble"
+                            >Transport Trouble</option
+                          >
+                          <option value="VoiceMail">VoiceMail</option>
+                          <option value="Can Not Hear">Can Not Hear</option>
+                          <option value="Can Not Receive Data"
+                            >Can Not Receive Data</option
+                          >
+                          <option value="Cross Talk">Cross Talk</option>
+                          <option value="Errors">Errors</option>
+                          <option value="Getting All Ones"
+                            >Getting All Ones</option
+                          >
+                          <option value="Hollow">Hollow</option>
+                          <option value="Hot Levels">Hot Levels</option>
+                          <option value="Impulse noise">Impulse noise</option>
+                          <option value="Lines Need Tagging"
+                            >Lines Need Tagging</option
+                          >
+                          <option value="LowLevels">LowLevels</option>
+                          <option value="MonitorCircuit">MonitorCircuit</option>
+                          <option value="No Dial Tone">No Dial Tone</option>
+                          <option value="No Loopback">No Loopback</option>
+                          <option value="Noisy">Noisy</option>
+                          <option value="Other">Other</option>
+                          <option value="LOV">LOV</option>
+                        </lightning:select>
+                      </div>
+                      <aura:set attribute="else">
+                        <div class="font">
+                          <lightning:select
+                            class="{!v.ticketInfo.Trouble_Type__c == '' ? 'placeholder' :''}"
+                            aura:id="fieldId"
+                            required="true"
+                            name="trouble_type"
+                            value="{!v.ticketInfo.Trouble_Type__c}"
+                            label="Trouble Type"
+                          >
+                            <option value="">--Select One--</option>
+                            <aura:iteration
+                              items="{!v.troubleTicketOptions}"
+                              var="opt"
+                            >
+                              <option value="{!opt.value}">{!opt.label}</option>
+                            </aura:iteration>
+                          </lightning:select>
+                        </div>
+                      </aura:set>
+                    </aura:if>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <aura:if isTrue="{!v.disFields}">
+                      <div class="font">
+                        <lightning:select
+                          aura:id="fieldId"
+                          class="{!v.ticketInfo.Is_Intrusive_Testing_Allowed__c == '' ? 'placeholder' :''}"
+                          required="true"
+                          value="{!v.ticketInfo.Is_Intrusive_Testing_Allowed__c}"
+                          name="intrusive"
+                          label="Is Intrusive Testing allowed"
+                        >
+                          <option value="">--Select One--</option>
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                        </lightning:select>
+                      </div>
+                    </aura:if>
+                  </lightning:layoutItem>
+                </lightning:layout>
+                <hr />
+                <lightning:layout multipleRows="true">
+                  <lightning:layoutItem padding="around-small" size="6">
+                      <aura:if isTrue="{!v.disFields}">
+                    <div class="font">
+                      <lightning:select
+                        class="{Preferred_Contact_method__c}"
+                        aura:id="fieldId"
+                        required="true"
+                        label="Preferred Contact Method"
+                        value="{!v.ticketInfo.Preferred_Contact_method__c}"
+                        onchange="{!c.setcontactmethod}"
+                      >
+                        <option value="Email" default="Text">Email</option>
+                        <option value="Text">Text</option>
+                        <option value="Email and Text">Email and Text</option>
+                        <option value="Email and Phone">Email and Phone</option>
+                        <option value="Phone">Phone</option>
+                      </lightning:select>
+                    </div>
+                      </aura:if>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem
+                    padding="around-small"
+                    size="6"
+                  ></lightning:layoutItem>
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <!--<lightning:input aura:id="fieldId" required="true"  type="text" value="{!v.ticketInfo.Local_Contact_Name2__c}" name="contact_name" label="Local Contact Name" />-->
+                    <div class="font">
+                      <c:lookupField
+                        objectAPIName="Contact"
+                        required="true"
+                        label="Local Contact Name"
+                        returnFields="['Name']"
+                        queryFields="['Name','Email','Phone']"
+                        selectedId="{!v.selectedContactId}"
+                        searchText="{!v.searchText}"
+                      />
+                    </div>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <lightning:input
+                      aura:id="fieldId"
+                      required="true"
+                      value="{!v.ticketInfo.Local_Contact_Phone2__c}"
+                      type="tel"
+                      name="contact_number"
+                      label="Local Contact Number"
+                      onchange="{!c.getPhoneNum}"
+                      maxlength="10"
+                      minlength="10"
+                      messageWhenTooShort="Please enter 10 digit phone number"
+                      class="font"
+                    />
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem padding="around-small" size="6">
+                      <aura:if isTrue="{!v.hideEmail}">
+                          <lightning:input
+                          value="{!v.ticketInfo.Local_Contact_Email2__c}"
+                          aura:id="Local_Contact_Email2__c"
+                          required="true"
+                          type="email"
+                          name="contact_email"
+                          label="Local Contact Email"
+                          maxlength="50"
+                         class="font"
+                        />
+					   </aura:if>                   
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem padding="around-small" size="6">
+                      <aura:if isTrue="{!v.disFields}">
+                      <aura:if isTrue="{!v.hideText}">
+                        <lightning:input
+                          value="{!v.ticketInfo.LocalContactText__c	}"
+                          type="tel"
+                          name="contact_number"
+                          label="Local Contact Text Number"
+                          required="true"
+                          onchange="{!c.getPhoneNum}"
+                          maxlength="10"
+                          minlength="10"
+                          messageWhenTooShort="Please enter 10 digit phone number"
+                         class="font"
+                        />
+                      </aura:if>  
+                      </aura:if>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <aura:if isTrue="{!v.disFields}">
+                          <div class="font">
+                              <aura:if isTrue="{!v.hideEmail}">
+                                <lightning:select
+                                  
+                                  aura:id="Send_update__c"
+                                  required="true"
+                                  name="updates"
+                                  value="{!v.ticketInfo.Send_update__c}"
+                                  label="Local Contact Send Email Updates"
+                                >
+                                  <option value="">--Select One--</option>
+                                  <option value="Yes">Yes</option>
+                                  <option value="No">No</option>
+                                </lightning:select>
+                            </aura:if>
+                          </div>
+                        
+                    </aura:if>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <aura:if isTrue="{!v.disFields}">
+                      <div class="font">
+                          <aura:if isTrue="{!v.hideText}">
+                            <lightning:select
+                              aura:id="fieldId"
+                              required="true"
+                              name="updates"
+                              value="{!v.ticketInfo.Local_Text_Send_Updates__c}"
+                              label="Local Contact Send Text Updates"
+                            >
+                              <option value="">--Select One--</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </lightning:select>
+                        </aura:if>
+                      </div>
+                    </aura:if>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem padding="around-small" size="6">
+                      <aura:if isTrue="{!v.disFields}">
+                    <lightning:input
+                      aura:id="fieldId"
+                      required="true"
+                      type="text"
+                      value="{!v.ticketInfo.Reported_By_Name_Text__c}"
+                      name="contact_name"
+                      label="Reported By Name"
+                      class="font"
+                    />
+                      </aura:if>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem padding="around-small" size="6">
+                      <aura:if isTrue="{!v.disFields}">
+                    <lightning:input
+                      aura:id="fieldId"
+                      required="true"
+                      value="{!v.ticketInfo.Reported_By_Phone__c}"
+                      type="tel"
+                      name="contact_number"
+                      label="Reported By Phone"
+                      onchange="{!c.getPhoneNum}"
+                      maxlength="10"
+                      minlength="10"
+                      messageWhenTooShort="Please enter 10 digit phone number"
+                      class="font"
+                    />
+                      </aura:if>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem padding="around-small" size="6">
+                      <aura:if isTrue="{!v.disFields}">
+                      <aura:if isTrue="{!v.hideEmail}">
+                    <lightning:input
+                      type="email"
+                      required="true"
+                      value="{!v.ticketInfo.Reported_By_Email__c}"
+                      name="contact_name"
+                      label="Reported By Email"
+                      class="font"
+                    />
+                      </aura:if>
+                      </aura:if>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem padding="around-small" size="6">
+                      <aura:if isTrue="{!v.disFields}">
+                      <aura:if isTrue="{!v.hideText}">
+                        <lightning:input
+                          value="{!v.ticketInfo.Reported_By_Text_Number__c}"
+                          type="tel"
+                          name="contact_number"
+                          label="Reported By Text Number"
+                          required="true"
+                          onchange="{!c.getReportTextNumber}"
+                          maxlength="10"
+                          minlength="10"
+                          messageWhenTooShort="Please enter 10 digit phone number"
+                          class="font"
+                        />
+                      </aura:if>
+                      </aura:if>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <aura:if isTrue="{!v.disFields}">
+                      <div class="font">
+                          <aura:if isTrue="{!v.hideEmail}">
+                            <lightning:select
+                              aura:id="fieldId"
+                              required="true"
+                              value="{!v.ticketInfo.Reported_By_Send_Update__c}"
+                              name="RptbySendUpdate"
+                              label="Reported By Send Email Updates"
+                              
+                            >
+                              <option value="">--Select One--</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </lightning:select>
+                          </aura:if>
+                      </div>
+                    </aura:if>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem padding="around-small" size="6">
+                    <aura:if isTrue="{!v.disFields}">
+                      <div class="font">
+                          <aura:if isTrue="{!v.hideText}">
+                            <lightning:select
+                              aura:id="fieldId"
+                              required="true"
+                              value="{!v.ticketInfo.Reported_By_Text_Send_Updates__c}"
+                              name="RptbySendUpdate"
+                              label="Reported By Send Text Updates"
+                            >
+                              <option value="">--Select One--</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </lightning:select>
+                          </aura:if>
+                      </div>
+                    </aura:if>
+                  </lightning:layoutItem>
+                </lightning:layout>
+				
+                  <aura:if isTrue="{!v.disFields}">
+                <aura:if isTrue="{! !v.showMoreContacts}">
+                  <lightning:button
+                   class="slds-button slds-button_destructive"
+                    variant="brand"
+                    label="Add Contacts"
+                    title="Add Contacts"
+                    onclick="{! c.handleAddMore }"
+                     disabled = "{!v.hideAddContact}"
+                  />
+                </aura:if>
+                  </aura:if>
+                <aura:if isTrue="{!v.showMoreContacts}">
+                  <c:addAdditionalContacts ticketInfo="{!v.ticketInfo}" errorPhoneFields="{!v.errorPhoneFields}" errorNameFields="{!v.errorNameFields}" />
+                </aura:if>
+
+                <aura:if isTrue="{!v.disFields}">
+                  <div class="slds-m-bottom_medium">
+                    <c:RemedyTicketAccessHours
+                      recordId=""
+                      editable="true"
+                      accessHours="{!v.accessHours}"
+                    />
+                  </div>
+                  <!--<lightning:layoutItem>
+                    <lightning:layout horizontalAlign="spread">
+                      <lightning:layoutItem padding="around-small" size="6">
+                        <div class="slds-grid slds-wrap">
+                          <div
+                            class="slds-col slds-size_12-of-12 slds-p-right_x-small"
+                          >
+                            <p
+                              style="color:#00000099;font-weight:bold;margin-top: 17px;"
+                              class="Accessfont"
+                              ></p
+                            >
+                          </div>
+                            
+                            
+                           
+                          <div
+                            class="slds-col slds-size_1-of-13 slds-p-right_x-small"
+                          >
+                            <p style="color:#00000099">7 by 24</p>
+                          </div>
+                          <div class="slds-col slds-size_1-of-12">
+                            <lightning:input
+                              type="checkbox"
+                              onchange="{!c.disabledFields}"
+                              checked="false"
+                            />
+                          </div>
+                        </div>
+                      </lightning:layoutItem>
+
+                    </lightning:layout>
+                    <lightning:layoutItem padding="around-small" size="6">
+                      <lightning:layout horizontalAlign="spread">
+                        <lightning:layoutItem
+                          padding="horizontal-small"
+                          size="3"
+                        >
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          padding="horizontal-small"
+                          size="3"
+                        >
+                          <p style="color:#00000099">Start</p>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          padding="horizontal-small"
+                          size="3"
+                        >
+                          <p style="color:#00000099">End</p>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          padding="horizontal-small"
+                          size="2"
+                        >
+                        </lightning:layoutItem>
+                      </lightning:layout>
+                      <lightning:layout horizontalAlign="spread">
+                        <lightning:layoutItem padding="horizontal-xsmall">
+                          <div class="custom-box">
+                            <p style="color:#00000099">Preferred</p>
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          padding="horizontal-xsmall"
+                          size="3"
+                        >
+                          <lightning:select
+                            value="{!v.preferredStartTime}"
+                            disabled="{!v.dis}"
+                          >
+                            <option value="Select One">Select One</option>
+                            <aura:iteration
+                              items="{!v.preferredStartTimeLst}"
+                              var="opt"
+                            >
+                              <option value="{!opt.value}">{!opt.label}</option>
+                            </aura:iteration>
+                          </lightning:select>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          padding="horizontal-xsmall"
+                          size="3"
+                        >
+                          <lightning:select
+                            value="{!v.preferredEndTime}"
+                            disabled="{!v.dis}"
+                          >
+                            <option value="Select One">Select One</option>
+                            <aura:iteration
+                              items="{!v.preferredEndTimeLst}"
+                              var="opt"
+                            >
+                              <option value="{!opt.value}">{!opt.label}</option>
+                            </aura:iteration>
+                          </lightning:select>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem padding="around-small" size="2">
+                          <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control dis">
+                              <div class="slds-grid ">
+                                <div class="slds-col">
+                                  <p> S </p>
+                                  <lightning:input
+                                    type="checkbox"
+                                    name="sun"
+                                    disabled="{!v.dis}"
+                                    checked="{!v.preSun}"
+                                  />
+                                </div>
+                                <div class="slds-col">
+                                  <p> M </p>
+                                  <lightning:input
+                                    type="checkbox"
+                                    name="mon"
+                                    disabled="{!v.dis}"
+                                    checked="{!v.preMon}"
+                                  />
+                                </div>
+                                <div class="slds-col">
+                                  <p> T </p>
+                                  <lightning:input
+                                    type="checkbox"
+                                    name="tue"
+                                    disabled="{!v.dis}"
+                                    checked="{!v.preTue}"
+                                  />
+                                </div>
+                                <div class="slds-col">
+                                  <p> W </p>
+                                  <lightning:input
+                                    type="checkbox"
+                                    name="wed"
+                                    disabled="{!v.dis}"
+                                    checked="{!v.preWed}"
+                                  />
+                                </div>
+                                <div class="slds-col">
+                                  <p> T </p>
+                                  <lightning:input
+                                    type="checkbox"
+                                    name="thur"
+                                    disabled="{!v.dis}"
+                                    checked="{!v.preThr}"
+                                  />
+                                </div>
+                                <div class="slds-col">
+                                  <p> F </p>
+                                  <lightning:input
+                                    type="checkbox"
+                                    name="fri"
+                                    disabled="{!v.dis}"
+                                    checked="{!v.preFri}"
+                                  />
+                                </div>
+                                <div class="slds-col">
+                                  <p> S </p>
+                                  <lightning:input
+                                    type="checkbox"
+                                    name="sat"
+                                    disabled="{!v.dis}"
+                                    checked="{!v.preSat}"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </lightning:layoutItem>
+                      </lightning:layout>
+                    </lightning:layoutItem>
+                  </lightning:layoutItem>-->
+                </aura:if>
+                <lightning:layoutItem padding="horizontal-large">
+                  <div class="slds-grid ">
+                    <div class="slds-col ">
+                      <p style="color:#00000099;font-weight:bold;">
+                        Advised of charges</p
+                      >
+                    </div>
+                    <div class="slds-col ">
+                      <lightning:input
+                        type="checkbox"
+                        checked="{!v.check}"
+                        name="checkBox"
+                      />
+                    </div>
+                    <div
+                      class=" slds-col slds-text-body_regular"
+                      style="color:#00000099;"
+                    >
+                      Please be advised, by checking this box you are
+                      acknowledging that if trouble is not found in the Frontier
+                      network and is an issue with customer provided equipment
+                      or inside wiring, charges may occur.</div
+                    >
+                  </div>
+                </lightning:layoutItem>
+                <lightning:layout>
+                  <lightning:layoutItem
+                    alignmentBump="left"
+                    padding="around-small"
+                  >
+                    <lightning:button
+                      class="slds-button slds-button_destructive"
+                      label="Reset"
+                      title="Reset"
+                      type="reset"
+                    />
+                    <lightning:button
+                      class="slds-button slds-button_destructive"
+                      label="Submit New Ticket"
+                      title="Create New Ticket"
+                      onclick="{!c.newTicket}"
+                    />
+                  </lightning:layoutItem>
+                </lightning:layout>
+                <hr />
+              </aura:if>
+            </lightning:recordEditForm>
+          </lightning:layoutItem>
+
+          <aura:set attribute="else">
+            <aura:if isTrue="{! v.showCircuitSpinner }">
+              <lightning:spinner alternativeText="Loading" />
+              <aura:set attribute="else">
+                <lightning:layoutItem
+                  padding="around-small"
+                  size="8"
+                  class="border2 ht"
+                >
+                  <div
+                    class="slds-text-heading_medium"
+                    style="margin-top: 234px;"
+                  >
+                    <h1 style="text-align:center;"> Welcome </h1><br />
+                    <h1 style="text-align:center;"
+                      ><span style="text-align:center;"
+                        >Select Service Location to get started.</span
+                      ></h1
+                    >
+                  </div>
+                </lightning:layoutItem>
+              </aura:set>
+            </aura:if>
+          </aura:set>
+        </aura:if>
+      </lightning:layout>
+    </aura:set>
+  </aura:if>
+</aura:component>

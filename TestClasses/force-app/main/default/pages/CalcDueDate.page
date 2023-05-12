@@ -1,0 +1,47 @@
+<apex:page controller="CalcDueDateContr" >
+     <apex:form >
+         <apex:pageMessages id="msgbox" />
+         <apex:pageblock title="Calculate Due Date">
+             <apex:pageBlockButtons >
+                <!--<apex:commandButton action="{!save}" value=" Save "></apex:commandButton>-->
+                <apex:commandButton action="{!calcualteDueDate}" value="Calculate Due Date" rerender="calculatedoutput,msgbox" />
+                <apex:commandButton action="{!EditDueDateMatrix}" value="Edit Due Date Matrix" rendered="{!bolSystemAdmin}"/>
+                
+                <!--<apex:commandButton action="{!cancel}" value="Cancel"></apex:commandButton>-->
+            </apex:pageBlockButtons>
+
+            <apex:pageBlockSection columns="1" showHeader="false">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Product" for="mgr"></apex:outputLabel>
+                    <apex:selectList id="mgr" value="{!strSelectedProduct}" size="1">
+                        <apex:selectOptions value="{!Products}" />
+                        <apex:actionSupport event="onchange" reRender="FeciItem"/>
+                        <!--<apex:actionSupport event="onchange"  action="{!getselectFacilityStatusAnswer}"/>-->
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+
+               
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Facility Status" for="FeciItem"></apex:outputLabel>
+                    <apex:selectList id="FeciItem" value="{!strSelectedFacilityStatus}" size="1">
+                        <apex:selectOptions value="{!FacilityStatus}" ></apex:selectOptions>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                
+                
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Calculated Date" for="mgr" ></apex:outputLabel>
+                        <apex:outputpanel id="calculatedoutput">
+                            <apex:outputLabel rendered="{!if(IsCalcDueDateNull,false,true)}">This date is tentative</apex:outputLabel><br />
+                            <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                <apex:param value="{!CalculatedDate }" /> 
+                            </apex:outputText>
+                        </apex:outputpanel>
+                    <!--<apex:outputtext id="mgr" value="{!CalculatedDate }"/>-->
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>
+            
+         </apex:pageblock>
+     </apex:form>
+</apex:page>

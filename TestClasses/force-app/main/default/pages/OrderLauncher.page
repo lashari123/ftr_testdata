@@ -1,0 +1,32 @@
+<apex:page standardcontroller="Account">
+<apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery/jquery-1.9.1.js')}"/>
+<script src="../../soap/ajax/21.0/connection.js" type="text/javascript"></script>
+<script>
+    j$ = jQuery.noConflict();
+    function refresh_sterling(){
+        var TN = j$('.input_phone').val();
+        var BTN = '';
+        var records = [];
+        sforce.connection.sessionId = "{!$Api.Session_ID}";
+        var query = sforce.connection.query("Select billing_id__c,BTN_Phone__c,WTN__c from hierarchy__c where WTN__c ='"+TN+"'"); 
+        var hierarchyRec = query.getArray("records");
+        if(hierarchyRec.length > 0) {
+            BTN = hierarchyRec[0].get("BTN_Phone__c");
+            var STERLING_URL = 'https://c.na9.visual.force.com/apex/Order?btnPhone=' + BTN + '&uiFlag=ONEVIEW';
+            window.open(STERLING_URL,'_blank');
+        } else {
+            alert("No BTN for this WTN");
+        }       
+        
+    };
+</script>
+ 
+<apex:form id="Order"> 
+    <apex:pageblock id="pb_order">
+        <apex:pageblockSection id="pbs_order">
+            <apex:inputtext styleclass="input_phone" value="{!Account.Phone}" label="Telephone Number" />                                 
+            <apex:commandbutton onclick="refresh_sterling();" value="Launch Order"/>   
+        </apex:pageblockSection>
+    </apex:pageblock>                   
+</apex:form>
+</apex:page>

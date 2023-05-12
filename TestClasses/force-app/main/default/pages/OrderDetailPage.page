@@ -1,0 +1,51 @@
+<apex:page standardController="Order" extensions="OrderDetailController" tabStyle="order" showHeader="true" sidebar="true">
+  <chatter:feed entityId="{!ord.Id}" rendered="{!isDetail}"/>
+  <apex:form >
+  <apex:sectionHeader subtitle="New Order" title="Order Edit"/>
+      <apex:pageBlock mode="MainDetail">
+           <apex:pageBlockButtons >
+                 <apex:commandButton value="Edit" action="{!saveEdit}" rerender="error" rendered="{!isDetail}"/>
+                 <apex:commandButton value="Save" action="{!saveEdit}" rerender="error" rendered="{!OR(isCreate, isEdit)}"/>
+                 <apex:commandButton value="Cancel" action="{!cancel}" />
+<!--                 <apex:commandButton value="Send FOC Email" action="{!SendFOCEmail}"/> -->
+                 <apex:commandButton value="Complete Request" action="{!CompleteRequest}" rerender="error" rendered="{!isDetail}"/>
+           </apex:pageBlockButtons>
+           <apex:pageBlockSection id="error">
+               <apex:pageMessages />
+           </apex:pageBlockSection>           
+           <apex:pageBlockSection title="Order Info">
+                <apex:repeat value="{!orderInfoFields}" var="relField">
+                    <apex:outputField value="{!ord[relField.fieldPath]}" label="{!relField.label}" rendered="{!isDetail}"/>
+                    <apex:inputField value="{!ord[relField.fieldPath]}" label="{!relField.label}" required="{!OR(relField.required, relField.dbrequired)}" rendered="{!OR(isCreate,isEdit)}"/><br />
+                </apex:repeat>
+           </apex:pageBlockSection>
+           <apex:pageBlockSection title="Address Info">
+                <apex:repeat value="{!addressInfoFields}" var="relField">
+                    <apex:outputField value="{!ord[relField.fieldPath]}" label="{!relField.label}" rendered="{!isDetail}"/>
+                    <apex:inputField value="{!ord[relField.fieldPath]}" label="{!relField.label}" required="{!OR(relField.required, relField.dbrequired)}" rendered="{!OR(isCreate,isEdit)}"/><br />
+                </apex:repeat>
+           </apex:pageBlockSection>
+           <apex:pageBlockSection title="Account Billing Info">
+                <apex:repeat value="{!accountBillingInfoFields}" var="relField">
+                    <apex:outputField value="{!ord[relField.fieldPath]}" label="{!relField.label}" rendered="{!isDetail}"/>
+                    <apex:inputField value="{!ord[relField.fieldPath]}" label="{!relField.label}" required="{!OR(relField.required, relField.dbrequired)}" rendered="{!OR(isCreate,isEdit)}"/><br />                    
+                </apex:repeat>
+           </apex:pageBlockSection>
+           <apex:pageBlockSection title="Order Product Fields">
+                <apex:repeat value="{!relevantFields}" var="relField">
+                    <apex:outputField value="{!ord[relField.fieldPath]}" label="{!relField.label}" rendered="{!isDetail}"/>
+                    <apex:inputField value="{!ord[relField.fieldPath]}" label="{!relField.label}" required="{!OR(relField.required, relField.dbrequired)}" rendered="{!OR(isCreate,isEdit)}"/><br />
+                </apex:repeat>
+           </apex:pageBlockSection>
+      </apex:pageBlock>
+  </apex:form>
+  <apex:relatedList list="ActivityHistories" title="Activity History" rendered="{!isDetail}"/>
+  <apex:relatedList list="OrderItems" title="Order Products" rendered="{!isDetail}"/>
+  <apex:relatedList list="Cases1__r" title="Cases (Order)" rendered="{!isDetail}"/>
+  <apex:relatedList list="Cases__r" title="Cases" rendered="{!isDetail}"/>
+  <apex:relatedList list="Service_Details__r" title="Location Information" rendered="{!isDetail}"/>
+  <apex:relatedList list="Service_Orders__r" title="Service Orders" rendered="{!isDetail}"/>
+  <apex:relatedList list="ProcessSteps" title="Approval History" rendered="{!isDetail}"/>
+  <apex:relatedList list="Order_Durations__r" title="Order Duration" rendered="{!isDetail}"/>
+  <apex:relatedList list="CombinedAttachments" title="Notes and Attachments" subject="{!ord}" rendered="{!isDetail}"/>
+</apex:page>

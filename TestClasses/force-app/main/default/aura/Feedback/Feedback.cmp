@@ -1,0 +1,134 @@
+<aura:component controller="FeedbackController">
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="disableSubmit" type="boolean" default="true"/>
+    <aura:attribute name="rating" type="string" default=""/>
+    <aura:attribute name="feedbackType" type="string" default=""/>
+    <aura:attribute name="comments" type="string" default=""/>
+    <aura:attribute name="remainingChars" type="Integer" default="500"/>
+    <aura:attribute name="serverCallDone" type="Boolean" default="false"/>
+    <aura:attribute name="showClose" type="Boolean" default="false"/>
+    <aura:attribute name="messageClass" type="String" default=""/>
+    <aura:attribute name="messageText" type="String" default=""/>
+    <aura:attribute name="pageName" type="String" default=""/>
+    <aura:attribute name="options" type="List" default="[{'label': 'Yes', 'value': 'option1'}, {'label': 'No', 'value': 'option2'}]"/>
+    
+    <aura:attribute name="easyToUseOptions" type="List" default="[
+                                                                 {'label': 'Yes', 'value': 'Yes'},
+                                                                 {'label': 'No', 'value': 'No'}
+                                                                 ]"/>
+    <aura:attribute name="easyToUse" type="String" default=""/>
+    
+    <aura:attribute name="lookingForOptions" type="List" default="[
+                                                                  {'label': 'Yes', 'value': 'Yes'},
+                                                                  {'label': 'No', 'value': 'No'}
+                                                                  ]"/>
+    <aura:attribute name="lookingFor" type="String" default=""/>
+    
+    <div>
+        <lightning:button variant="neutral"
+                          class="btn"
+                          label="Feedback"
+                          title="Feedback"
+                          onclick="{! c.openModel }" />
+        <aura:if isTrue="{!v.isModalOpen}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Your Feedback</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <aura:if isTrue="{!v.serverCallDone}">
+                            <div class="{! 'slds-m-horizontal_x-large br ' + v.messageClass}">
+                                {!v.messageText}
+                            </div>
+                        </aura:if>
+                        <div class="slds-p-bottom_small slds-border_bottom">
+                            <div class="slds-m-vertical_small slds-align_absolute-center">We would like your feedback to improve our systems.</div>
+                            <div class="slds-m-vertical_small slds-align_absolute-center">What is your opinion of this page?</div>
+                        	<div class="emoji slds-align_absolute-center">
+                              <span data-name="Happy" class="{! v.rating == 'Happy'? 'active' : '' }" onclick="{!c.selectEmoji}">
+                                  <div>&#128578;</div>
+                                  <div>Happy</div>
+                              </span>
+                              <span data-name="Neutral" class="{! v.rating == 'Neutral'? 'active slds-m-horizontal_small' : 'slds-m-horizontal_small' }" onclick="{!c.selectEmoji}">
+                                  <div>&#128528;</div>
+                                  <div>Neutral</div>
+                              </span>
+                              <span data-name="Sad" class="{! v.rating == 'Sad'? 'active' : '' }" onclick="{!c.selectEmoji}">
+                                  <div>&#128577;</div>
+                                  <div>Sad</div>
+                              </span>
+                            </div>
+                        </div>
+                        <div class="slds-border_bottom slds-p-bottom_small slds-m-vertical_small">
+                            <div class="slds-align_absolute-center">Please select your feedback category below.</div>
+                            <lightning:layout class="slds-align_absolute-center">
+                                <lightning:layoutItem padding="around-small">
+                                    <div class="{! v.feedbackType == 'Suggestion'? 'active custom-box slds-box slds-p-around_medium slds-text-align_center' : 'custom-box slds-box slds-p-around_medium slds-text-align_center' }" 
+                                         onclick="{!c.selectCategory}" data-name="Suggestion">Suggestion</div>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem padding="around-small">
+                                    <div class="{! v.feedbackType == 'Compliment'? 'active custom-box slds-box slds-p-around_medium slds-text-align_center': 'custom-box slds-box slds-p-around_medium slds-text-align_center'}"
+                                         onclick="{!c.selectCategory}" data-name="Compliment">Compliment</div>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem padding="around-small">
+                                    <div class="{! v.feedbackType == 'Complaint'? 'active custom-box slds-box slds-p-around_medium slds-text-align_center': 'custom-box slds-box slds-p-around_medium slds-text-align_center'}"
+                                         onclick="{!c.selectCategory}" data-name="Complaint">Complaint</div>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                        <div class="slds-p-bottom_small slds-m-vertical_small slds-text-align_left">
+                            
+                            <lightning:radioGroup name="easyToUseRadioGroup"
+                                                  label="Was the website easy to use?"
+                                                  options="{! v.easyToUseOptions }"
+                                                  value="{! v.easyToUse }"
+                                                  type="radio"/>
+                            
+                            <lightning:radioGroup name="lookingForRadioGroup"
+                                                  label="Did you find what you were looking for on the website?"
+                                                  options="{! v.lookingForOptions }"
+                                                  value="{! v.lookingFor }"
+                                                  type="radio"
+                                                  class="slds-m-top_small"/>
+                            
+                            <div class="slds-m-top_small">Please leave your feedback below.</div>
+                            <div class="">
+                            	<lightning:textarea aura:id="feedbackForm" label="" variant="label-hidden"
+                                         name="request"
+                                         onchange="{!c.handleComments}"
+                                         value="{!v.comments}" />
+                            </div>
+                            <div>Remaining characters length: {!v.remainingChars}</div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                        <aura:if isTrue="{! !v.showClose}">
+                            <lightning:button variant="brand"
+                                              label="Submit"
+                                              title="submit"
+                                              disabled="{!v.disableSubmit}"
+                                              onclick="{!c.submitDetails}"/>
+                        </aura:if>
+                        <aura:if isTrue="{!v.showClose}">
+                            <lightning:button variant="brand"
+                                              label="Close"
+                                              title="Close"
+                                              onclick="{!c.closeModel}"/>
+                        </aura:if>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,13 @@
+<aura:component controller="RestCallerApiService" implements="force:hasRecordId,flexipage:availableForAllPageTypes" access="global">
+	<aura:attribute name="recordId" type="String" />
+    <aura:attribute name="phoneNo" type="String" default="" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:card>
+        <span class="slds-m-left_large">Click the "Call" button to make a call to Work Phone.</span>
+        <!-- {!v.phoneNo} -->
+        <aura:if isTrue="{!v.phoneNo != ''}">
+            <lightning:button label="Call" title="Call" onclick="{!c.makeCall}" class="slds-m-left_small"></lightning:button>    
+        </aura:if>   
+    </lightning:card>
+</aura:component>

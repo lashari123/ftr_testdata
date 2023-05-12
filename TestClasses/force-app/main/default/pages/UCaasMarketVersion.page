@@ -1,0 +1,441 @@
+<apex:page standardController="Opportunity"  renderAs="pdf" extensions="pdfClass" cache="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" docType="html-5.0" showHeader="false" sidebar="false">
+    <html>
+        <head>
+            <style>
+                .header-heading{
+                float:right;
+                margin-top:-10%;
+                }
+                .Frontier-sub-heading{
+                margin-left:40%;
+                }
+                .star{
+                color:red;
+                }
+                .first-td-css{
+                width:70%;
+                }
+                .dot{
+                padding :px;
+                }
+                .table1{
+                width:100%;
+                border-collapse : collapse;
+                border: 2px solid black;
+                }
+                .table1 td, .table1 th {
+                padding:5px;
+                border : 1px solid black;
+                }
+                .table2{
+                width:100%;
+                border-collapse : collapse;
+                border: 2px solid black;
+                }
+                .table2 td, .table2 th {
+                padding:5px;
+                border : 1px solid black;
+                }
+                .table3{
+                width:60%;
+                float:right;
+                border-collapse : collapse;
+                border: 2px solid black;
+                }
+                .table3 td, .table3 th {
+                padding:5px;
+                border : 1px solid black;
+                }
+                .table5{
+                width:100%;
+                border-collapse : collapse;
+                border: 2px solid black;
+                }
+                .table5 td, .table5 th {
+                padding:5px;
+                border : 1px solid black;
+                }
+                .sign{
+                font-size : 11px;
+                }
+            </style>
+        </head>
+        <body>
+            <div width="100%">
+                <div class="header">
+                    <div class="div1">
+                        <apex:image url="{!$Resource.FrontierComunication}" width="140" height="70"/>
+                    </div>
+                    <div class="header-heading">
+                        <b><span>FRONTIER SMART VOICE SERVICE (“SmartVoice”) SCHEDULE   </span></b><br/>
+                        <p class="Frontier-sub-heading">Frontier Confidential</p>
+                    </div>
+                    <div>
+                        <p>
+                            <b>This is Schedule Number</b>&nbsp;&nbsp;to the Frontier Services Agreement dated <b> Select Month </b>&nbsp;&nbsp;&nbsp;,<b>("FSA")</b> by and between<b> {!acc.Name} </b> ("Customer") and <b>Frontier Communications of America, Inc.</b>on behalf of itself and its affiliates (“Frontier”). Customer orders and Frontier agrees to provide the Services identified in the Schedule below.
+                        </p>
+                    </div>
+                    <table width="100%">
+                        <tr>
+                            <td><b>Primary Service Location: </b></td>
+                            <td>{!acc.BillingStreet}&nbsp;&nbsp;{!acc.BillingCity}&nbsp;&nbsp;{!acc.BillingState}&nbsp;&nbsp;{!acc.BillingPostalCode}</td>
+                            <td><b>Schedule Date:</b></td>
+                            <td>{!nowDate}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Schedule Type/Purpose:</b></td>
+                            <td>SmartVoice</td>
+                            <td> <b>Service Term: </b></td>
+                            <td>{!opp.Contract_Term_Years__c}</td>
+                        </tr>
+                    </table>
+                    <p>
+                        <span class="star">  * </span><u >Additional Service Locations</u> may be provisioned.  Addresses and location-specific Service details will be as outlined in the Frontier data collection sheet, and additional E-911 location charges apply, as outlined in the table below.
+                    </p>
+                    <table class="table1"  >
+                        <tr style="background:#D5DBDB">
+                        <th>Frontier SmartVoice Service </th>
+                        <th>QTY</th>
+                        <th>NRC <br/>(NRC x Qty)</th>
+                        <th>MRC <br/> (MRC x Qty) </th>
+                        </tr>
+                        <tr>
+                            <td class="first-td-css"><ul  style="list-style-type:disc;"><li> Premium Plus User Seat Package:  </li> </ul>
+                                <ul style="list-style-type:disc;"><li>DID #; IM and presence; voicemail, unlimited* local calling; unlimited* US &amp; Canadian long distance calling; mobile and desktop client support via Android, iOS, Windows &amp; MAC devices, over 180 calling features may be managed through Frontier’s customer portal; desktop phone rental required, 1 Mbps upload speed required for 1-5 phones, 2 Mbps upload speed required for 6-10 phones  </li></ul>
+                            </td>
+                            <td></td>
+                            <td><center>$</center></td>
+                            <td><center>$</center></td>
+                        </tr>
+                        <tr>
+                            <td><p> Premium User Seat Package: </p> <ul style="list-style-type:disc;"><li> DID #; IM and presence; voicemail, unlimited* local calling; unlimited* US &amp; Canadian long distance calling; mobile and desktop client support via Android, iOS, Windows &amp; MAC devices, over 180 calling features may  be managed through Frontier’s customer portal  </li></ul><ul style="list-style-type:disc;color:red;"><li>Can only be sold with Premium Plus</li></ul></td>
+                            <td></td>
+                            <td><center>$</center></td>
+                            <td><center>$</center></td>
+                        </tr>
+                        <tr> 
+                            <td><b>Analog Seat :</b> No Features; used with ATA to support analog services </td>
+                            <td></td>
+                            <td><center>$</center></td>
+                            <td><center>$</center></td>
+                        </tr>
+                        <tr><td colspan="4">
+                            <ul><li> “unlimited” is subject to FAFUP (see Section 3C below)
+                                <br/>International LD rates are found at http://frontier.com/frontier-anyware-ucaas-international-long-distance-rates; Rates may be modified without notice </li> </ul>                  </td>        
+                        </tr>
+                    </table>
+                    <table class="table2">
+                         <tr style="background:#D5DBDB">
+                        <th>Frontier SmartVoice Add-ons</th>
+                        <th>QTY</th>
+                        <th>NRC <br/>(NRC x Qty)</th>
+                        <th>MRC <br/> (MRC x Qty) </th>
+                        </tr>
+                        <tr>
+                            <td>Additional DID Numbers</td>
+                            <td></td>
+                            <td><center>$</center></td>
+                            <td><center>$</center></td>
+                        </tr>
+                        <tr>
+                            <td>Fax Messaging</td>
+                            <td></td>
+                            <td><center>$</center></td>
+                            <td><center>$</center></td>
+                        </tr>
+                        <tr>
+                            <td>Premium Auto Attendant</td>
+                            <td></td>
+                            <td><center>$ </center></td>
+                            <td><center>$ </center></td>
+                        </tr>
+                        <tr>
+                            <td>Directory Listings</td>
+                            <td></td>
+                            <td><center>$ </center></td>
+                            <td><center>$ </center></td>
+                        </tr>
+                        <tr>
+                            <td>Extended Market Number</td>
+                            <td></td>
+                            <td><center>$ </center></td>
+                            <td><center>$ </center></td>
+                        </tr>
+                        <tr>
+                            <td>Toll Free Number</td>
+                            <td></td>
+                            <td><center>$ </center></td>
+                            <td><center>$ </center></td>
+                        </tr>
+                        <tr>
+                            <td>Toll Free Domestic Block of Time  </td>
+                            <td></td>
+                            <td><center>$ </center></td>
+                            <td><center>$ </center></td>
+                        </tr>
+                        <tr>
+                            <td>Toll Free Domestic US Overage Rate Per Minute ($0.0300) </td>
+                            <td></td>
+                            <td><center>$ </center></td>
+                            <td><center>Usage based </center></td>
+                        </tr>
+                        <tr>
+                            <td>Multi Line HUNT Group </td>
+                            <td></td>
+                            <td><center>$ </center></td>
+                            <td><center> $ </center></td>
+                        </tr>
+                        <tr>
+                            <td>Additional Managed Auto Attendants (up to 50 sites total) </td>
+                            <td></td>
+                            <td><center>$ </center></td>
+                            <td><center> $ </center></td>
+                        </tr>
+                        <tr>
+                            <td>★E-911 (per additional locations) </td>
+                            <td></td>
+                            <td><center>$ </center></td>
+                            <td><center> $ </center></td>
+                        </tr>
+                        <tr>
+                            <td>Monthly Feature Admin Charge  </td>
+                            <td></td>
+                            <td><center> $ </center></td>
+                            <td><center> $ </center></td>
+                        </tr>
+                    </table><br/><br/>
+                    <table  class="table3">
+                        <tr style="background:#EAEDED">
+                            <td>Total NRC :</td>
+                            <td>$</td>
+                            <td>Total MRC :</td>
+                            <td>$</td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table  class="table4">
+                        <tr>
+                            <td> <p style="color:red;">
+                                Check here for Broadband/FiOS Broadband Double Play  
+                                </p></td>
+                            <td><input type="checkbox" name="check" />
+                            </td>
+                        </tr>
+                    </table>
+                    <table  class="table5">
+                         <tr style="background:#D5DBDB">
+                        <th> Double Play: SmartVoice + Broadband </th>
+                        <th> Qty </th>
+                        <th> NRC (x Qty) </th>
+                        <th> MRC (x Qty) </th>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + Broadband 12 </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + Broadband 18 </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + Broadband 25 </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + Broadband 35 </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + Broadband 45 </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + Broadband 70 </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + Broadband 90 </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + Broadband 115 </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                    </table>
+                    <p style="color:red;">
+                        *Additional speeds and IPs next page*
+                    </p><br/><br/><br/><br/><br/>
+                    <div class="div1">
+                        <apex:image url="{!$Resource.FrontierComunication}" width="140" height="70"/>
+                    </div><br/><br/>
+                    <div class="header-heading">
+                        <b><span>FRONTIER SMART VOICE SERVICE (“SmartVoice”) SCHEDULE  </span></b><br/>
+                        <p class="Frontier-sub-heading">Frontier Confidential</p>
+                    </div>
+                    <table  class="table5">
+                        <tr> 
+                            <td> SmartVoice + FiOS 75/75  Broadband  </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + FiOS 100/100 Broadband </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td>SmartVoice + FiOS 200/200 Broadband </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td>SmartVoice + FiOS 300/300 Broadband </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td>SmartVoice + FiOS 500/500 Broadband </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> SmartVoice + FiOS 700/700 Broadband </td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td>SmartVoice + FiOS 1G /1G Broadband</td>
+                            <td> 0 </td>
+                            <td> $ </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> * Broadband Static IP Option add $10.00 each </td>
+                            <td> 0 </td>
+                            <td> $ 0.00 </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td> * Broadband Static IP Block (5 usable IPs) </td>
+                            <td> 0 </td>
+                            <td> $ 0.00 </td>
+                            <td> $ </td>
+                        </tr>
+                        <tr> 
+                            <td>* Broadband Static IP Block (13 usable IPs) </td>
+                            <td> 0 </td>
+                            <td> $ 0.00 </td>
+                            <td> $ </td>
+                        </tr>
+                    </table><br/><br/>
+                    <table  class="table3">
+                        <tr style="background:#EAEDED">
+                            <td>Total NRC :</td>
+                            <td>$</td>
+                            <td>Total MRC :</td>
+                            <td>$</td>
+                        </tr>
+                    </table>
+                    <br/><br/>
+                    <div>
+                        1. <u> Service.</u><br/>
+                        &nbsp; &nbsp; &nbsp; A.&nbsp; <u>General Description:</u> : Frontier SmartVoice Service (“SmartVoice”) is a business voice communications service using Internet Protocol (“<b>IP</b>”) technology. It provides voice communications between a station on the Customer’s Local Area Network (“<b>LAN</b>”) and (a) for Services provisioned over a third-party network, a station on the Public Switched Telephone Network (“<b>PSTN</b>”); (b) for Services provisioned over Frontier’s network, a station on Frontier’s converged Services network, in each case using IP technology. SmartVoice Service provides basic IP voice communications standard features such as completing calls to the PSTN, abbreviated dialing and basic calling features/call management services; and access to 9-1-1 Emergency Service, subject to the limitations and terms described herein.
+                        
+                        <br/><br/> &nbsp; &nbsp; &nbsp; B.&nbsp; <u>Availability, Limitations, and Exclusions. : </u> 
+                        <br/><br/>&nbsp; &nbsp; &nbsp; i. &nbsp; &nbsp;<u> Service Availability: </u>Customer’s eligibility to receive IP Service, Customer’s Local Area Network (“LAN”) environment must be at least 10Mb/100Mb/1000Mb Ethernet; LAN ports used for voice must be set to full-duplex; Customer’s LAN must have adequate bandwidth and ports to support the minimum amount of concurrent voice and data traffic ordered by Customer.
+                        <br/> <br/>&nbsp; &nbsp; &nbsp; ii. &nbsp; &nbsp;<u> Limitations: </u> Customer understands that use of the Services is restricted in the following manner: (a) at any given time, Customer may only place as many concurrent calls as it has purchased simultaneous calling capacity; (b) Customer’s modification of Frontier installed design and/or configuration is at Customer’s risk; (c) Customer may not utilize auto-dialers or any similar type of device in connection with Frontier SmartVoice  Service; (d) Customer may not utilize SmartVoice Service in any call center environment or in connection with any similar such application; and (e) Customer may not use  SmartVoice Service for telemarketing, fax broadcasting, fax blasting, or continuous or extensive call forwarding. CUSTOMER EXPRESSLY ACKNOWLEDGES THAT ANY VIOLATION OF THE FOREGOING RESTRICTIONS ON ITS USE OF THE SERVICE WILL IMMEDIATELY VOID AND INVALIDATE FRONTIER’S OBLIGATIONS AND PROVISION OF SERVICE UNDER THIS AGREEMENT AND WILL RESULT IN THE IMMEDIATE TERMINATION OF THE SERVICE BY FRONTIER. 
+                        <br/><br/>&nbsp; &nbsp; &nbsp; iii. &nbsp; &nbsp;<u> Exclusions . </u> The Service does not include reliability, redundancy, disaster recovery or business continuity features, functions, capabilities or services. The Service is provided over broadband networks, as a reasonable best efforts service without warranty, guarantees or service level commitments. Customer will not be able to make or receive calls with the Service if the Frontier network or DSL service is down or impaired or if any third-party network or service used in conjunction with the Service is down or impaired. Service may also be adversely impacted by congestion on the Customer’s LAN, Frontier’s network or DSL service and/or third- party network or service. 
+                        <br/><br/>&nbsp; &nbsp; &nbsp; C. &nbsp; &nbsp;<u> Changes. </u>Throughout the Service Term, Customer may add subsequent lines at the rates and terms applicable under this Service Schedule, reduce the number of lines reflected in this Service Schedule without payment of the termination charge (please note, cancellation of entire account will be subject to the early termination charge), or make modifications to existing Services provided that such changes may be subject to a change fee (collectively “Changes”). Customer may request Changes via telephone, provided that Frontier may (but will not be required to) ask Customer to validate such Change request via email or other document. All such Changes and the resulting Services will be subject to the terms and conditions of this Schedule. 
+                        <br/><br/>&nbsp; &nbsp; &nbsp; D. &nbsp; &nbsp;<u> Training. </u> If Customer orders Equipment from Frontier for use with the SmartVoice Service, such Equipment purchase will be based on the terms and conditions outlined in Frontier’s standard Equipment purchase schedule (“Equipment Schedule”).  In the event that onsite training is requested, additional charges will apply and must be noted as an exception to the standard Installation Services Scope of Work. 
+                        <br/><br/>&nbsp; &nbsp; &nbsp; 2. &nbsp; &nbsp;<u> <b>Service Term Renewal. </b> </u>&nbsp; &nbsp; <u> Notwithstanding Section 2 of the FSA, </u> if neither party provides the other with written notice of its intent to terminate at least sixty (60) days prior to completion of the Service Term, the Service Term shall automatically renew for consecutive periods equivalent to the Service Term identified in this Schedule, and at the then applicable rate, excluding promotional rates.   
+                        <br/><br/>&nbsp; &nbsp; &nbsp; 3. <b>  Early termination Fees </b>   <ul style="list-style-type:disc;"><li> &nbsp; &nbsp; Notwithstanding section 4 of the FSA, if Customer terminates the Service for any reason other than breach by Frontier or by Frontier due to Customer’s breach, the Customer shall pay Frontier a termination charge equal to the following calculations: </li> <li> &nbsp; &nbsp; <b> For a 12 month Service Term: </b>  Customer shall pay Frontier a termination charge equal to $16.66 multiplied by the number of months remaining in the Service Term and any applicable taxes and surcharges.  Partial months shall be prorated.  The cancellation charge shall not exceed $200.00.  </li> <li> &nbsp; &nbsp; <b> For a 36  month Service Term: </b>Customer shall pay Frontier a termination charge equal to $16.66 multiplied by the number of months remaining in the Service Term and any applicable taxes and surcharges.  Partial months shall be prorated.  The cancellation charge shall not exceed $600.00. </li> <li> &nbsp; &nbsp; <b> For a 60 month Service Term: </b>Customer shall pay Frontier a termination charge equal to $16.66 multiplied by the number of months remaining in the Service Term and any applicable taxes and surcharges.  Partial months shall be prorated.  The cancellation charge shall not exceed $1,000.00.   </li>  </ul> 
+                        &nbsp; &nbsp; &nbsp; 4.&nbsp; &nbsp;  <b> <u>    Customer Obligations. </u></b>   In addition to the other obligations of Customer contained within the FSA, Customer will be responsible for the following obligations:
+                    </div><br/><br/><br/><br/>
+                    <div>
+                        <div class="div1">
+                            <apex:image url="{!$Resource.FrontierComunication}" width="140" height="70"/>
+                        </div>
+                        <div class="header-heading">
+                            <b><span>FRONTIER SMART VOICE SERVICE (“SmartVoice”) SCHEDULE   </span></b><br/>
+                            <p class="Frontier-sub-heading">Frontier Confidential</p>
+                        </div>
+                        <p>
+                            &nbsp; &nbsp; &nbsp; A.&nbsp; <u> Customer Facilities: </u>  Except as otherwise expressly stated herein, Customer is responsible for obtaining, installing, configuring and maintaining all equipment (including, but not limited to, SIP phones, and firewalls), software, wiring, power sources, telephone connections and/or communications services necessary for inter-connection with Frontier’s network or otherwise for use in conjunction with IP Service (“Facilities”). Customer is responsible for ensuring that such Facilities are compatible with Frontier’s requirements and that they continue to be compatible with subsequent revision levels of Frontier’s Network relevant to the Services, and for meeting the minimum requirements outlined for SmartVoice Service at www.frontier.com/terms. Frontier is not responsible for the availability, capacity and/or condition of any Facilities not provided by Frontier. Customer is responsible for operation and configuration of its computer(s) and LAN/WAN. If Customer connects any Facilities to IP Service, Customer is solely responsible for any effects that arise from that connection and Customer waives any claims against Frontier relating to the performance of IP Service. 
+                        </p> 
+                        <p>
+                            &nbsp; &nbsp; &nbsp; B.&nbsp; <u> Security: </u> <br/>  &nbsp; &nbsp; &nbsp; i.&nbsp;&nbsp;&nbsp;&nbsp; Use of IP Service, like other network-based services, carries certain security risks to the systems and networks of Customer, Frontier, and third parties, including but not limited to: misuse; unauthorized access; alterations; theft; destruction; corruption; and attacks (“Occurrences”). Customer shall, at its own expense, take security measures including but not limited to use of firewalls, passwords, access restrictions, encryption, policies, and physical access restrictions (“Security Measures”) to protect from Occurrences all IP traffic, Facilities and other equipment, software, data and systems located on Customer’s premises or otherwise in Customer’s control and used in connection with IP Service, whether owned by Customer, Frontier, or Frontier’s subcontractors. CUSTOMER AGREES THAT FRONTIER IS NOT LIABLE, IN CONTRACT, TORT, OR ON ANY OTHER BASIS, FOR ANY LOSS RESULTING FROM ANY OCCURRENCES OR USE OF FRONTIER’S NETWORK, IP TRAFFIC, FACILITIES OR OTHER EQUIPMENT, SOFTWARE, DATA AND SYSTEMS. CUSTOMER IS RESPONSIBLE FOR ALL SECURITY MEASURES, EVEN IF CUSTOMER USES A THIRD PARTY OR FRONTIER TO CONFIGURE AND IMPLEMENT THEM.</p>
+                        <p>
+                            &nbsp; &nbsp; &nbsp;&nbsp;  ii.&nbsp;&nbsp;&nbsp;&nbsp; Customer shall properly use any equipment or software, and all pass codes, personal identification numbers (“PINs”) or other access capability obtained from Frontier or an affiliate or vendor of Frontier and shall surrender the equipment and software in good working order to Frontier at a place specified by Frontier and terminate all use of any access capability upon termination or expiration of this Schedule. Customer shall be responsible for all uses of PINs, pass codes or other access capability during or after the term hereof. Customer’s use of any software component of the Service is limited to use with the Service, subject to and in strict compliance with the end user license agreement embedded in the software. Title and all other rights to the software shall remain at all times with Frontier or its suppliers. Customer is responsible for all costs and procedures associated with fraud, such as subscription fraud, cloning fraud, fraud associated with the use of the Service, hacking, or usage on lost or stolen devices that Customer has failed to notify Frontier should be deactivated.
+                        </p>
+                        <p>
+                            &nbsp; &nbsp; &nbsp;&nbsp;  iii.&nbsp;&nbsp;&nbsp;&nbsp;Customer is solely responsible for the security of its own networks, equipment, hardware, software and software applications, including security features for protection against unauthorized or fraudulent use of the Equipment or the Service. Customer is solely responsible for ensuring that all of Customer’s data files are adequately duplicated and documented at all times. Frontier and its contractors are not responsible or liable for data loss for any reason. Abuse that occurs as a result of Customer’s systems or account being compromised or as a result of activities of third parties permitted by Customer may result in suspension of Customer’s accounts or Internet access by Frontier. Customer will defend and indemnify Frontier and its affiliates with respect to claims arising from Customer’s or third parties’ usage of the SmartVoice or Frontier Internet access through Customer’s hardware or software.
+                        </p>
+                        <p>
+                            &nbsp; &nbsp; &nbsp;&nbsp;  iv.&nbsp;&nbsp;&nbsp;&nbsp; <b> Frontier disclaims any express or implied warranty or condition that the Services prevent toll fraud, unauthorized access, loss or theft of electronic data, or invasion of privacy (collectively, “fraudulent activity”). Frontier shall have no liability to Customer in the event of such fraudulent activity. </b>
+                        </p>
+                        <p>
+                            &nbsp; &nbsp; &nbsp; C.  <u> Acceptable and Fair Use. </u>  Customer shall comply, and shall cause all Service users to comply, with Frontier’s <b>Acceptable Use Policy (“AUP”) </b> and the <b>SmartVoice Fair Use Policy (“FAFUP”),</b> each as may be modified by Frontier from time to time. The current AUP and FAFUP are available for review at the following address, subject to change: <span style="color:blue;"><u>http://www.frontier.com/policies.</u></span> <b>Customer is responsible for maintaining awareness of and adhering to the AUP and FAFUP as amended from time to time.</b> Failure to comply with the AUP or FAFUP is justification for immediate suspension or termination of the Service, notwithstanding any notice requirement which may otherwise be outlined in the FSA. 
+                        </p>
+                        &nbsp; &nbsp; &nbsp; D.<u> Emergency 911 Service. </u><br/><br/>
+                        &nbsp; &nbsp; &nbsp;   i.&nbsp;&nbsp;&nbsp;&nbsp; Customer acknowledges that IP phones and Softphones are portable and may be used at the Service Location or elsewhere. <span style="color:blue;"><u> IF THE IP PHONE OR SOFTPHONE IS MOVED, CUSTOMER MUST CALL FRONTIER AT 855-438-7273 TO REGISTER THE PHONE’S NEW LOCATION FOR EMERGENCY CALLING PURPOSES.</u></span> There are additional charges for each new location that Customer would like to register phones. These locations must be ordered in advance, in order to properly register the phones’ new location.<b>If the new locations are not ordered in advance, 911 calls will not be delivered to the correct Public Safety Answering Point (“PSAP”) until the new location is ordered, configured in the system, and the phone properly registered to the new location. </b> 
+                        <br/> <br/>&nbsp; &nbsp; &nbsp;  <span style="color:red;"> ii.</span> &nbsp;&nbsp;&nbsp;&nbsp; Customer shall notify and inform each user that (a) 911 calls may not be delivered to the correct PSAP in some locations and that delays may occur in making a new location available through the PSAP's database; (b) 911 calls will be misdirected if the IP phone or Softphone is moved without registering its new location and that in such case if it becomes necessary for the user to seek assistance by using E-911 Service, any such call from an IP phone will identify such user’s location as being at the prior location, and will be directed to the E-911 PSAP associated with the prior location, and not where the user is physically located, and (c) the IP phones cannot be used for any calls, including emergency calls, if the broadband connection used by the phone fails, or if electrical power is not available to power the phone.  <span style="color:red"><u> IN ADDITION, CUSTOMER IS RESPONSIBLE FOR ENSURING THAT ANY WARNING LABELS PROVIDED BY FRONTIER OUTLINING THE LIMITATIONS OF 911 SERVICES OVER IP PHONES ARE PLACED ON AND/OR NEAR THE EQUIPMENT USED IN CONJUNCTION WITH THE IP PHONE SERVICE.</u></span>
+                        <br/> <br/>&nbsp; &nbsp; &nbsp; iii. &nbsp;&nbsp;&nbsp;&nbsp; Customer is advised that the operation of e-911 requires accurate information be provided by Customer to Frontier for storage in Frontier’s database, which Customer is solely responsible for updating. Further, Customer acknowledges and agrees that e-911 service will not be available, and Frontier assumes no liability: (a) if there is a power failure or some other type of failure of the equipment installed at the Service Location; (b) if there is a failure or congestion of the access connection (such as dsl or t-1 connection) or associated equipment provided to connect the Service Location to the VOIP service network; (c) if there is a failure or congestion of the VOIP network providing Customer’s VOIP service, the public switched telephone network (pstn), the 911 service provider’s network or the emergency services network; (d) if Customer is using the Services outside of the United States; (e) if Customer has moved the VOIP device, delayed in providing or failed to provide accurate location information to Frontier, or the information provided has not yet been updated by or is inaccurate; (f) if the Services have been disconnected or suspended for non-payment or any other reason; (g) for those circumstances under which 911 service may be limited to traditional 911 service rather than enhanced 911 (or ‘e-911’). With e-911 the Customer address and callback information is automatically provided to the emergency services systems; or (h) failure of emergency services under certain circumstances, including but not limited to, those circumstances in which Customer is using call forwarding, call redirection or blocking services, and/or when the emergency callback number is configured to ring a phone at a different location than the Customer’s VOIP device. If e-911 service is not available in Customer’s area or at the time of the 911 call, then, the system may default to traditional 911 service and the Customer may be required to verbally inform the 911 call taker or emergency responder of their address and phone number.	
+                        <br/> <br/>&nbsp; &nbsp; &nbsp; iv. &nbsp;&nbsp;&nbsp;&nbsp;911 service is offered solely as an aid in contacting an appropriate PSAP in connection with fire, police and other emergencies.<b> FRONTIER IS NOT RESPONSIBLE FOR ANY LOSSES, CLAIMS, DEMANDS, SUITS OR ANY LIABILITY WHATSOEVER, WHETHER SUFFERED, MADE, INSTITUTED OR ASSERTED BY CUSTOMER OR BY ANY OTHER PARTY OR PERSON FOR ANY PERSONAL INJURY TO OR DEATH OF ANY PERSON OR PERSONS, AND FOR ANY LOSS, DAMAGE OR DESTRUCTION OF ANY PROPERTY, WHETHER OWNED BY CUSTOMER OR OTHERS, CAUSED OR CLAIMED TO HAVE BEEN CAUSED BY: (a) MISTAKES, OMISSIONS, </b>
+                    </div><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    <div class="div1">
+                        <apex:image url="{!$Resource.FrontierComunication}" width="140" height="70"/>
+                    </div>
+                    <div class="header-heading">
+                        <b><span>FRONTIER SMART VOICE SERVICE (“SmartVoice”) SCHEDULE   </span></b><br/>
+                        <p class="Frontier-sub-heading">Frontier Confidential</p>
+                    </div>
+                    
+                    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<b>INTERRUPTIONS, DELAYS, ERRORS OR OTHER DEFECTS IN THE PROVISION OF EMERGENCY 911 SERVICE, OR (b) INSTALLATION, OPERATION, FAILURE TO OPERATE, MAINTENANCE, REMOVAL, PRESENCE, CONDITION, LOCATION OR USE OF ANY EQUIPMENT AND FACILITIES FURNISHING THIS SERVICE, OR (c) CUSTOMER’S FAILURE TO NOTIFY FRONTIER WHEN A PHONE IS MOVED IN A TIMELY MANNER.</b>
+                    <p>
+                        &nbsp; &nbsp; &nbsp; v. &nbsp;&nbsp;&nbsp;&nbsp;<b> FRONTIER IS NOT RESPONSIBLE FOR ANY INFRINGEMENT OR INVASION OF THE RIGHT OF PRIVACY OF ANY PERSON OR PERSONS, CAUSED OR CLAIMED TO HAVE BEEN CAUSED, DIRECTLY OR INDIRECTLY, BY THE INSTALLATION, OPERATION, FAILURE TO OPERATE, MAINTENANCE, REMOVAL, PRESENCE, CONDITION, OCCASION OR USE OF EMERGENCY 911 SERVICE AND THE EQUIPMENT ASSOCIATED THEREWITH, OR BY ANY SERVICES FURNISHED BY FRONTIER INCLUDING, BUT NOT LIMITED TO, THE IDENTIFICATION OF THE TELEPHONE NUMBER, ADDRESS OR NAME ASSOCIATED WITH THE PHONE USED BY THE PARTY OR PARTIES ACCESSING EMERGENCY 911 SERVICE, AND WHICH ARISE OUT OF THE NEGLIGENCE OR OTHER WRONGFUL ACT OF FRONTIER, CUSTOMER, ITS SERVICE USERS, AGENCIES OR MUNICIPALITIES, OR THE EMPLOYEES OR AGENTS OF ANY ONE OF THEM. </b>
+                        <br/><br/>&nbsp; &nbsp; &nbsp; vi. &nbsp;&nbsp;&nbsp;&nbsp; <span style="color:red;"><u>Customer specifically acknowledges receipt of and understanding of these limitations on emergency calling capabilities. </u></span> <b> Customer shall defend, indemnify and hold harmless Frontier from any loss, cost, expense or liability arising from or in any way related to Customer’s failure to provide the required notices, or otherwise related to any use of E-911 Services, not caused by the negligence or willful misconduct of Frontier.</b>
+                        <br/><br/><br/><br/><br/>
+                        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <b>This Schedule is not effective and pricing, dates and terms are subject to change until signed by both parties.</b> This Schedule and any of the provisions hereof may not be modified in any manner except by mutual written agreement. The above rates do not include any taxes, fees or surcharges applicable to the Service. This Schedule, the documents incorporated herein by reference, and all terms and conditions of the FSA comprise the entire agreement between the parties with respect to the Services described herein, and supersede any and all prior or contemporaneous agreements, representations, statements, negotiations, and undertakings written or oral with respect to the subject matter hereof.
+                        <br/><br/>  <b>Frontier Communications of America, Inc.</b><br/><br/> <span class="sign">Signature :</span> 
+                        &nbsp; &nbsp; &nbsp; <span style="float:right; margin-top:-30px">
+                        
+                        <b> Insert Customer Full Legal Name </b><br/> <span class="sign">Signature :</span> </span>
+                    </p>
+                    <p>
+                        Printed Name :  &nbsp;  ____________________________<br/>
+                        Title :  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;    ____________________________<br/>
+                        Date :  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;     ____________________________
+                    </p>
+                    <p style="float:right; margin-top:-43px">
+                        Printed Name :  &nbsp;  ____________________________<br/>
+                        Title :  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;    ____________________________<br/>
+                        Date :  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;     ____________________________
+                        
+                    </p>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

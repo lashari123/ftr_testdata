@@ -1,0 +1,3 @@
+<apex:page action="{!redirectToOrderURL}" controller="ServiceHeader_Controller">
+  
+</apex:page>

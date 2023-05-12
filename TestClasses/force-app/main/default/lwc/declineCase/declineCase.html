@@ -1,0 +1,26 @@
+<!--
+  @File Name          : adjustCase.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 11/12/2019, 11:11:07 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/8/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="Decline Case" icon-name="standard:record">
+            <div class="slds-m-around_medium">
+                <template if:true={cases.data}>
+                    <div class="slds-m-around_medium">
+                    <p>Please Click Below Button to Decline Case</p>
+                    </div>
+                    <lightning-button label="Decline Case" variant="brand" onclick={declineCase} ></lightning-button>
+                </template>
+                <template if:true={cases.error}>
+                    <!-- handle Apex error -->
+                </template>
+            </div>
+        </lightning-card>
+    </template>

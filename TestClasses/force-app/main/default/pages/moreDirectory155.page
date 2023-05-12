@@ -1,0 +1,86 @@
+<apex:page controller="MoreDirectoryController155"  action="{!calFullData}"  showHeader="false" readonly="true">
+<script>
+        function colorPageBlock(pageblock, color) {
+            if (pageblock != null) pageblock.firstChild.style.cssText = "background-color: " + color + ";";
+        }
+        </script>
+        <style>
+  .headerRow .TableTitle {
+    background-color: #8EE5EE !important;
+    background-image: none !important; //This is needed if you want to overwrite the header background
+    color: #CC0000 !important; 
+    font-size:100% !important; 
+    text-align:center !important;
+  }
+ </style>
+<apex:form >
+  <apex:pageBlock >
+      <apex:pageBlockSection title="Directory Listing" id="DireList" columns="1">
+                <apex:actionregion >
+                        <b><apex:outputLabel value="Telephone #  " style="position:relative;left:0px;" /></b>
+                        <apex:inputtext value="{!strFilterDirectoryListingTelephone}" style="position:relative;left:0px;" />
+                        <apex:actionStatus id="mySaveStatus4">
+                                <apex:facet name="stop">
+                                        <apex:CommandButton value="Filter" action="{!filterDirectoryListing}" rerender="DirectoryList" status="mySaveStatus4" style="text-decoration:none;position:relative;left:10px;" />
+                                </apex:facet>
+                                <apex:facet name="start">
+                                        <apex:CommandButton value="  Processing...  " status="mySaveStatus4" style="text-decoration:none;color:blue;font:bold" />
+                                </apex:facet>
+                        </apex:actionStatus>
+                        <br />
+                        <br />
+                        <apex:outputText value="BTN : {!strBTNNumber}" style="font-weight:bold;" />
+                        <br />
+                        <br />
+                        <apex:outputpanel id="DirectoryList" layout="block" style="overflow:auto;height:520px;">
+
+                                <apex:pageblockTable id="dirList" value="{!lstDirectoryVFDisplay}" var="dirList">
+                                        <apex:column headerClass="TableTitle" width="12px">
+                                                <apex:facet name="header"> Telephone <br /> Number </apex:facet>
+                                                <apex:outputfield value="{!dirList.Phone_Number__c}" />
+                                        </apex:column>
+                                        <apex:column headerClass="TableTitle" width="10px">
+                                                <apex:facet name="header"> Listing Code <br /> (LN,NP,NL,NR) </apex:facet>
+                                                <apex:outputfield value="{!dirList.Directory_Listing_Code__c}" />
+                                        </apex:column>
+                                        <apex:column headerClass="TableTitle" width="10px">
+                                                <apex:facet name="header"> Mailing Address <br /> (B,D,O) </apex:facet>
+                                                <apex:outputfield value="{!dirList.Directory_Mailing_Address__c}"/>
+                                        </apex:column>
+                                        <apex:column headerClass="TableTitle" width="10px">
+                                                <apex:facet name="header"> Listing <br /> Seq. </apex:facet>
+                                                <apex:outputfield value="{!dirList.Listing_Sequence__c}" />
+                                        </apex:column>
+                                        <apex:column value="{!dirList.Line_number__c}" headerValue="Line" headerClass="TableTitle" Width="10px" />
+                                        <apex:column headerClass="TableTitle" width="10px">
+                                                <apex:facet name="header"> Directory <br /> Code 1 </apex:facet>
+                                                <apex:outputfield value="{!dirList.Directory_Code_1__c}" />
+                                        </apex:column>
+                                        <apex:column headerClass="TableTitle" width="10px">
+                                                <apex:facet name="header"> Directory <br /> Code 2 </apex:facet>
+                                                <apex:outputfield value="{!dirList.Directory_Code_2__c}" />
+                                        </apex:column>
+                                        <apex:column headerClass="TableTitle" width="10px">
+                                                <apex:facet name="header"> Directory <br /> Code 3 </apex:facet>
+                                                <apex:outputfield value="{!dirList.Directory_Code_3__c}" />
+                                        </apex:column>
+                                        <apex:column value="{!dirList.Description_Line__c}" headerValue="Details" headerClass="TableTitle"/>
+
+                                </apex:pageblockTable>
+                        </apex:outputpanel>
+                        
+                        <apex:outputpanel rendered="{!secondDirectoryVFDisplay.size>0}">
+                                                                
+                                  <a href="/apex/moreDirectory1000?btnNum={!$CurrentPage.parameters.btnNum}" style="text-decoration:underline;overflow:auto" onclick="window.open(this.href, 'mywin', 'height=800,width=1000'); return false;" >
+                                  More than 1000 records found. Download MS Excel file to view...
+                                  </a>
+                                                                 
+                                                                
+                        </apex:outputpanel>
+                        
+                </apex:actionregion>
+                <script>colorPageBlock(document.getElementById("{!$Component.DireList}"), "#1271F6");</script>
+        </apex:pageBlockSection> 
+  </apex:pageBlock>
+  </apex:form>
+</apex:page>

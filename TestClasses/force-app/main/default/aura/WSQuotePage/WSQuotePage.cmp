@@ -1,0 +1,83 @@
+<aura:component
+  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction"
+  access="global"
+  controller="WSQuoteController"
+>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:attribute name="gridColumns" type="List" />
+  <aura:attribute name="gridData" type="Object" />
+  <aura:attribute name="gridExpandedRows" type="List" />
+  <aura:attribute name="oppaddrlist" type="List" />
+  <aura:attribute name="openCatalog" type="boolean" default="false" />
+  <aura:attribute name="addrname" type="String" />
+  <aura:attribute name="quoteitems" type="List" />
+    <aura:attribute name="addressId" type="Id"/> 
+    <aura:attribute name="activeSections" type="List" />
+
+  <div class="c-container">
+    <lightning:layout multipleRows="true">
+      <lightning:layoutItem padding="around-small" size="12">
+        <lightning:card title="Quote Item Details">
+          <div class="slds-text-body_small" style="width:98%">
+            <lightning:accordion 
+                        allowMultipleSectionsOpen="true"
+                        activeSectionName="{! v.activeSections }"         >
+              <aura:iteration items="{!v.oppaddrlist}" var="address">
+                <div
+                  class="slds-text-heading_small slds-hyphenate"
+                  style="margin-bottom:10px;"
+                >
+                  <lightning:accordionSection
+                    name="{!address.Id}"
+                    label="{!(address.Street_Number__c + ' ' + address.Street_Name__c + ' ' + address.City__c + ', ' + address.State__c + '-' + address.Zip_Code__c  )}"
+                  >
+                   <aura:set attribute="body">  
+                    <div style="margin-bottom:10px;padding:5px;">
+                      <lightning:layout>
+                        <lightning:layoutItem padding="around-small">
+                          <lightning:icon
+                            iconName="standard:address"
+                            alternativeText="address"
+                            size="x-small"
+                          />&nbsp;
+                        </lightning:layoutItem>
+                        <lightning:layoutItem padding="around-small">
+                          <lightning:formattedAddress
+                            class="slds-text-body_small"
+                            street="{!address.Street_Number__c + ' ' + address.Street_Name__c + ' '}"
+                            city="{!address.City__c}"
+                            country="US"
+                            province="{!address.State__c}"
+                            postalCode="{!address.Zip_Code__c}"
+                          />
+                        </lightning:layoutItem>
+                        <lightning:layoutItem padding="around-small">
+                          <lightning:button
+                            variant="brand"
+                            label="Catalog"
+                            title="Product Catalog"
+                            class="slds-m-left_x-small"
+                            onclick="{!c.handleClick}"
+                            value="{!address.Id}"                
+                          ></lightning:button>
+                        </lightning:layoutItem>
+                      </lightning:layout>
+                    </div>
+                       <c:FTRWSQuoteItems recordId="{!v.recordId}" addressId="{!address.Id}" />
+                      </aura:set>
+                  </lightning:accordionSection>
+                </div>
+              </aura:iteration>
+            </lightning:accordion>
+          </div>
+        </lightning:card>
+      </lightning:layoutItem>
+    </lightning:layout>
+  </div>
+
+ 
+  <aura:if isTrue="{!v.openCatalog}">
+    <div> <c:FTRWSProductCatalog addressId="{!v.addressId}" quoteId="{!v.recordId}" /> </div>
+  </aura:if>
+</aura:component>

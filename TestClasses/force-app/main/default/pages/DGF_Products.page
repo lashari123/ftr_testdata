@@ -1,0 +1,4 @@
+<apex:page standardController="DGF__c" extensions="DGF_Products_ExtensionController">
+    <span hidden="true"><apex:outputField styleClass="hideOpp" value="{!DGF__c.Opportunity__c}" /></span>
+    <c:DGF_Products items="{!quoteItems}"></c:DGF_Products>
+</apex:page>

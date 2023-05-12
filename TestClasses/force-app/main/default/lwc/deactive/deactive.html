@@ -1,0 +1,26 @@
+<!--
+  @File Name          : adjustCase.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 11/12/2019, 11:17:30 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/8/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="Deactive Agent" icon-name="standard:record">
+            <div class="slds-m-around_medium">
+                <template if:true={agent.data}>
+                    <div class="slds-m-around_medium">
+                    <p>Please Click Below Button to Deactive Agent</p>
+                    </div>
+                    <lightning-button label="Deactive Agent" variant="brand" onclick={deactiveagent} ></lightning-button>
+                </template>
+                <template if:true={agent.error}>
+                    <!-- handle Apex error -->
+                </template>
+            </div>
+        </lightning-card>
+    </template>

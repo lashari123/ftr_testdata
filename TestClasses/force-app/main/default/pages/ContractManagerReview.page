@@ -1,0 +1,177 @@
+<apex:page controller="UpdateAccountController">
+    <head>
+        <apex:stylesheet value="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"  />
+        <apex:includeScript value="https://code.jquery.com/jquery-1.9.1.js" />
+        <apex:includeScript value="https://code.jquery.com/ui/1.10.3/jquery-ui.js" />
+        
+    </head>
+    <body>
+        <apex:pageMessages id="error"/>
+        <apex:form enctype="multipart/form-data">
+            <apex:pageBlock >
+                <apex:pageBlockSection >
+                    Please review this account information and approve or deny with your comments "Approve".<br/>
+                    <b>All fields with a <font color="red">*</font> are MANDATORY.</b>
+                </apex:pageBlockSection>
+                <apex:pageBlockSection >
+                    <br/>
+                </apex:pageBlockSection>  
+                
+                <apex:pageBlockSection title="Contract Approval Request"> 
+                <table>
+                    <tr>
+                        <td width="500px">Channel Affiliation:</td>
+                        <td><apex:inputText value="{!usableAcc.channel}"/></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Term of Agreement:</td>
+                        <td><apex:inputText value="{!usableAcc.agTerm}"/></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Legal Notice Contact -1:</td>
+                        <td><apex:inputText value="{!usableAcc.legalContact1}"/></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Legal Contact Email - 1:</td>
+                        <td><apex:inputText value="{!usableAcc.legalEmail1}"/></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Legal Notice Contact - 2:</td>
+                        <td><apex:inputText value="{!usableAcc.legalContact2}"/></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Legal Contact Email - 2:</td>
+                        <td><apex:inputText value="{!usableAcc.legalEmail2}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Description of Work To Be Done</td>
+                        <td><apex:inputTextArea value="{!usableAcc.descriptionWork}" style="height:100px;width:200px;"/></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">What else do we need to know about this agent?:</td>
+                        <td><apex:inputTextArea value="{!usableAcc.whatNeedToKnow}" style="height:100px;width:200px;"/></td>
+                    </tr>
+                </table>
+                </apex:pageBlockSection>     
+                         
+                         
+                         
+                <apex:pageBlockSection title="NDA Information"> 
+                   <table>
+                   <tr>
+                        <td width="500px">Signer:</td>
+                        <td><apex:inputText value="{!usableAcc.signer}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px"> Company Name:</td>
+                        <td><apex:inputText value="{!usableAcc.name}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Company Legal Name:</td>
+                        <td><apex:inputText value="{!usableAcc.ename}"  /></td>
+                    </tr> 
+                    <tr>
+                        <td width="500px">DBA Company Name:</td>
+                        <td><apex:inputText value="{!usableAcc.dbacname}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Street Address:</td>
+                        <td><apex:inputText value="{!usableAcc.street}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">City:</td>
+                        <td><apex:inputText value="{!usableAcc.city}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">State:</td>
+                        <td><apex:inputText value="{!usableAcc.state}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Zip:</td>
+                        <td><apex:inputText value="{!usableAcc.zip}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Type of Entity:</td>
+                        <td><apex:inputText value="{!usableAcc.struct}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">State Where Entity Filed:</td>
+                        <td><apex:inputText value="{!usableAcc.statellc}"  /></td>
+                    </tr>  
+                    <tr>
+                        <td width="500px">Effective Date of Agreement:</td>
+                        <td><apex:outputText value="{0,date,dd/MM/yyyy}">
+                        <apex:param value="{!usableAcc.effectiveDate}"/>
+                        </apex:outputText>
+                        </td>
+                   </tr>                                                                                         
+                </table> 
+               </apex:pageBlockSection> 
+                
+                
+                
+               <apex:pageBlockSection title="Agent Profile Information"> 
+                 <table>
+                     <tr>
+                        <td width="500px">Date Entity Was Formed:</td>
+                        <td><apex:inputText value="{!usableAcc.formDate}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">Name of Principal:</td>
+                        <td><apex:inputText value="{!usableAcc.pname}"  /></td>
+                    </tr>  
+                    <tr>
+                        <td width="500px">TAX ID Number:</td>
+                        <td><apex:inputText value="{!usableAcc.taxid}"  /></td>
+                    </tr>
+                    <tr>
+                        <td width="500px">DUNS Number:</td>
+                        <td><apex:inputText value="{!usableAcc.duns}"  /></td>
+                    </tr> 
+                    <tr>
+                        <td width="500px">SSN of Principal:</td>
+                        <td><apex:inputText value="{!usableAcc.pssn}"/></td>
+                    </tr>          
+                </table> 
+               </apex:pageBlockSection> 
+               
+                
+               
+               <apex:pageBlockSection title="Collection Screening Decision"> 
+                <table>
+                     <tr>
+                        <td width="500px">Collections Review Pass/Fail:</td>
+                        <td><apex:inputText value="{!usableAcc.collectionsReview}"/></td>
+                    </tr>  
+                    <tr>
+                        <td width="500px">Pass/Fail Comments:</td>
+                        <td><apex:inputTextArea value="{!usableAcc.porfcom}" style="height:100px;width:200px;"/></td>
+                    </tr>                                                      
+                </table> 
+               </apex:pageBlockSection>
+               
+               <apex:pageBlockSection title="Contract Manager Review"> 
+                <table>
+                   <tr>
+                        <td width="500px">Contract Manager Approval:</td>
+                        <td>
+                        <apex:selectList value="{!usableAcc.conMgrApproval}" size="1" multiselect="false"  >
+                                          <apex:selectOptions value="{!OptionList}" />
+                          </apex:selectList>
+                        </td>
+                   </tr>
+                   <tr>
+                        <td width="500px">Contract Manager Comments:</td>
+                        <td><apex:inputTextArea value="{!usableAcc.conMgrComments}" style="height:100px;width:200px;" /></td>
+                   </tr>                                  
+                </table> 
+               </apex:pageBlockSection> 
+               <table>  
+               <tr>
+                       <td align="center"><apex:commandButton value="Submit" action="{!doSubmitCM}"/></td>
+               </tr>
+               </table>             
+            </apex:pageBlock>
+        </apex:form>
+    </body>
+</apex:page>

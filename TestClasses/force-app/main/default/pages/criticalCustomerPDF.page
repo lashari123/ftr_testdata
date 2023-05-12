@@ -1,0 +1,267 @@
+<apex:page standardController="Opportunity" extensions="pdfClass"   renderAs="pdf"  cache="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0">
+    <html>
+        <head>
+            <style>
+                
+                .div2 {
+                margin-left: 50%;
+                margin-top: -65px;
+                font-size: 14px;float: right;
+                text-align:right;
+                }
+                
+                span.cls_003 {
+                font-family: "Calibri Bold",serif;
+                font-size: 11.5px;
+                color: rgb(0,0,0);
+                font-weight: bold;
+                font-style: normal;
+                text-decoration: none;
+                }
+                span.cls_005 {
+                font-family: "Calibri Bold",serif;
+                font-size: 10.5px;
+                color: rgb(255,0,0);
+                font-weight: bold;
+                font-style: normal;
+                text-decoration: none;
+                }
+                span.cls_004 {
+                font-family: "Calibri Bold",serif;
+                font-size: 11.0px;
+                color: rgb(0,0,0);
+                font-weight: bold;
+                font-style: normal;
+                text-decoration: none;
+                }
+                span.cls_008 {
+                font-family: "Calibri Bold",serif;
+                font-size: 12.1px;
+                color: rgb(0,0,0);
+                font-weight: bold;
+                font-style: normal;
+                text-decoration: none;
+                }
+                .cls_007 {
+                font-family: "Calibri",serif;
+                font-size: 14.50px;
+                color: rgb(0,0,0);
+                font-weight: normal;
+                font-style: normal;
+                text-decoration: none;
+                }
+                span.cls_011 {
+                font-family: "Calibri Bold",serif;
+                font-size: 10.5px;
+                color: rgb(0,0,0);
+                font-weight: bold;
+                font-style: normal;
+                text-decoration: none;
+                }
+                span.cls_012 {
+                font-family: "Calibri",serif;
+                font-size: 11.0px;
+                color: rgb(0,0,0);
+                font-weight: normal;
+                font-style: normal;
+                text-decoration: none;
+                }
+                .cls_0081 {
+            font-family: "Calibri Bold",serif;
+            font-size: 12.1px;
+            color: rgb(0,0,0);
+            font-weight: bold;
+            font-style: normal;
+            text-decoration: none;
+            }
+                .cls_0031 {
+            font-family: "Calibri",serif;
+            font-size: 12.1px;
+            color: rgb(0,0,0);
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
+            }
+            </style>
+        </head>
+        <body>
+            
+            <div width="100%">
+                <div class="header">
+                    <div class="div1">
+                        <apex:image url="{!$Resource.FrontierComunication}" width="100%" height="55"/><br/>
+                    </div>
+                    <div class="div2" style="">
+                        <div class=""><span class="cls_004">Frontier Confidential</span></div>
+                        <div class=""><span class="cls_005">CRITICAL CUSTOMER NOTIFICATION E-911</span></div>
+                    </div>
+                </div>
+            </div>
+            <div id="TextSection" dir="ltr">
+                <p align="justify" style="margin-bottom: 0.04in"><font face="Calibri, serif"><font size="1" style="font-size: 10pt"><b>This Critical Care Notification</b>       to the Frontier Services Agreement dated <b>{!nowDate}  (“FSA”)</b>
+by and between <b> {!acc.Name}</b>  and <b>Frontier Communications of America, Inc. </b>on behalf of
+itself and its affiliates (“Frontier”).</font></font></p>
+            </div>
+            
+                        <table width="100%">
+                <tr>
+                    <td width="20%"><span class="cls_0081">Service Location:</span></td>
+                    <td style ="overflow-wrap: break-word;"><span class="cls_0081">{!acc.BillingStreet} &nbsp; {!acc.BillingCity}&nbsp;{!acc.BillingState}&nbsp;{!acc.BillingPostalCode}</span></td>
+                    <td style="text-align: right;"><span class="cls_0081">Schedule Date:</span></td>
+                    <td style="text-align: right;"><span class="cls_0081">{!nowDate}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="cls_0031">Street Address: </span></td>
+                    <td style ="overflow-wrap: break-word;"><span class="cls_0081">{!acc.BillingStreet}</span></td>
+                    <td style="text-align: right;"><span class="cls_0081">Service Term: </span></td>
+                    <td style="text-align: right;"><span class="cls_0081">{!opp.Contract_Term_Years__c}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="cls_0031">City, State, Zip: </span></td>
+                    <td><span class="cls_0081">{!acc.BillingCity}&nbsp;{!acc.BillingState}&nbsp;{!acc.BillingPostalCode}</span></td>
+                    
+                </tr>
+            </table><br/>
+            <div style="text-align: center;" >
+                <span class="cls_008">Critical Customer Notification Concerning Emergency Services (911)</span>
+            </div><br/>
+            
+            <div >
+                <div style="position: absolute;left: 108.02px;" class="" >
+                    <span class="cls_007">As a user of Frontier VoIP-based services, Customer may, on occasion have a reason to dial an</span>
+                </div><br/>
+                <div style="position: absolute;left: 72.02px;" class="" >
+                    <span class="cls_007">emergency service or “911͘” Please be advised that Frontier assumes no liability whatsoever to</span>
+                </div><br/>
+                <div style="position:absolute;left:72.02px;" class="">
+                    <span class="cls_007">Customer and any user’s of the Customer’s equipment under the following circumstances:</span>
+                </div><br/>
+            </div>
+            
+            <div>
+                <div style="position:absolute;left:108.02px;" class="">
+                    <span class="cls_007">Emergency services or “911” may not be accessible from Customer VoIP service under certain</span>
+                </div><br/>
+                <div style="position:absolute;left:72.02px;" class="">
+                    <span class="cls_007">circumstances, including but not limited to:</span>
+                </div>
+            </div>
+            
+            <div style ="margin-top:0.3%;" >
+                <div style="position:absolute;left:65.02px;" class="cls_007">
+                    <ul >
+                        <li>If there is a power failure or some other type of failure of the equipment installed at Customer<br/>premises;</li>
+                        <li>If there is a failure or congestion of the access connection (such as DSL or T-1 connection) or<br/>associated equipment provided to connect Customer location to the VoIP service network;</li>
+                        <li>If there is a failure or congestion of the VoIP network providing Customer VoIP service, the<br/>Public Switched Telephone Network (PSTN), or the 911 servicer provider’s network or<br/>emergency services network; </li>
+                        <li>If Customer is using the service outside the continental USA; </li>
+                        <li>If the Customer has recently moved the VoIP device, Customer delays in providing or failing to<br/> provide accurate location information to your service provider, or the information you have<br/> provided has not yet been updated by your service provider or is inaccurate;</li>
+                        <li>If your service has been disconnected or suspended for non-payment or any other reason. </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style ="margin-top:31%;" >
+                <div style="position:absolute;left:108.02px;" class=""><span class="cls_007">Further, in some circumstances your 911 service may be limited to traditional 911 service rather</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">than enhanced 911 (“E-911”)͘  With E-911 your address and callback information is automatically</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">provided to the emergency services systems.  If E-911 service is not available in your area or at the time</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">of your 911 call, then, the system may default to traditional 911 service and Customer may be required</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">to verbally inform the 911 call taker or emergency responder of your address and phone number.</span></div><br/>
+            </div>
+            
+            <div style ="margin-top:0.8%;" >
+                <div style="position:absolute;left:108.02px" class=""><span class="cls_007">Call back from the emergency services may also fail under certain circumstances, including but</span></div><br/>
+                <div style="position:absolute;left:72.02px" class=""><span class="cls_007">not limited to:</span></div>
+            </div>
+            
+            <div style ="margin-top: 0.8%;" >
+                <div style="position:absolute;left:65.02px;" class="cls_007">
+                    <ul >
+                        <li>If you are using call forwarding, call redirection or blocking services;</li>
+                        <li>If the emergency callback number is configured to ring a phone at a different location than<br/> Customer VoIP service </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style ="margin-top: 10%;" >
+                <div style="position:absolute;left:108.02px;" class=""><span class="cls_007">Upon installation, Frontier will provide a warning label to prominently display on the VoIP</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">devices.  In addition, Customer is responsible for ensuring that warning labels provided by Frontier</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">outlining the limitations of 911 services over VoIP phones are placed on and/or near the equipment</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">used in conjunction with the VoIP phone service.</span></div>
+            </div>
+            
+            <div style ="margin-top: 3%;" >
+                <div style="position:absolute;left:108.02px;" class=""><span class="cls_007">Further, at all Customer locations utilizing the VoIP service, Customer is hereby advised to take</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">all means possible to ensure that employees, guest, and any other personnel that may utilize the VoIP</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">device/service are aware of the limitations of the emergency services in accordance with this Customer</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">notification and are made aware of alternative methods of accessing 911 services in the event of a</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">failure of the VoIP service.</span></div><br/>
+            </div>
+            
+            <div style="position:absolute;left:601.70px;top:935.00px" class="cls_007"><span class="cls_007">_______</span></div>
+            
+            <div width="100%">
+                <div class="header">
+                    <div class="div1">
+                        <apex:image url="{!$Resource.FrontierComunication}" width="140" height="85"/>
+                    </div>
+                    <div class="div2" style="">
+                       <div class=""><span class="cls_004">Frontier Confidential</span></div>
+                        <div class=""><span class="cls_005">CRITICAL CUSTOMER NOTIFICATION E-911</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style ="margin-top: 3%;" >
+                <div style="position:absolute;left:108.02px;" class=""><span class="cls_007">Please contact Frontier regarding the above notification.</span></div>
+            </div>
+            
+            <div style ="margin-top: 4%;" >
+                <div style="position:absolute;left:108.02px;" class=""><span class="cls_007">By signing below, Customer acknowledges, understands and agrees to the terms and conditions</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">of this Critical Customer Notification (“Notification”)͘  Customer has read and understood this</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">Notification, including the disclaimer of liability, and the information provided herein.  This Notification</span></div><br/>
+                <div style="position:absolute;left:72.02px;" class=""><span class="cls_007">is only valid when countersigned below by an authorized Frontier representative.</span></div><br/>
+            </div>
+            
+            <div style="width:100%;margin-right:5%;margin-top:25px;">
+                
+                
+            <table width="100%">
+                <tr>
+                    <th width="50%" colspan="2" class="cls_0081" style ="padding-bottom :30px;">Frontier Communications of America, Inc.</th>
+                    <th width="50%" colspan="2" class="cls_0081" style ="padding-bottom :30px;">Insert Covered Entity Full Legal Name</th>
+                </tr>
+                <tr>
+                    <td width="15%"><span class="cls_0031">Signature:</span></td>
+                    <td width="35%" style ="overflow-wrap: break-word;"><span class="cls_0081">_________________________</span></td>
+                    <td width="15%" style="text-align: left;"><span class="cls_0031">Signature:</span></td>
+                    <td width="35%" style="text-align: left;"><span class="cls_0081">_________________________</span></td>
+                </tr>
+                <tr>
+                    <td width="15%"><span class="cls_0031">Printed Name:</span></td>
+                    <td width="35%" style ="overflow-wrap: break-word;"><span class="cls_0081"><u>Danielle H. Evirgen</u></span></td>
+                    <td width="15%" style="text-align: left;"><span class="cls_0031">Printed Name:</span></td>
+                    <td width="35%" style="text-align: left;"><span class="cls_0081"><u>{!con.Name}</u></span></td>
+                </tr>
+                <tr>
+                    <td width="15%" ><span class="cls_0031">Title:</span></td>
+                    <td width="35%" style ="overflow-wrap: break-word;"><span class="cls_0081"><u>Assistant General Counsel</u></span></td>
+                    <td width="15%" style="text-align: left;"><span class="cls_0031">Title:</span></td>
+                    <td width="35%" style="text-align: left;"><span class="cls_0081">_____________________________</span></td>
+                </tr>
+                <tr>
+                    <td width="15%"><span class="cls_0031" style ="padding-bottom :20px;">Date:</span></td>
+                    <td width="35%" style ="padding-bottom :20px; overflow-wrap: break-word;"><span class="cls_0081"><u>{!nowDate}</u></span></td>
+                    <td width="15%" style ="padding-bottom :20px; text-align: left;"><span class="cls_0031">Date:</span></td>
+                    <td width="35%" style ="padding-bottom :20px;text-align: left;"><span class="cls_0081"><u>{!nowDate}</u></span></td>
+                </tr>
+                <tr>
+                    <td class="cls_0031" style ="padding-bottom :50px;">Contractual Notice:</td>
+                    <td style ="overflow-wrap: break-word;"><span class="cls_0031">Frontier Communications<br/>111 Field Street<br/>Rochester, NY 14620<br/>Attn: Legal Department</span></td>
+                    <td style ="padding-bottom :50px;text-align: left;"><span class="cls_0031">Contractual Notice:</span></td>
+                    <td style="text-align: left;"><span class="cls_0031"><br/><br/><br/>Attn: Legal Department</span></td>
+                </tr>
+            </table>
+            </div>
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,9 @@
+<apex:component >
+    <apex:attribute name="items" type="SterlingQuoteItem__c[]" required="true" description="List of quote items" />
+    <apex:outputPanel >
+        <h3>Quoted Products</h3>
+        <apex:dataList value="{!items}" var="q">
+            <apex:outputText value="{!q.Name}" /><br />
+        </apex:dataList>
+    </apex:outputPanel>    
+</apex:component>

@@ -1,0 +1,3 @@
+<apex:page standardController="DGF__c" extensions="DGF_ExtensionController">
+    <apex:messages style="color:red;list-style:none" />
+</apex:page>

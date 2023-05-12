@@ -1,0 +1,1384 @@
+<apex:page standardController="Opportunity" extensions="UCaaSpdf" contentType="application/msword#Contract.doc" cache="true" applyHtmlTag="true" applyBodyTag="true" standardStylesheets="false" showHeader="false" sidebar="false" action="{!attachDocument}">
+    <!--<html xmlns:w="urn:schemas-microsoft-com:office:word">-->
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='<a target="_blank" href="http://www.w3.org/TR/REC-html40" rel="nofollow">http://www.w3.org/TR/REC-html40</a>'>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        
+        <head>
+            <style type="text/css">
+                @page Section1{
+                size:9.7in 17.4in; 
+                margin:0.5in 0.5in 0.5in 0.5in;
+                mso-header-margin:0in;
+                mso-header:h1;
+                mso-footer:f1; 
+                mso-footer-margin:0in;
+                mso-paper-source:0;
+                }
+                
+                div.Section1{
+                page:Section1;
+                }
+                .tab2 {
+                border-collapse: collapse;
+                }
+                td {
+                font-size:12px;
+                font-weight:normal;
+                }
+                th {
+                font-size:14px;
+                font-weight:normal;
+                }
+                .tab2 td{
+                border: 1px solid black;
+                padding:3px;
+                }
+                .tab2 th{
+                border: 1px solid black;
+                padding:5px;
+                background-color:#dddddd;
+                }
+                   .attach1Table {
+                 border-collapse: collapse;
+                border: 1px solid black;
+                }
+                
+                 .attach1Table td{
+                border: 1px solid black;
+                border-style:dotted;
+                padding:3px;
+                 font-size:12px;
+                height:20px;
+                
+                }
+                .attach1Table th{
+                border: 1px solid black;
+                border-style:dotted;
+                padding:5px;
+                 font-size:14px;
+                font-weight:900;
+                }
+                 .prod-cls{
+                margin-left:60px;
+                }
+                .prod-cls-header{
+                 margin-left:40px;
+                }
+            
+            .tab3 {
+                border-collapse: collapse;
+                }
+                .tab3 td{
+                border: 1px solid black;
+                padding:3px;
+                
+                }
+                .tab3 th{
+                border: 1px solid black;
+                padding:5px;
+                background-color:#dddddd;
+                }
+                .p1{
+                font-size:12px;
+                color:blue;
+                }
+                .p2{
+                font-size:12px;
+                }
+                .p4{
+                color:blue;
+                }
+                .p5{
+                font-size:12px;
+                color:red;
+                }
+                .p6{
+                font-size:12px;
+                color:red;
+                }
+                .p7{
+                font-size:12px;
+                }
+                .p11{
+                font-size:22px;
+                }
+                .p12{
+                font-size:16px;
+                }
+                .tab4{
+                border-collapse : collapse;
+                }
+                .tab4 th{
+                
+                color:black;
+                text-align:center; 
+                
+                padding:3px;
+                }
+                .tab4 td{
+                text-align:center;
+                
+                
+                padding:3px;
+                }
+                .tab5 td{
+                padding:5px;
+                }
+                body{
+                font-family:SansSerif;
+                }
+            </style>
+        </head>
+        <body>
+            <form>
+               
+                <div class="Section1" style="font-family:none;">
+                    <div class="header" style="padding-top:40px;">
+                        <table width="100%">
+                            <tr>
+                                <td width="51%">
+                                    <!-- <img src="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000"/>-->
+                                    <apex:image url="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000" width="140" height="80" style="float:left;"/>
+                                </td>
+                                <td width="49%">
+                                    
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align:right;font-size:12px;"><b>FRONTIER ANYWARE UCaaS (FAW UCaaS) and Rental SCHEDULE</b> </p>
+                                    <p style="text-align:right;font-size:12px;">Frontier Confidential</p>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        
+                        <br/><br/>
+                        
+                    </div>
+                    <div class="footer" name="footer" >
+                        <!--my footer-->
+                    </div>
+                    <div class="p7">
+                        <p ><b>This is Schedule Number</b> S-_________ &nbsp;to the Frontier Services Agreement dated ________ <b>(“FSA”)</b> by and between {!acc.Name}  (“Customer”) and Frontier Communications of America, Inc. on behalf of itself and its affiliates (“Frontier”). Customer orders and Frontier agrees to provide the Services identified in the Schedule below.
+                        </p>
+                        <!--<apex:outputlink value="{!hyperLink}"> VIEW PRODUCT LIST </apex:outputlink>-->
+						
+                        <table width="100%">
+                            <tr>
+                                <td width="24%" style="padding-left:20px;"><b>Primary Service Location</b></td>
+                                <td width="1%" style="font-size:16px;">:</td>
+                                <td width="25%" style="">{!acc.BillingStreet}&nbsp;&nbsp; {!acc.BillingCity}&nbsp;&nbsp;{!acc.BillingState}&nbsp;&nbsp;{!acc.BillingPostalCode} </td>
+                                <td width="24%" style="padding-left:20px;"><b>Schedule Date</b></td>
+                                <td width="1%" style="">:</td>
+                                <td width="25%" style="">{!nowDate}</td>
+                            </tr>
+                            <tr>
+                                <td width="24%" style="padding-left:20px;"><b> Schedule Type/Purpose</b></td>
+                                <td width="1%">:</td>
+                                <td width="25%">Order for New Services</td>
+                                <td width="24%" style="padding-left:20px;"> <b>Service Term</b></td>
+                                <td width="1%">:</td>
+                                <td width="25%">{!opp.Contract_Term_Years__c} </td>
+                            </tr>
+                        </table>
+                        <p>
+                            ★ <u> Additional Service Locations</u> may be provisioned.  Addresses and location-specific Service details will be as outlined in the Frontier data collection sheet, and additional E-911 location charges apply, as outlined in the table below.
+                        </p>
+                        <table width="100%" class="tab2">
+                            <tr>
+                                <th width="70%" style="text-align:left;"><b>Frontier AnyWare UCaaS Service</b></th>
+                                <th width="8%" style="text-align:center;"><b>QTY</b></th>
+                                <th width="11%" style="padding-left:25px;">
+                                    <b>NRC</b> <br/>
+                                    (NRC x Qty)
+                                </th>
+                                <th width="11%" style="padding-left:25px;">
+                                    <b>MRC</b><br/>
+                                    (MRC x Qty)
+                                </th>
+                            </tr>
+                            <tr>
+                                <td width="70%" > 
+                                    <b>Elite User Seat Package:</b> <br/>
+                                    DID #; chat and presence; up to 4 simultaneous devices; voicemail; MiCollab web client;<br/> MiTeam application; unlimited* local calling; unlimited* US &#38; Canadian long distance<br/> calling; mobile twinning; mobile client &#38; softphone, desktop client &#38; softphone; Outlook <br/> calendar integration
+                                </td>
+                                <td width="8%" style="text-align:center;"> 
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(eliteOppmrc.Quantity = null, 0, eliteOppmrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td width="11%" style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(eliteOppnrc.TotalPrice = null, 0, eliteOppnrc.TotalPrice)}"/></apex:outputText>
+                                </td>
+                                <td width="11%" style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(eliteOppmrc.TotalPrice = null, 0, eliteOppmrc.TotalPrice)}"/></apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Premier User Seat Package:</b>  <br/>
+                                    DID #; chat and presence; up to 3 simultaneous devices; Voice mail; MiCollab web client;<br/> Outlook calendar integration; unlimited* local calling, unlimited* US &#38; Canadian long <br/>distance calling, mobile twinning, desktop client &#38; softphone
+                                </td>
+                                <td style="text-align:center;"> 
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(premierOppmrc.Quantity = null, 0, premierOppmrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(premierOppnrc.TotalPrice = null, 0, premierOppnrc.TotalPrice)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(premierOppmrc.TotalPrice = null, 0, premierOppmrc.TotalPrice)}"/></apex:outputText>                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Essentials User Seat Package:</b><br/>
+                                    DID #; 1 device, unlimited* local calling, unlimited* US &#38; Canadian long distance calling,<br/> voice mail 
+                                </td>
+                                <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(essentialsOppmrc.Quantity = null, 0, essentialsOppmrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(essentialOppnrc.TotalPrice = null, 0, essentialOppnrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(essentialsOppmrc.TotalPrice = null, 0, essentialsOppmrc.TotalPrice)}"/></apex:outputText>                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <b>Outbound Only User Seat Package:</b><br/>
+                                    unlimited* local calling, US domestic long distance ($.025/min)
+                                </td>
+                                <td style="text-align:center;"> 
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(outboundOppmrc.Quantity = null, 0, outboundOppmrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(outboundOppnrc.TotalPrice = null, 0, outboundOppnrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(outboundOppmrc.TotalPrice = null, 0, outboundOppmrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="background-color:#F2F3F4;">
+                                    *  “unlimited” is subject to FAFUP (see Section 3C below)<br/>
+                                    International LD rates are found at http://frontier.com/frontier-anyware-ucaas-international-long-distance-rates<br/>
+                                    Rates may be modified without notice.
+                                </td>
+                            </tr>
+                        </table> 
+                        <table width="100%" class="tab3">
+                            <tr>
+                                <th width="70%" style="text-align:left;"><b>Frontier AnyWare UCaaS Add-ons</b></th>
+                                <th width="8%" style="text-align:center;"><b>QTY</b></th>
+                                <th width="11%" style="padding-left:25px;">
+                                    <b>NRC</b> <br/>
+                                    (NRC x Qty)
+                                </th>
+                                <th width="11%" style="padding-left:25px;"><b>MRC</b><br/>
+                                    (MRC x Qty)
+                                </th>
+                            </tr>
+                            <tr>
+                                <td> 
+                                    Additional Domestic DID
+                                </td>
+                                <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(AdditionalDIDmrc.Quantity = null, 0, AdditionalDIDmrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(AdditionalDIDnrc.TotalPrice = null, 0, AdditionalDIDnrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(AdditionalDIDmrc.TotalPrice = null, 0, AdditionalDIDmrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            <!--  <tr>
+<td>
+WebFax
+</td>
+<td style="text-align:center;">
+<apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(WebFaxmrc.Quantity = null, 0, WebFaxmrc.Quantity)}"/></apex:outputText>
+</td>
+<td style="padding-left:25px;">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(WebFaxnrc.TotalPrice = null, 0, WebFaxnrc.TotalPrice)}"/></apex:outputText>  
+</td>
+<td style="padding-left:25px;">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(WebFaxmrc.TotalPrice = null, 0, WebFaxmrc.TotalPrice)}"/></apex:outputText>  
+</td>
+</tr>-->
+                            <tr>
+                                <td>Caller Id Name Delivery (Included N/C)
+                                </td>
+                                  <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(CallerIdmrc.Quantity = null, 0, CallerIdmrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(CallerIdnrc.TotalPrice = null, 0, CallerIdnrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(CallerIdmrc.TotalPrice = null, 0, CallerIdmrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ADDITIONAL DIRECTORY LISTING
+                                </td>
+                                <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(AdditionalDirectorymrc.Quantity = null, 0, AdditionalDirectorymrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(AdditionalDirectorynrc.TotalPrice = null, 0, AdditionalDirectorynrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(AdditionalDirectorymrc.TotalPrice = null, 0, AdditionalDirectorymrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Extended Market Number
+                                </td>
+                                <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(ExtendedMarketmrc.Quantity = null, 0, ExtendedMarketmrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(ExtendedMarketnrc.TotalPrice = null, 0, ExtendedMarketnrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(ExtendedMarketmrc.TotalPrice = null, 0, ExtendedMarketmrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Toll Free Numbers
+                                </td>
+                                <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(TollFreeNumbermrc.Quantity = null, 0, TollFreeNumbermrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(TollFreeNumbernrc.TotalPrice = null, 0, TollFreeNumbernrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(TollFreeNumbermrc.TotalPrice = null, 0, TollFreeNumbermrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Toll Free Domestic Block of Time
+                                </td>
+                                <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(TollTimemrc.Quantity = null, 0, TollTimemrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(TollTimenrc.TotalPrice = null, 0, TollTimenrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(TollTimemrc.TotalPrice = null, 0, TollTimemrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Toll Free Domestic US Overage Rate Per Minute ($0.0300) 
+                                </td>
+                                <td style="text-align:center;"></td>
+                                <td style="padding-left:25px;"></td>
+                                <td style="padding-left:25px;"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Additional Auto Attendant
+                                </td>
+                                <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(AdditionalManagedmrc.Quantity = null, 0, AdditionalManagedmrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(AdditionalManagednrc.TotalPrice = null, 0, AdditionalManagednrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(AdditionalManagedmrc.TotalPrice = null, 0, AdditionalManagedmrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Miscellaneous Describe Here
+                                </td>
+                                <td style="text-align:center;"></td>
+                                <td style="padding-left:25px;"></td>
+                                <td style="padding-left:25px;"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ★E911 (Per Listing)
+                                </td>
+                                <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(E911mrc.Quantity = null, 0, E911mrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(E911nrc.TotalPrice = null, 0, E911nrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(E911mrc.TotalPrice = null, 0, E911mrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                  Business Analytics Report (Priced Per Seat)
+                                </td>
+                                 <td style="text-align:center;">
+                                    <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(BusinessAnalyticmrc.Quantity = null, 0, BusinessAnalyticmrc.Quantity)}"/></apex:outputText>
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(BusinessAnalyticnrc.TotalPrice = null, 0, BusinessAnalyticnrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                                <td style="padding-left:25px;">
+                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(BusinessAnalyticmrc.TotalPrice = null, 0, BusinessAnalyticmrc.TotalPrice)}"/></apex:outputText>  
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        
+                        <table width="100%" >
+                            <td width="50%">&nbsp;</td>
+                            <td width="50%" style="text-align:right;align:right;float:right;">
+                                <table width="100%" cellspacing="0" border="1" style ="margin-top:15px;padding:10px;border: 2px #000 solid;text-align:right;align:right;float:right;">
+                                    <tr >
+                                        <th width="25%" class="cls_008" style="padding:10px;"><b>Total NRC:</b></th>
+                                        <th width="25%" class="cls_009" style="padding:10px;"><span class="cls_009"> <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(eliteOppnrc.TotalPrice = null, 0, eliteOppnrc.TotalPrice) + IF(premierOppnrc.TotalPrice = null, 0, premierOppnrc.TotalPrice) + IF(outboundOppnrc.TotalPrice= null, 0, outboundOppnrc.TotalPrice) + IF(essentialOppnrc.TotalPrice = null, 0, essentialOppnrc.TotalPrice) + IF(WebFaxnrc.TotalPrice = null, 0, WebFaxnrc.TotalPrice) + IF(TollFreeNumbernrc.TotalPrice = null, 0, TollFreeNumbernrc.TotalPrice) + IF(TollTimenrc.TotalPrice  = null, 0, TollTimenrc.TotalPrice ) + IF(E911nrc.TotalPrice = null, 0, E911nrc.TotalPrice)  + IF(AdditionalDIDnrc.TotalPrice = null, 0, AdditionalDIDnrc.TotalPrice) + IF(CallerIdnrc.TotalPrice = null, 0, CallerIdnrc.TotalPrice) + IF(AdditionalDirectorynrc.TotalPrice = null, 0, AdditionalDirectorynrc.TotalPrice) + IF(ExtendedMarketnrc.TotalPrice = null, 0, ExtendedMarketnrc.TotalPrice) + IF(AdditionalManagednrc.TotalPrice = null, 0, AdditionalManagednrc.TotalPrice) + IF(BusinessAnalyticnrc.TotalPrice = null, 0, BusinessAnalyticnrc.TotalPrice) }"/>
+                                            </apex:outputText> </span></th>
+                                        <th width="25%" class="cls_008" style="padding:10px;"><b>Total MRC:</b></th>
+                                        <th width="25%" class="cls_009" style="padding:10px;"><span class="cls_009"> <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(eliteOppmrc.TotalPrice = null, 0, eliteOppmrc.TotalPrice) + IF(premierOppmrc.TotalPrice = null, 0, premierOppmrc.TotalPrice) + IF(outboundOppmrc.TotalPrice= null, 0, outboundOppmrc.TotalPrice) + IF(essentialsOppmrc.TotalPrice = null, 0, essentialsOppmrc.TotalPrice) + IF(WebFaxmrc.TotalPrice = null, 0, WebFaxmrc.TotalPrice) + IF(TollFreeNumbermrc.TotalPrice = null, 0, TollFreeNumbermrc.TotalPrice) + IF(TollTimemrc.TotalPrice  = null, 0, TollTimemrc.TotalPrice ) + IF(E911mrc.TotalPrice = null, 0, E911mrc.TotalPrice) + IF(AdditionalDIDmrc.TotalPrice = null, 0, AdditionalDIDmrc.TotalPrice) + IF(CallerIdmrc.TotalPrice = null, 0, CallerIdmrc.TotalPrice) + IF(AdditionalDirectorymrc.TotalPrice = null, 0, AdditionalDirectorymrc.TotalPrice) + IF(ExtendedMarketmrc.TotalPrice = null, 0, ExtendedMarketmrc.TotalPrice) + IF(AdditionalManagedmrc.TotalPrice = null, 0, AdditionalManagedmrc.TotalPrice) + IF(BusinessAnalyticmrc.TotalPrice = null, 0, BusinessAnalyticmrc.TotalPrice)  }"/>
+                                            </apex:outputText></span></th>
+                                    </tr>
+                                </table>
+                            </td>
+                        </table>
+                        <br/><br/>
+                        <table width="100%"  class="tab3">
+                            <tr><th colspan="3" style="padding:10px;background-color:none;">UCaaS Equipment Rental, Installation and Maintenance</th>
+                            </tr>
+                            <tr>
+                                <td width="70%"><b>Single Point of Contact (“SPOC”):  &nbsp;&nbsp;  {!con.Name} &nbsp;&nbsp;   Phone No.&nbsp;  : &nbsp;&nbsp;{!con.Phone}</b> </td>
+                                <td colspan="2"><center><b>Payment</b></center></td>
+                            </tr>
+                            <tr><td width="70%"><b>Equipment Rental and associated products specifically identified in Frontier AnyWare UCaaS Schedule(Month to Month)</b></td>
+                                <td width="15%" style="padding-left:30px;"></td>
+                                <td width="15%" style="padding-left:30px;">
+                                    <b>MRC</b><br/><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!IF(mrcIp = null, 0, mrcIp) + IF(mrcSwitch = null, 0, mrcSwitch) + IF(mrcAccess = null, 0, mrcAccess)}"/></apex:outputText>
+                                </td>
+                            </tr>
+                            <tr><td width="70%"><b>Equipment Purchase see details in Attachment1)</b></td>
+                                <td width="15%" style="padding-left:30px;"> 
+                                    <b>NRC</b><br/><apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(nrcIp = null, 0, nrcIp)  + IF(nrcSwitch = null, 0, nrcSwitch) + IF(nrcAccess = null, 0, nrcAccess)}"/></apex:outputText>
+                                </td>
+                                <td width="15%" style="padding-left:30px;background-color:black;"></td>
+                            </tr>
+                            <tr><td width="70%"><b>UCaaS installation Service</b></td>
+                                <td width="15%" style="padding-left:30px;"><b>NRC</b><br/><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcInstall + ncWarranty}"/></apex:outputText>
+                                </td>
+                                <td width="15%" style="padding-left:30px;background-color:black;"></td>
+                            </tr>
+                            <tr><td width="70%"><b>Phone Only Maintenance </b></td>
+                                <td width="15%" style="padding-left:30px;"><b>NRC</b><br/><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!postWarranty}"/></apex:outputText>
+                                </td>
+                                <td width="15%" style="padding-left:30px;background-color:black;"></td>
+                            </tr>
+                            <!--   <tr><td width="70%"><b>Post Warranty </b></td>
+<td width="15%" style="padding-left:30px;"><b>NRC</b><br/><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!postWarranty}"/></apex:outputText>
+</td>
+<td width="15%" style="padding-left:30px;background-color:black;"></td>
+</tr>-->
+                            <tr><td width="70%"><b>Total</b></td>
+                                <td width="15%" style="padding-left:30px;"> 
+                                    <b>NRC</b><br/><apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!IF(nrcIp = null, 0, nrcIp) + IF(nrcAddon = null, 0, nrcAddon) + IF(nrcSwitch = null, 0, nrcSwitch) + IF(nrcAccess = null, 0, nrcAccess) + IF(nrcInstall = null, 0, nrcInstall)  + IF(ncWarranty = null, 0, ncWarranty) + IF(postWarranty = null, 0, postWarranty)}"/></apex:outputText>
+                                </td>
+                                <td width="15%" style="padding-left:30px;">
+                                    MRC<br/><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!IF(mrcIp = null, 0, mrcIp) + IF(mrcSwitch = null, 0, mrcSwitch) + IF(mrcAccess = null, 0, mrcAccess)}"/></apex:outputText>
+                                </td>
+                            </tr>
+                        </table>
+                        <!--  <br/><br/>
+<table width="80%">
+<tr>
+<td width="40%"><p class="para-table">Installation Site:</p></td>
+<td width="40%">{!Primarysite.Site_Street__c}&nbsp;&nbsp; {!Primarysite.Site_city__c}&nbsp;&nbsp;{!Primarysite.State__c}&nbsp;&nbsp;{!Primarysite.Site_zipcode__c}</td>
+</tr>
+<tr>
+<td width="40%"><p class="para-table">Billing Address:</p></td>
+<td width="40%">{!acc.BillingStreet}&nbsp;&nbsp; {!acc.BillingCity}&nbsp;&nbsp;{!acc.BillingState}&nbsp;&nbsp;{!acc.BillingPostalCode} </td>
+</tr>
+<tr>
+<td width="40%"><p class="para-table">Single Point of Contact (“SPOC”):</p></td>
+<td width="40%"></td>
+</tr>
+<tr>
+<td width="40%"><p class="para-table">Requested Install Date:</p></td>
+<td width="40%"></td>
+</tr>   
+</table>-->
+                        <br clear="all" style='page-break-before:always'/>
+                        <table width="100%">
+                            <tr>
+                                <td width="51%">
+                                    <!-- <img src="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000"/>-->
+                                    <apex:image url="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000" width="140" height="80" style="float:left;"/>
+                                </td>
+                                <td width="49%">
+                                    
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align:right;font-size:12px;"><b>FRONTIER ANYWARE UCaaS (FAW UCaaS) and Rental SCHEDULE</b> </p>
+                                    <p style="text-align:right;font-size:12px;">Frontier Confidential</p>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        
+                        <p class="p12" > <u><b>1. SERVICE.</b></u></p>
+                        &nbsp;&nbsp;<span class="p2"> A.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12">General Description:</span> </u> <span class="p2">Frontier AnyWare UCaaS (FAW UCaaS) Service is a business voice communications service using Internet Protocol <b>(“IP”) </b>technology. It provides voice communications between a station on the Customer’s Local Area Network <b>(“LAN”)</b> and (a) for Services provisioned over a third party network, a station on the Public Switched Telephone Network <b>(“PSTN”)</b>; (b) for Services provisioned over Frontier’s network, a station on Frontier’s converged Services network, in each case using IP technology. FAW UCaaS Service provides basic IP voice communications standard features such as completing calls to the PSTN, abbreviated dialing and basic calling features / call management services ; and access to 9-1-1 Emergency Service, subject to the limitations and terms described herein. 
+                        </span><br/>
+                        &nbsp;&nbsp;<span class="p2"> B.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12"> Availability, Limitations, and Exclusions.</span> </u> <br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> i.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12"> Service Availability:</span> </u> <span class="p2"> Customer’s eligibility to receive IP Service, Customer’s Local Area Network (“<b>LAN</b>”) environment must be at least 10Mb/100Mb/1000Mb Ethernet; LAN ports used for voice must be set to full-duplex; Customer’s LAN must have adequate bandwidth and ports to support the minimum amount of concurrent voice and data traffic ordered by Customer. </span>
+                        <br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> ii.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12"> Limitations:</span> </u> <span class="p2"> Customer understands that use of the Services is restricted in the following manner: (a) at any given time, Customer may only place as many concurrent calls as it has purchased simultaneous calling capacity; (b) Customer’s modification of Frontier installed design and/or configuration is at Customer’s risk; (c) Customer may not utilize auto-dialers or any similar type of device in connection with Frontier AnyWare Service; (d) Customer may not utilize FAW UCaaS Service in any call center environment or in connection with any similar such application; and (e) Customer may not use FAW UCaaS Service for telemarketing, fax broadcasting, fax blasting, or continuous or extensive call forwarding. CUSTOMER EXPRESSLY ACKNOWLEDGES THAT ANY VIOLATION OF THE FOREGOING RESTRICTIONS ON ITS USE OF THE SERVICE WILL IMMEDIATELY VOID AND INVALIDATE FRONTIER’SOBLIGATIONS AND PROVISION OF SERVICE UNDER THISAGREEMENT AND WILL RESULT IN THE IMMEDIATE TERMINATION OF THESERVICE BY FRONTIER. </span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> iii.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12"> Exclusions:</span> </u>  <span class="p2"> .The Service does not include reliability, redundancy, disaster recovery or business continuity features, functions, capabilities or services. The Service is provided over broadband networks, as a reasonable best efforts service <u>without warranty, guarantees or service level commitments.</u> Customer will not be able to make or receive calls with the Service if the Frontier network or DSL service is down or impaired or if any third party network or service used in conjunction with the Service is down or impaired. Service may also be adversely impacted by congestion on the Customer’s LAN, Frontier’s network or DSL service and /or third party network or service.  </span>
+                        <br/>
+                        &nbsp;&nbsp;<span class="p2"> C.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12">Changes </span> </u> <span class="p2"> .Throughout the Service Term, Customer may add subsequent lines at the rates and terms applicable under this Service Schedule, reduce the number of lines reflected in this Service Schedule without payment of the termination charge (please note, cancellation of entire account will be subject to the early termination charge), or make modifications to existing Services provided that such changes may be subject to a change fee (collectively “Changes”). Customer may request Changes via telephone, provided that Frontier may (but will not be required to) ask Customer to validate such Change request via email or other document. All such Changes and the resulting Services will be subject to the terms and conditions of this Schedule.  </span><br/><br/>
+                        &nbsp;&nbsp;<span class="p2"> D.</span> &nbsp;&nbsp;&nbsp;&nbsp; <u><span class="p12">Training. </span> </u><span class="p2"> Training for this Service will use Feature Teacher. Feature Teacher is a user interactive web-based training aid, which can be accessed at any time at, 	<span style="color:blue;"><u>http://FeatureTeacher.frontier.com/Frontier-AnyWare</u></span>A complete list of training aids including, end use and admin portal, Quick Reference Guides, and 911 	information can be found at<span style="color:blue;">t https://frontier.com/small-business/helpcenter/categories/phone/business-servces/frontier-anyware-smb</span>.In the event that onsite 	training is requested, additional charges will apply and must be noted as an exception to the standard Installation Services Scope of Work.  </span><br/><br/>
+                        <span class="p12"> <b><u>2.    CUSTOMER OBLIGATIONS. </u></b></span> <span class="p2"> In addition to the other obligations of Customer contained with in the FSA, Customer will be responsible for the following obligations: </span><br/><br/>
+                        &nbsp;&nbsp;<span class="p2"> A.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12">  Customer Facilities: </span> </u> <span class="p2"> Except as otherwise expressly stated herein, Customer is responsible for obtaining, installing, configuring and maintaining all equipment (including, but not limited to, SIP phones, and firewalls), software, wiring, power sources, telephone connections and/or communications services necessary for inter-connection with Frontier’s network or otherwise for use in conjunction with IP Service (“Facilities”). Customer is responsible for ensuring that such Facilities are compatible with Frontier’s requirements and that they continue to be compatible with subsequent revision levels of Frontier’s Network relevant to the Services, and for meeting the minimum requirements outlined for FAW UCaaS Service at www.frontier.com/terms. Frontier is not responsible for the availability, capacity and / or condition of any Facilities not provided by Frontier. Customer is responsible for operation and configuration of its computer(s) and LAN / WAN. If Customer connects any Facilities to IP Service, Customer is solely responsible for any effects that arise from that connection and Customer waives any claims against Frontier relating to the performance of IP Service.  </span><br/><br/>
+                        &nbsp;&nbsp;<span class="p2"> B.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12">   Security: </span> </u><br/><br/> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> i.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2">  Use of IP Service, like other network-based services, carries certain security risks to the systems and networks of Customer, Frontier, and third parties, including but not limited to: misuse; unauthorized access; alterations; theft; destruction; corruption; and attacks (“Occurrences”). Customer shall, at its own expense, take security measures including but not limited to use of firewalls, passwords, access restrictions, encryption, policies, and physical access restrictions (“Security Measures”) to protect from Occurrences all IP traffic, Facilities and other equipment, software, data and systems located on Customer’s premises or otherwise in Customer’s control and used in connection with IP Service, whether owned by Customer, Frontier, or Frontier’s subcontractors. CUSTOMER AGREES THAT FRONTIER IS NOT LIABLE, IN CONTRACT, TORT, OR ONANY OTHER BASIS,FOR ANY LOSS RESULTING FROM ANY OCCURRENCESORUSE OF FRONTIER’S NETWORK, IP TRAFFIC, FACILITIES OR OTHER EQUIPMENT,SOFTWARE, DATA AND SYSTEMS.CUSTOMER IS RESPONSIBLE FOR ALL SECURITY MEASURES ,EVEN IF CUSTOMER USES A THIRD PARTY OR FRONTIER TO CONFIGURE AND IMPLEMENT THEM. </span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> ii.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2">  Customer shall properly use any equipment or software, and all pass codes, personal identification numbers (“<b>PINs</b>”) or other access capability obtained from Frontier or an affiliate or vendor of Frontier and shall surrender the equipment and software in good working order to Frontier at a place specified by Frontier and terminate all use of any access capability up on termination or expiration of this Schedule. Customer shall be responsible for all uses of PINs, pass codes or other access capability during or after the term hereof. Customer’s use of any software component of the Service is limited to use with the Service, subject to and in strict compliance with the end user license agreement embedded in the software. Title and all other rights to the software shall remain at all times with Frontier or its suppliers. Customer is responsible for all costs and procedures associated with fraud, such as subscription fraud, cloning fraud, fraud associated with the use of the Service, hacking, or usage on lost or stolen devices that Customer has failed to notify Frontier should be deactivated.  </span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> iii.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2">  Customer is solely responsible for the security of its own networks, equipment, hardware, software and software applications, including security features for protection against unauthorized or fraudulent use of the Equipment or the Service. Customer is solely responsible for ensuring that all of Customer’s data files are adequately duplicated and documented at all times. Frontier and its contractors are not responsible or liable for data loss for any reason. Abuse that occurs as a result of Customer’s systems or account being compromised or as a result of activities of third parties permitted by Customer may result in suspension of Customer’s accounts or Internet access by Frontier. Customer will defend and indemnify Frontier and its affiliates with respect to claims arising from Customer’s or third parties’ usage of the FAW UCaaS or Frontier Internet access through Customer’s hardware or software.</span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> iv.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> <b> Frontier disclaims any express or implied warranty or condition that the Services prevent toll fraud, unauthorized access, loss or theft of electronic data, or invasion of privacy (collectively, “fraudulent activity”). Frontier shall have no liability to Customer in the event of such fraudulent activity. </b> </span><br/><br/>
+                        &nbsp;&nbsp;<span class="p2"> C.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12"> ACCEPTABLE AND FAIR USE </span>. </u> <span class="p2"> Customer shall comply, and shall cause all Service users to comply, with Frontier’s Acceptable<b> Use Policy (“AUP”)</b> and the <b>FAW UCaaS Fair Use Policy (“FAFUP”)</b>, each as may be modified by Frontier from time to time. The current AUP and FAFUP are available for review at the following address, subject to change: <u><span class="p4">http://www.frontier.com/policies</span></u>.<b> Customer is responsible for maintaining awareness of and adhering to the AUP and FAFUP as amended from time to time</b>. Failure to comply with the AUP or FAFUP is justification for immediate suspension or termination of the Service, not with standing any notice requirement which may otherwise be outlined in the FSA.  </span><br/><br/>
+                        &nbsp;&nbsp;<span class="p2"> D.</span> &nbsp;&nbsp;&nbsp;&nbsp;<u><span class="p12">  EMERGENCY 911 SERVICE. </span></u><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> i.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2">  Customer acknowledges that IP phones and Softphones are portable and may be used at the Service Location or elsewhere. <u><span class="p5" >IF THE IPPHONE OR SOFTPHONE IS MOVED, CUSTOMER MUST CALL FRONTIER AT 855-438-7273 TO REGISTER THE PHONE’S NEW LOCATION FOR EMERGENCY CALLING PURPOSES.</span></u> There are additional charges for each new location that Customer would like to register phones. These locations must be ordered in advance, in order to properly register the phones’ new location. <b>If the new locations are not ordered in advance, 911 calls will not be delivered to the correct Public Safety Answering Point (“PSAP”) until the new location is ordered, configured in the system, and the phone properly registered to the new location.</b> </span><br/><br/>
+                        <br clear="all" style='page-break-before:always' />
+                        <table width="100%">
+                            <tr>
+                                <td width="51%">
+                                    <!-- <img src="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000"/>-->
+                                    <apex:image url="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000" width="140" height="80" style="float:left;"/>
+                                </td>
+                                <td width="49%">
+                                    
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align:right;font-size:12px;"><b>FRONTIER ANYWARE UCaaS (FAW UCaaS) and Rental SCHEDULE</b> </p>
+                                    <p style="text-align:right;font-size:12px;">Frontier Confidential</p>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> ii.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> Customer shall notify and inform each user that (a) 911 calls may not be delivered to the correct PSAP in some locations and that delays may occur in making a new location available through the PSAP's database; (b) 911 calls will be misdirected if the IP phone or Softphone is moved without registering its new location and that in such case if it becomes necessary for the user to seek assistance by using E-911 Service, any such call from an IP phone will identify such user’s location as being at the prior location, and will be directed to the E-911 PSAP associated with the prior location, and not where the user is physically located, and (c) the IP phones cannot be used for any calls, including emergency calls, if the broadband connection used by the phone fails, or if electrical power is not available to power the phone.<u><span class="p5" > IN ADDITION, CUSTOMER IS RESPONSIBLE FOR ENSURING THAT ANY WARNING LABELS PROVIDED BY FRONTIER OUTLINING THE LIMITATIONS OF 911 SERVICES OVER IP PHONES ARE PLACED ON AND/OR NEAR THE EQUIPMENT USED IN CONJUNCTION WITH THE IP PHONE SERVICE.</span></u> </span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> iii.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2">  Customer is advised that the operation of e-911 requires accurate information be provided by Customer to Frontier for storage in Frontier’s database, which Customer is solely responsible for updating. Further, Customer acknowledges and agrees that e-911 service will not be available, and Frontier assumes no liability: (a) if there is a power failure or some other type of failure of the equipment installed at the Service Location; (b) if there is a failure or congestion of the access connection (such as dsl or t-1 connection) or associated equipment provided to connect the Service Location to the VOIP service network; (c) if there is a failure or congestion of the VOIP network providing Customer’s VOIP service, the public switched telephone network (pstn), the 911 service provider’s network or the emergency services network; (d) if Customer is using the Services outside of the United States; (e) if Customer has moved the VOIP device, delayed in providing or failed to provide accurate location information to Frontier, or the information provided has not yet been updated by or is inaccurate; (f) if the Services have been disconnected or suspended for non-payment or any other reason; (g) for those circumstances under which 911 service may be limited to traditional 911 service rather than enhanced 911 (or ‘e-911’). With e-911 the Customer address and callback information is automatically provided to the emergency services systems; or (h) failure of emergency services under certain circumstances, including but not limited to, those circumstances in which Customer is using call forwarding, call redirection or blocking services, and/or when the emergency callback number is configured to ring a phone at a different location than the Customer’s VOIP device. If e-911 service is not available in Customer’s area or at the time of the 911 call, then, the system may default to traditional 91 1service and the Customer may be required to verbally inform the 911 call taker or emergency responder of their address and phone number.  </span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> iv.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2">   911 service is offered solely as an aid in contacting an appropriate PSAP in connection with fire, police and other emergencies. <b> FRONTIER IS NOT RESPONSIBLE FOR ANY LOSSES, CLAIMS, DEMANDS, SUITS OR ANY LIABILITY WHATSOEVER, WHETHER SUFFERED, MADE, INSTITUTED OR ASSERTED BY CUSTOMER OR BY ANY OTHER PARTY OR PERSON FOR ANY PERSONAL INJURY TO OR DEATH OF ANY PERSON OR PERSONS, AND FOR ANY LOSS, DAMAGE OR DESTRUCTION OF ANY PROPERTY, WHETHER OWNED BY CUSTOMER OR OTHERS, CAUSED OR CLAIMED TO HAVE BEEN CAUSED BY: (a) MISTAKES, OMISSIONS, INTERRUPTIONS, DELAYS, ERRORS OR OTHER DEFECTS IN THE PROVISION OF EMERGENCY 911 SERVICE, OR (b) INSTALLATION, OPERATION, FAILURE TO OPERATE, MAINTENANCE, REMOVAL, PRESENCE, CONDITION, LOCATION OR USE OF ANY EQUIPMENT AND FACILITIE FURNISHING THIS SERVICE, OR(c CUSTOMER’S FAILURE TO NOTIFY FRONTIER WHEN A PHONE IS MOVED IN A TIME LY MANNER.<b/></b> </span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> v.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"><b>  FRONTIER IS NOT RESPONSIBLE FOR ANY INFRINGEMENT OR INVASION OF THE RIGHT OF PRIVACY OF ANY PERSON OR PERSONS, CAUSED OR CLAIMED TO HAVE BEEN CAUSED,DIRECTLY OR INDIRECTLY,BY THE INSTALLATION,OPERATION, FAILURE TOOPERATE, MAINTENANCE, REMOVAL, PRESENCE, CONDITION, OCCASION OR USE OF EMERGENCY 911 SERVICE AND THE EQUIPMENT ASSOCIATED THEREWITH, OR BY ANY SERVICES FURNISHED BY FRONTIER INCLUDING, BUT NOT LIMITED TO, THE IDENTIFICATION OF THE TELEPHONE NUMBER, ADDRESS OR NAME ASSOCIATED WITH THE PHONE USED BY THE PARTY OR PARTIES ACCESSING EMERGENCY 911 SERVICE, AND WHICH ARISE OUT OF THE NEGLIGENCE OR OTHER WRONGFUL ACT OF FRONTIER, CUSTOMER, ITS SERVICE USERS, AGENCIES OR MUNICIPALITIES, OR THE EMPLOYEES OR AGENTS OF ANY ONE OF THEM. </b> </span><br/><br/>  
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"> vi.</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="p2"><u><b><span class="p6">  Customer specifically acknowledges receipt of and understanding of these limitations on emergency calling capabilities. </span></b></u><b>Customer shall defend, indemnify and hold harmless Frontier from any loss, cost, expense or liability arising from or in any way related to Customer’s failure to provide the required notices, or otherwise related to any use of E-911 Services, not caused by the negligence or will ful mis conduct of Frontier</b></span><br/><br/>    
+                        <br clear="all" style='page-break-before:always' />
+                        <table width="100%">
+                            <tr>
+                                <td width="51%">
+                                    <!-- <img src="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000"/>-->
+                                    <apex:image url="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000" width="140" height="80" style="float:left;"/>
+                                </td>
+                                <td width="49%">
+                                    
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align:right;font-size:12px;"><b>FRONTIER ANYWARE UCaaS (FAW UCaaS) and Rental SCHEDULE</b> </p>
+                                    <p style="text-align:right;font-size:12px;">Frontier Confidential</p>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <br/><br/>
+                        <center> <u><span style="font-size:20px;">Supplemental Terms for UCaaS Rental Terms and Conditions </span></u></center><br/>
+                        
+                        <span class="p12"> <b>1.   RENTAL TERM.</b></span>  <span class="p7">The term of the rental as to Equipment designated above shall be gin on the Installation Date in accordance with the Schedule and shall continue for a one-month period (the “Initial Rental Term”). Except as otherwise provided in the Schedule or any amendment there to, Customer or Frontier may terminate the rental at the expiration of the Initial Rental Term by giving the other at least thirty (30) day’s prior written notice of termination. If neither party gives such notice, then the term shall automatically be extended on the same rental terms for successive periods of one(1) month until terminated by either Customer or Frontier giving the other at least thirty (30) days’ written notice of termination.
+                        </span><br/><br/>
+                        <span class="p12"> <b>2.   RENTAL PAYMENTS.</b> </span> <span class="p7">The monthly rental payments for each item of Equipment (the “MRC Rental Payments”) are set for thin Table1 or Table2 above.</span><br/><br/>
+                        <span class="p12"> <b>3.    PAYMENT OF TAXES.</b> </span> <span class="p7">  Customer shall also pay all taxes, how ever designated, which are leviedor based on the rental , the Equipment or its purchase, use, lease, rental, operation, controlor value, including, without limitation, personal property taxes, state and local privilege or excise taxes base dongross revenue, and any penalties or interest in connection there with, or taxes or amounts in lieu there of paid or payable by Frontier or Customer in respect of the fore going, but excluding taxes based on Frontier’s net income. Charges for taxes, penalties and interest, if any, shall be promptly paid by Customer. In the event Customer defaults in the payment of any such tax ,Frontier may pay such tax and shall be promptly reimbursed by Customer, with interest (plus attorneys’ fees and costs if any) as additional rent.</span><br/><br/>
+                        <span class="p12"> <b>4. LIMITATIONS OF LIABILITY</b></span> <span class="p7"> FRONTIER HAS NOT MADE AND MAKES NO, AND HERE BY EXPRESS LYDIS CLAIMS ANY REPRESENTATION OR EXPRESS OR IMPLIED WARRANTY WHATSOEVER HEREUNDER, INCLUDING ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR ANY PURPOSE, OR OTHERWISE, REGARDING THE EQUIPMENT OR ANY PART OR THE DESIGN, QUALITY, OPERATION OR CONDITION THERE OF OR WITH RESPECT TO PATENT IN FRINGEMENT OR THE LIKE</span><br/><br/>
+                        <span class="p12"> <b> 5..  RISK OF LOSS.</b></span><br/><br/>
+                        <span class="p7"> <b> A. </b> Frontier shall not be responsible for, nor shall the MRC Rental Payments or other sums due hereunder abate for any reason, including, but not limited to, any interruption in or loss of the service or use of the Equipment or any part there of, or any loss or damage caused thereby, or by error in programming or instruction to the Equipment, latent defect, wear and tear, or gradual deterioration of the Equipment or any part there of </span> <br/><br/>
+                        <span class="p7"> <b> B. </b>   Customer assumes and shall bear the entire risk of partial or complete loss, theft, damage, destruction or other interruption or termination of use of the
+                            Equipment from any cause whatsoever, from the date of delivery of the Equipment to Customer until the Equipment is returned to and received by Frontier.
+                        </span><br/><br/>
+                        <span class="p7"> <b> C. </b>  During the term of the rental, and until the Equipment is redelivered to Frontier, Customer shall be liable for the prompt repair of the Equipment at its sole expense.  If the Equipment or any portion thereof is lost, stolen, destroyed or damaged beyond repair, Customer, at its option, will (i) continue to make the MRC Rental Payments, and, at Customer’s sole  expense,  replace the Equipment with equipment of identical manufacture and equal or greater capacity, utility and residual value to that of the Equipment replaced (in which case Customer will transfer title to the replacement Equipment to the Frontier free of all liens, claims and encumbrances), or (ii) pay Frontier on the next Monthly Rental Payment date following the loss, theft, damage or destruction of the Equipment an amount equal to the replacement value or the minimum casualty value, whichever is greater, attached to the applicable Equipment Schedule for such Equipment in effect on the date of the loss, theft, damage or destruction thereof and all rent accrued on such Equipment up to the date of payment and all other amounts then due in connection with such Equipment.  Upon such payment, the Equipment Schedule, or portion thereof, as applicable, will terminate with respect to the Equipment so paid for, and Frontier will transfer full ownership and title to such Equipment to Customer, free of liens, claims and encumbrances created by Frontier </span><br/><br/>              
+                        <span class="p12"> <b> 6.       INSURANCE AND INDEMNITY.   </b>  </span> <span class="p7"> Customer shall at all times during the term of the rental, at its own expense, maintain: (A) all-risk property damage insurance covering the Equipment in an amount not less than the greater of (i) the replacement value of the Equipment, or (ii) the minimum casualty value of such Equipment as set forth in the Equipment Schedule, and (B) public liability coverage in such amounts, and with such companies as are in general usage by companies owning or operating similar property and engaged in a business similar to Customer's.  The insurance required by this Section may be obtained by Customer by endorsement on any blanket insurance policies maintained by Customer or its parent.  All insurance so maintained shall provide for a thirty-day (30) prior written notice to Frontier of any cancellation or reduction of coverages and an option in favor of Frontier to prevent cancellation by payment of premiums, which shall promptly be repaid by Customer, and further shall provide that all insurance proceeds shall be payable to the Customer and Frontier.  Frontier shall be named as loss payee and additional insured on all public liability insurance policies so maintained.  Customer shall furnish to Frontier copies of such insurance policies and satisfactory insurance certificates on or before the Installation Date.  Customer's above obligation shall commence on the date of delivery of the Equipment and shall continue until the Initial Rental Term (or any extension or renewal thereof) of each Schedule expires and the Equipment is returned to Frontier.  By this Section, Frontier does not modify or limit any provision of this rental relating to disclaimer of warranties and liability, or indemnity ><br/><br/>Customer assumes all risk and liabilities, whether or not covered by insurance, and shall indemnify and hold Frontier harmless of and from any liability, claim, loss, damage or expense (including reasonable attorneys’ fees)  for injuries or deaths of persons and for damage to property, to the extent caused by , operation or storage of the Equipment, whether such injury or death to person be of agents or employees of Customer or be of third persons and whether such damage to property be of Customer, or to property of others.. </span><br/>
+                        <span class="p12"> <b> 7.      RETURN OF EQUIPMENT   </b>  <span class="p7">Unless otherwise agreed to by Frontier in writing, Customer shall  throughout the term of this Rental maintain the Equipment in good working order and appearance. Upon termination of the rental, Customer, at its sole expense, shall return the Equipment, together with manufacturer's certificate of authenticity, if provided, to Frontier, or to such other location within the Continental U.S. designated by Frontier in good condition and repair excepting only reasonable wear and tear.
+                            Customer shall pack the Equipment to be so returned in accordance with the manufacturer’s guidelines.<br/><br/>If Customer fails to return the Equipment in accordance with the preceding paragraph upon the expiration of the Initial Rental Term or any extension thereof, Customer shall be obligated to pay to Frontier per diem rent until the Equipment is returned in addition to all other remedies available to Frontier described in Section 8.   (Remedies).
+                            </span> </span><br/><br/>
+                        <span class="p12"> <b> 8.      ALTERATION AND ATTACHMENTS:   </b> <br/> <span class="p7">Customer shall not make any such alteration that would create a safety hazard, impair or reduce the performance of the Equipment.  If the alterations or attachments interfere with the normal or satisfactory maintenance, operation or insurability of the Equipment, or any part thereof, in such manner as to materially decrease the value of the Equipment, or create a safety hazard, Customer will, upon written notice from Frontier to that effect, promptly remove the alterations or attachments and restore the Equipment to its normal condition.  In the case of increased cost of maintenance and insurance, or either, due to Customer’s alterations or attachments permitted herein, Customer shall pay such increase. Notwithstanding the preceding, the Customer is still required to comply with provisions in Section (maintenance). herein. </span></span><br/><br/>
+                        <span class="p12"> <b> 9.  ASSIGNMENTS:   </b> <br/> <span class="p7">Customer shall not make any such alteration that would create a safety hazard, impair or reduce the performance of the Equipment.  If the alterations or attachments interfere with the normal or satisfactory maintenance, operation or insurability of the Equipment, or any part thereof, in such manner as to materially decrease the value of the Equipment, or create a safety hazard, Customer will, upon written notice from Frontier to that effect, promptly remove the alterations or attachments and restore the Equipment to its normal condition.  In the case of increased cost of maintenance and insurance, or either, due to Customer’s alterations or attachments permitted herein, Customer shall pay such increase. Notwithstanding the preceding, the Customer is still required to comply with provisions in Section (maintenance). herein.</span>
+                            <br/> <br/><span class="p12"> <b> 10.      INSTALLATION:   </b> <br/></span> <span class="p7">The Equipment is to be installed at the location indicated on the Schedule.  All installation charges shall be paid by Customer unless indicated otherwise on this
+                            Schedule.
+                            </span> </span>   <br/><br/>             
+                        <span class="p12"> <b> 11.      Default.   </b> <br/></span> <span class="p7">     Any one of the following events shall constitute an "Event of Default" hereunder:  (a) Customer shall fail to pay when due any installment of rent or other amount due hereunder; (b) Customer shall fail to observe or perform any other agreement to be observed or performed by Customer hereunder; (c) Customer, any guarantor of the rental, or any partner of Customer if Customer is a partnership shall cease doing business as a going concern or make an assignment for the benefit of creditors; (d) Customer, any guarantor of the rental, or any partner of Customer if Customer is a partnership shall voluntarily file, take any action to authorize the filing, or have filed against it involuntarily, a petition for liquidation, reorganization, adjustment of debt or similar relief under the federal or state bankruptcy or
+                        insolvency law; (e) a trustee, receiver, or liquidator be appointed for Customer, any guarantor of the rental, or for all or a substantial part of the assets of Customer or any guarantor; (f) any individual Customer or individual guarantor of the rental, or partner of Customer if Customer is a partnership, shall die; (g) an event of default shall occur under any other obligation Customer or any guarantor of the rental owes to Frontier; (h) an event of default by Customer shall occur under any agreement involving Customer's or a guarantor's indebtedness to a lender for borrowed money; or (i) Customer shall have terminated its corporate existence, consolidated with, merged into, or conveyed or leased substantially all of its assets as an entity to any person unless:(i) such person executes and delivers to Frontier an agreement satisfactory in form and substance to Frontier, in its sole discretion, containing such person’s effective assumption and its agreement to pay, perform, comply with and otherwise be liable for all of Customer’s obligations having previously arisen, or then or thereafter arising, under the rental together with any documents, Agreements investments, certificates, opinions and filings by Frontier; and (ii) Frontier (and any Assignee) is satisfied as to the creditworthiness of such person.
+                        </span> 
+                        <br clear="all" style='page-break-before:always' />
+                        <table width="100%">
+                            <tr>
+                                <td width="51%">
+                                    <!-- <img src="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000"/>-->
+                                    <apex:image url="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000" width="140" height="80" style="float:left;"/>
+                                </td>
+                                <td width="49%">
+                                    
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align:right;font-size:12px;"><b>FRONTIER ANYWARE UCaaS (FAW UCaaS) and Rental SCHEDULE</b> </p>
+                                    <p style="text-align:right;font-size:12px;">Frontier Confidential</p>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <br/><br/>
+                        <span class="p12"> <b> 12.      Remedies.   </b> </span> <span class="p7"> Upon the occurrence of an Event of Default and at any time thereafter, Frontier may exercise from time to time any one or more of the following remedies:  (a) terminate this rental as to any portion or all of the Equipment; (b) take immediate possession of any or all of the Equipment; wherever situated, and for such purpose enter upon any premises (without a requirement to post bond in any legal proceeding); (c) hold, use, rent, lease, sell or otherwise dispose of any or all
+                        of the Equipment in such manner as Frontier in its sole discretion may decide.  With respect to any exercise of its rights to recover and/or dispose of any Equipment,
+                        Customer acknowledges and agrees that Frontier shall have no obligation, subject to the requirements of commercial reasonableness, to clean up or otherwise prepare the Equipment for disposition; (d) accelerate the due date of all remaining rent payments due hereunder for the entire remaining Initial Rental Term of this rental or any amendment thereto, including any renewal term then in effect, whereupon said amounts shall be immediately due and payable; (e) recover the sum of: (i) any accrued and unpaid rent, plus (ii) the present value of all future rentals reserved in this rental and contracted to be paid over the unexpired Initial Rental Term of this rental (or any renewal period then in effect), discounted at the rate of four percent (4%) per annum; plus (iii) the anticipated residual value of the Equipment
+                        as of the expiration of this rental or any renewal thereof discounted at the rate of four percent (4%) per annum, (iv) any indemnity payment, if then determinable; (v) all reasonable costs and expenses incurred by Frontier in any repossession, recovery, storage, repair, sale, re-rental, re-lease or other disposition of the Equipment, including but not limited to costs of transportation, possession, storage, refurbishing, advertising and broker’s fees together with all attorney’s fees and cost incurred in connection therewith or otherwise resulting from Customer’s default (including any incurred at trial, on appeal or any other proceeding) of the foregoing at the rate of one and one-half (1½%) per month (“default interest”) (f) expend such monies as Frontier deems appropriate to cure or mitigate the effect of the Event of Default, or to protect the Frontier’s interest in the Equipment and this rental, with all such sums to be immediately reimbursed to Frontier by Customer; (g) setoff
+                        Customer's security deposit or any other property of Customer held by Frontier against any amount owed by Customer to Frontier; and (h) exercise any other remedy permitted by law, equity or any other agreements with Customer or any guarantor of this rental.  No remedy given in this paragraph is intended to be exclusive and each shall be cumulative.  No express or implied waiver by Frontier of any Event of Default shall constitute a waiver of any subsequent Event of Default.
+                        </span>  <br/><br/>
+                        <span class="p12"> <b> 13.      Representation and Warranties By Customer.   </b>  </span> <span class="p7"> Customer represents and warrants to Frontier that:  (a) the rental constitutes the Customer's legal, valid and
+                        binding obligation and is enforceable against Customer in accordance with its terms; (b) Customer's entry into and performance under the rental will not result in any breach, default or violation under Customer's charter documents (articles of incorporation and bylaws in the case of a corporation or partnership agreement in the case of a partnership or articles of organization and operating agreement in the case of a limited liability Frontier) or any other agreement to which Customer is a party or to which it or its property is subject; (c) there are no suits or proceedings pending or threatened before any court, government agency or arbitrator which, if determined adversely to Customer, would have a material adverse effect on its financial condition or ability to perform its obligations under the rental; (d) that any financial statements or other information which Customer has furnished Frontier concerning the business or condition of Customer was true, correct and complete at the time furnished or as of the date of such financial statements; (e) the Equipment shall remain personal property;\.  The Equipment is removable from and is not essential to the premises upon which it is located regardless of its attachment to realty, and Customer agrees to take such action at its expense as may be necessary to prevent any third party from acquiring any interest in the Equipment as a result of its attachment to realty with respect to all of the Equipment leased hereto.
+                        </span><br/><br/>
+                        <span class="p12"> <b> 14.        General.</b></span><br/> <span class="p7"> <br/><b>A.</b>   The Equipment remains the personal property of Frontier and may be removed at any time, without notice, after termination of the rental.<br/><br/><b>B.</b> At Frontier’s request, Customer shall affix to the Equipment and each unit or element thereof, in a prominent place, appropriate tags, decals, or plates stating that
+                        the Equipment is owned by Frontier, and Customer shall not cause or permit any such tags, decals, or plates to be removed, defaced or covered in any way.<br/><br/><b>This Schedule is not effective and pricing, dates and terms are subject to change until signed by both parties.</b> This Schedule and any of the provisions hereof may not be  modified  in  any  manner  except  by  mutual  written  agreement.  The above  rates  do  not include  any  taxes,  fees  or  surcharges  applicable  to  the  Service.  This Schedule, the documents incorporated herein by reference, and all terms and conditions of the FSA comprise the entire agreement between the parties with respect to  the  Services  described  herein,  and  supersede  any  and  all  prior  or  contemporaneous  agreements,  representations,  statements,  negotiations,  and  undertakings written or oral with respect to the subject matter hereof.
+                        </span>
+                        
+                        <br/>
+                        <table width="100%" style="padding-5px;">
+                            <tr>
+                                <th colspan="2" class="p7"><b>Frontier Communications of America, Inc.</b></th>
+                                <th></th>
+                                <th colspan="2" class="p7"><b>{!acc.Name} </b></th>
+                            </tr>
+                            <tr>
+                                <td width="15%">Signature:</td>
+                                <td width="33%" style="border-bottom:1px solid black;"></td>
+                                <td width="4%"></td>
+                                <td width="15%">Signature:</td>
+                                <td width="33%" style="border-bottom:1px solid black;"></td>
+                            </tr>
+                            <tr>
+                                <td width="15%">Printed Name:</td>
+                                <td width="33%" style="border-bottom:1px solid black;"></td>
+                                <td width="4%"></td>
+                                <td width="15%">Printed Name:</td>
+                                <td width="33%" style="border-bottom:1px solid black;"></td>
+                            </tr>
+                            <tr>
+                                <td width="15%">Title:</td>
+                                <td width="33%" style="border-bottom:1px solid black;"></td>
+                                <td width="4%"></td>
+                                <td width="15%">Title:</td>
+                                <td width="33%" style="border-bottom:1px solid black;"></td>
+                            </tr>
+                            <tr>
+                                <td width="15%">Date:</td>
+                                <td width="33%" style="border-bottom:1px solid black;"></td>
+                                <td width="4%"></td>
+                                <td width="15%">Date:</td>
+                                <td width="33%" style="border-bottom:1px solid black;"></td>
+                            </tr>
+                        </table>
+                        
+                        <br clear="all" style='page-break-before:always' />
+                        <table width="100%">
+                            <tr>
+                                <td width="51%">
+                                    <!-- <img src="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000"/>-->
+                                    <apex:image url="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000" width="140" height="80" style="float:left;"/>
+                                </td>
+                                <td width="49%">
+                                    
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align:right;font-size:12px;"><b>FRONTIER ANYWARE UCaaS (FAW UCaaS) and Rental SCHEDULE</b> </p>
+                                    <p style="text-align:right;font-size:12px;">Frontier Confidential</p>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <br/><br/>
+                        <center>
+                            <span class="p7" style="font-size:21px;"> <b> Attachment 1        </b></span><br/><br/>
+                            <span class="p7">   *Only specifically identified Equipment and Licenses identified in this Attachment are included.</span>
+                        </center><br/><br/><br/><br/>
+
+                               <table width="100%" align="center" style="padding:10px;font-size:18px;border-bottom:1px solid black;" class="attach1Table">
+                            <tr>
+                                <th width="70%" style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;border-right:1px solid black;border-top:1px solid black;font-size:16px;">Product</th>
+                                <th width="30%" style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;border-right:1px solid black;border-top:1px solid black;font-size:16px;">Quantity</th>
+                            </tr>
+                                  <apex:variable var="v" value="" rendered="{!IF(licList.size>0 , true, false )}">
+                                      <tr>
+                                          <th width="70%" style="text-align:left;border-left:1px solid black;margin-left:40px;"><span class="prod-cls-header">Licenses </span></th>
+                                          <th width="30%" style="border-right:1px solid black;"></th>
+                                      </tr>
+                                  </apex:variable>
+                                  <apex:repeat value="{!licList}" var="lic">
+                                      <tr>
+                                          <td width="70%" style="text-align:left;border-left:1px solid black;margin-left:60px;">
+                                              <span class="prod-cls" >
+                                              {!lic.Product_Name__c}
+                                              </span></td>
+                                          <td width="30%" style="text-align:center;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!lic.Quantity}"/></apex:outputText></td>
+                                      </tr>
+                                  </apex:repeat>
+                                   <apex:variable var="v" value="" rendered="{!IF(addOnList.size>0 , true, false )}">
+                                  <tr>
+                                      <th width="70%" style="text-align:left;border-left:1px solid black;margin-left:40px;"><span class="prod-cls-header">Add-On</span> </th>
+                                      <th width="30%"  style="border-right:1px solid black;"></th>
+                                  </tr>
+                                  </apex:variable>
+                                  <apex:repeat value="{!addOnList}" var="item">
+                                      <tr>
+                                          <td width="70%" style="text-align:left;border-left:1px solid black;margin-left:60px;">
+                                               <span class="prod-cls" >
+                                              {!item.Product_Name__c}
+                                              </span></td>
+                                          <td width="30%" style="text-align:center;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!item.Quantity}"/></apex:outputText></td>
+                                      </tr>
+                                  </apex:repeat>
+                                  <apex:variable var="v" value="" rendered="{!IF(tollFreeList.size>0 , true, false )}">
+                                      <tr>
+                                          <th width="70%" style="text-align:left;border-left:1px solid black;margin-left:40px;"><span class="prod-cls-header">Toll Free</span> </th>
+                                          <th width="30%"  style="border-right:1px solid black;"></th>
+                                      </tr>
+                                  </apex:variable>
+                                  <apex:repeat value="{!tollFreeList}" var="item">
+                                      <tr>
+                                          <td width="70%" style="text-align:left;border-left:1px solid black;margin-left:60px;">
+                                                  <span class="prod-cls">
+                                              {!item.Product_Name__c}
+                                              </span></td>
+                                          <td width="30%" style="text-align:center;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!item.Quantity}"/></apex:outputText></td>
+                                      </tr>
+                                  </apex:repeat>
+                                   <apex:variable var="v" value="" rendered="{!IF(ipPhoneList.size>0 , true, false )}">
+                                      <tr>
+                                          <th width="70%" style="text-align:left;border-left:1px solid black;margin-left:40px;"><span class="prod-cls-header">IpPhones</span></th>
+                                          <th width="30%"  style="border-right:1px solid black;"></th>
+                                  </tr>
+                                  </apex:variable>
+                                  <apex:repeat value="{!ipPhoneList}" var="item">
+                                      <tr>
+                                          <td width="70%" style="text-align:left;border-left:1px solid black;margin-left:60px;">
+                                               <span class="prod-cls">
+                                              {!item.Product_Name__c}
+                                              </span></td>
+                                          <td width="30%" style="text-align:center;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!item.Quantity}"/></apex:outputText></td>
+                                      </tr>
+                                  </apex:repeat>
+                                   <apex:variable var="v" value="" rendered="{!IF(accessoriesList.size>0 , true, false )}">
+                                      <tr>
+                                          <th width="70%" style="text-align:left;border-left:1px solid black;margin-left:40px;"><span class="prod-cls-header">Accessories </span></th>
+                                          <th width="30%"  style="border-right:1px solid black;"></th>
+                                  </tr>
+                                  </apex:variable>
+                                  <apex:repeat value="{!accessoriesList}" var="item">
+                                      <tr>
+                                          <td width="70%" style="text-align:left;border-left:1px solid black;margin-left:60px;">
+                                               <span class="prod-cls">
+                                              {!item.Product_Name__c}
+                                              </span></td>                                         
+                                          <td width="30%" style="text-align:center;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!item.Quantity}"/></apex:outputText></td>
+                                      </tr>
+                                  </apex:repeat>
+                                   <apex:variable var="v" value="" rendered="{!IF(switchesPoeList.size>0 , true, false )}">
+                                      <tr>
+                                          <th width="70%" style="text-align:left;border-left:1px solid black;margin-left:40px;"><span class="prod-cls-header">Switches Poe</span></th>
+                                          <th width="30%"  style="border-right:1px solid black;"></th>
+                                  </tr>
+                                  </apex:variable>
+                                  <apex:repeat value="{!switchesPoeList}" var="item">
+                                      <tr>
+                                          <td width="70%" style="text-align:left;border-left:1px solid black;margin-left:60px;">
+                                               <span class="prod-cls">
+                                              {!item.Product_Name__c}
+                                              </span></td>
+                                          <td width="30%" style="text-align:center;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!item.Quantity}"/></apex:outputText></td>
+                                      </tr>
+                                  </apex:repeat>
+                                  
+                                   <apex:variable var="v" value="" rendered="{!IF(miscellaneousChildList.size>0 , true, false )}">
+                                     <tr>
+                                         <th width="70%" style="text-align:left;border-left:1px solid black;margin-left:40px;"><span class="prod-cls-header">Miscellaneous</span></th>
+                                          <th width="30%"  style="border-right:1px solid black;"></th>
+                                  </tr>
+                                  </apex:variable>
+                                  <apex:repeat value="{!miscellaneousChildList}" var="item">
+                                      <tr>
+                                          <td width="70%" style="text-align:left;border-left:1px solid black;margin-left:60px;">
+                                                 <span class="prod-cls">
+                                              {!item.Product_Name__c}
+                                              </span></td>
+                                          <td width="30%" style="text-align:center;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!item.Quantity}"/></apex:outputText></td>
+                                      </tr>
+                                  </apex:repeat>
+                                  
+                                  
+                                  
+                                   <apex:variable var="v" value="" rendered="{!IF(installationQty != 0.0 || warrantyReserveQty != 0.0 || postWarrantyQty != 0.0 , true, false )}">
+                                  <tr>
+                                  <th width="70%" style="text-align:left;border-left:1px solid black;margin-left:40px;"><span class="prod-cls-header">Installation and Warranty</span></th>
+                                      <th width="30%"  style="border-right:1px solid black;"></th>
+                                  </tr>
+                                  </apex:variable>
+                                  
+                                  <apex:variable var="v" value="" rendered="{!IF(installationQty != 0.0, true, false )}">
+                                      <tr>
+                                           <td width="70%" style="text-align:left;border-left:1px solid black;margin-left:60px;">
+                                               <span class="prod-cls">
+                                                  Installation 
+                                               </span> </td>
+                                          <td width="30%" style="text-align:center;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(installationQty = null, 0, installationQty)}" /></apex:outputText></td>
+                                          
+                                        <!--  <td style="text-align:left;">  
+                                              <apex:outputPanel rendered="{!If(installationQty != 0.0,true,false)}">
+                                                  <apex:outputText value="Post Warranty"> Installation </apex:outputText>
+                                              </apex:outputPanel>
+                                          </td>
+                                          <td style="text-align:center;">
+                                              <apex:outputPanel rendered="{!If(installationQty != 0.0,true,false)}">
+                                                  <apex:outputText value="{0,number,#,##0}"> <apex:param value="{!IF(installationQty = null, 0, installationQty)}"/></apex:outputText>
+                                              </apex:outputPanel>
+                                          </td>-->
+                                      </tr>
+                                  </apex:variable>
+                                  
+                                     <apex:variable var="v" value="" rendered="{!IF(warrantyReserveQty != 0.0, true, false )}">
+                                  <tr>
+                                         <td width="70%" style="text-align:left;border-left:1px solid black;margin-left:60px;"> 
+                                               <span class="prod-cls">
+                                                  1 Yr Warranty Reserve 
+                                               </span> </td>
+                                          <td width="30%" style="text-align:center;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(warrantyReserveQty = null, 0, warrantyReserveQty)}" /></apex:outputText></td>
+                                   <!--     
+                                      <td style="text-align:left;">  
+                                         <apex:outputPanel rendered="{!If(warrantyReserveQty != 0.0,true,false)}">
+                                              <apex:outputText value="i yr reserve"> 1 Yr Warranty Reserve </apex:outputText>
+                                          </apex:outputPanel> 
+                                      </td>
+                                      <td style="text-align:center;">
+                                          
+                                          <apex:outputPanel rendered="{!If(warrantyReserveQty != 0.0,true,false)}">                                            
+                                              <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(warrantyReserveQty = null, 0, warrantyReserveQty)}"/></apex:outputText>
+                                          </apex:outputPanel>
+                                      </td>-->
+                                  </tr>
+                                  </apex:variable>
+                                         
+                                   <apex:variable var="v" value="" rendered="{!IF(postWarrantyQty != 0.0, true, false )}">
+                                  <tr>
+                                      <td width="70%" style="text-align:left;border-left:1px solid black;border-bottom:1px solid black;margin-left:60px;">
+                                          <span class="prod-cls">
+                                              Post Warranty 
+                                          </span> </td>
+                                      
+                                          <td width="30%" style="text-align:center;border-bottom:1px solid black;border-right:1px solid black;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(postWarrantyQty = null, 0, postWarrantyQty)}" /></apex:outputText></td>
+                                   <!--     
+                                      <td style="text-align:left;">  
+                                          <apex:outputPanel rendered="{!If(postWarrantyQty != 0.0,true,false)}">
+                                              <apex:outputText value="Post Warranty"> Post Warranty </apex:outputText>
+                                          </apex:outputPanel>
+                                      </td>
+                                      <td style="text-align:center;">
+                                          <apex:outputPanel rendered="{!If(postWarrantyQty != 0.0,true,false)}">
+                                              <apex:outputText value="{0,number,#,##0}"> <apex:param value="{!IF(postWarrantyQty = null, 0, postWarrantyQty)}"/></apex:outputText>
+                                          </apex:outputPanel>
+                                      </td>-->
+                                  </tr>
+                                         </apex:variable>
+                                  
+                        </table>
+                        
+                        
+                        
+<!--
+                              <table width="100%" align="center" style="padding:10px;font-size:18px;">
+                            <tr>
+                                <th width="60%" style="text-align:center;">QUANTITY</th>
+                                <th width="40%" style="text-align:left;">LICENSES</th>
+                            </tr>
+                            <tr>
+                             <td style="text-align:center;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(essentialsOppmrc.Quantity = null, 0, essentialsOppmrc.Quantity)}"/></apex:outputText></td>
+                             <td style="text-align:left;">Essentials</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(premierOppmrc.Quantity = null, 0, premierOppmrc.Quantity)}"/></apex:outputText></td>
+                                <td style="text-align:left;">Premium</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"> <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(eliteOppmrc.Quantity = null, 0, eliteOppmrc.Quantity)}"/></apex:outputText></td>
+                                <td style="text-align:left;">Elite</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;"> <apex:outputText value="{0,number,#,##0}"><apex:param value="{!IF(outboundOppmrc.Quantity = null, 0, outboundOppmrc.Quantity)}"/></apex:outputText></td>
+                                <td style="text-align:left;">Outbound</td>
+                            </tr>
+                            
+                        </table>
+                        <br/><br/>
+                        <table width="100%" align="center" style="padding:10px;font-size:18px;">
+                           <!-- <tr>
+                                <th width="60%" style="text-align:center;">QUANTITY</th>
+                                <th width="40%" style="text-align:left;">EQUIPMENT PARENTS</th>
+                            </tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>-->
+                           <!-- <tr>
+                                <th width="60%" style="text-align:center;">QUANTITY</th>
+                                <th width="40%" style="text-align:left;">IPPHONES</th>
+                            </tr>
+                            <apex:repeat value="{!EquipmentIpPhone}" var="IP">
+                            <tr>
+                                <td style="text-align:center;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!IP.Quantity}"/></apex:outputText></td>
+                                <!--<td style="text-align:center;">{!IP.Quantity}</td>
+                                <td style="text-align:left;">{!IP.Product_Name__c}</td>
+                           <!-- </tr>
+                            </apex:repeat>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr>
+                                <th width="60%" style="text-align:center;">QUANTITY</th>
+                                <th width="40%" style="text-align:left;">POE SWITCHES</th>
+                            </tr>
+                            <apex:repeat value="{!EquipmentSwitch}" var="Switch">
+                            <tr>
+                                <td style="text-align:center;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!Switch.Quantity}"/></apex:outputText></td>
+                                <!--<td style="text-align:center;">{!Switch.Quantity}</td>
+                                <td style="text-align:left;">{!Switch.Product_Name__c}</td>
+                           <!-- </tr>
+                            </apex:repeat>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr>
+                                <th width="60%" style="text-align:center;">QUANTITY</th>
+                                <th width="40%" style="text-align:left;">ACCESSORIES</th>
+                            </tr>
+                            <apex:repeat value="{!EqmtAccessories}" var="Accessories">
+                            <tr>
+                                <td style="text-align:center;"><apex:outputText value="{0,number,#,##0}"><apex:param value="{!Accessories.Quantity}"/></apex:outputText></td>
+                                <!--<td style="text-align:center;">{!Accessories.Quantity}</td>
+                                <td style="text-align:left;">{!Accessories.Product_Name__c}</td>
+                           <!-- </tr>
+                            </apex:repeat>
+                         </table>
+                      -->
+                        
+                        
+                        <br clear="all" style='page-break-before:always' />
+                        <table width="100%">
+                            <tr>
+                                <td width="51%">
+                                    <!-- <img src="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000"/>-->
+                                    <apex:image url="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000" width="140" height="80" style="float:left;"/>
+                                </td>
+                                <td width="49%">
+                                    
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align:right;font-size:12px;"><b>FRONTIER ANYWARE UCaaS (FAW UCaaS) and Rental SCHEDULE</b> </p>
+                                    <p style="text-align:right;font-size:12px;">Frontier Confidential</p>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <br/><br/>                        <center> 
+                        <span class="p7" style="font-size:21px;"><b> Attachment 2</b></span><br/>
+                        <span class="p12"><b> Scope of Work </b></span><br/>
+                        <span class="p12"><b> Installation Services</b></span><br/><br/>
+                        </center>
+                        
+                        <span class="p12"> <u><b> 1.         Overview.</b></u> </span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p7"> a.   &nbsp; &nbsp;        This Scope of Work (“SOW”) outlines the services and deliverables Frontier will provide as part of the Installation Services. In addition, this SOW outlines the roles and responsibilities of Frontier and Customer with respect to the Installation Services, and the key dependencies upon which this SOW is based.</span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p7"> b.   &nbsp; &nbsp;       During the installation process, Frontier will work closely with Customer on a consultative basis to ensure the successful completion of this SOW. <b>This SOW outlines  all  services  and  deliverables  covered  by  the  compensation  outlined  in  the  Schedule.</b>     Any  requested  changes  or  additions  to  this  SOW  may  only  be accommodated according to the change management process outlined in Section 7 of the Schedule.</span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p7"> c.   &nbsp; &nbsp;        The  services  and  deliverables  described  in  this  SOW  are  designed  to  properly  configure  the  Equipment  according  to  manufacturer  specifications.  In addition, all work performed by Frontier pursuant to this SOW will comply with manufacturer-recommended installation procedures.</span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p7"> d.   &nbsp; &nbsp;  .       The work described under  this  SOW will begin  on a date mutually  agreeable  to Customer  and Frontier.  The start  date  will be determined  following full execution of both the Schedule incorporating this SOW and the underlying Frontier Service Agreement.</span><br/><br/>
+                        <span class="p12"> <u><b> 2.         Key Assumptions.</b></u>    <span class="p7">     This  SOW  and  related  pricing  are  based  on  the  following  key  assumptions.   If  these  assumptions  are  not  met,  changes  in  project  scope, pricing and/or schedule may be required in order to satisfy project objectives.</span> </span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> a.   &nbsp; &nbsp;    <u>Hours.</u>   <span class="p7">   All work will be performed during normal business hours (8:00am – 5:00pm local time, excluding holidays).</span></span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> b.   &nbsp; &nbsp;    <u>Installation.</u> <span class="p7">    Customer is responsible for providing and configuring all routers, switches, and servers necessary for installation of the Equipment.   Frontier
+                        is not responsible for anything outside the scope of this SOW, unless outlined in a mutually agreed Change Order to this SOW.</span></span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> c.   &nbsp; &nbsp;    <u>Wiring.</u>  <span class="p7">  Wiring is in place, easily accessible, in proper working order, properly identified on both ends and within reach of the provided 2m patch cord for IP devices or the provided 12’ line cord for digital devices of the set location is to be placed for this installation. Unless otherwise specifically agreed in Section 6 or a Change Order, installation and/or repair of wiring is<u> not included</u> in this SOW.  </span></span><br/> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> d.   &nbsp; &nbsp;    <u>Standards.</u> <span class="p7">   All routers and switches supporting a VoIP System must meet industry standards for Quality of Service (QOS).</span></span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> e.   &nbsp; &nbsp;    <u>  Installation Site.</u>  <span class="p7"> Customer  will  ensure  that  the  installation  site  is  prepared  for  and  compatible  with  the  installation  services  and  operation  of  the
+                        Equipment, including but not limited to the following:</span></span><br/><br/>
+                        <br/>
+                        <ul class="p7">
+                            <li><u>Customer will provide needed Cat5E / Cats 6 cable </u></li>
+                            <li><u>Customer will provide power at locations of phones </u></li>
+                            <li><u>A single point of contact for all phone design decisions.</u></li>
+                            <li><u>Provide adequate bandwidth to support all listed telephone and devices listed in attachment 1 </u></li>
+                        </ul><br/><br/><br/><br/>
+                        <p class="p12">
+                            <b>****  ADDITIONAL SITE INFORMATION**** </b>  
+                            
+                        </p><br/><br/><br/><br/>
+                        <!-- <span class="p7" style="background:green;"> <u><b> >>>>> List of Equipment per Site  &lt;&lt;&lt;&lt;&lt;&lt; </b></u> </span><br/>-->
+                        
+                        <!--<apex:repeat value="{!siteAddressMap}" var="record1" >
+                            <br/><br/><br/>
+                            <table width="100%"  class="tab5" Style="border-collapse : collapse;">
+                                <tr>
+                                    <td  width="32%" valign="bottom" style="text-align:center;border-right: 1px solid #DCDCDC;padding-top:0px;" >Site Number<br/><span style="color:#696969">
+                                        {!record1}/{!opp.Company_size__c}
+                                        </span></td>
+                                    <td width="32%" valign="bottom" style="text-align:left;padding-top:0px;">
+                                        <apex:outputPanel rendered="{!IF(siteAddressMap[record1].Site_Street__c != null, true, false )}">
+                                            <apex:outputText > Site Address<br/><span style="color:#696969">
+                                                {!siteAddressMap[record1].Site_Street__c},  {!siteAddressMap[record1].Site_city__c},  {!siteAddressMap[record1].State__c},  {!siteAddressMap[record1].Site_zipcode__c}
+                                                </span></apex:outputText></apex:outputPanel>
+                                        <apex:outputPanel rendered="{!IF(siteAddressMap[record1].Site_Street__c == null, true, false )}">
+                                            <apex:outputText > Site Name<br/><span style="color:#696969">
+                                                {!siteAddressMap[record1].Site_Name__c} 
+                                                </span></apex:outputText></apex:outputPanel>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table width="100%"  class="tab5" Style="border-collapse : collapse;">
+                                <!--<tr>
+<td width="40%" style="background-color:#DF4841;color:white;">
+
+</td>
+<td width="12%" style="text-align:center;background-color:#DF4841;color:white;"></td>
+<td width="12%" style="background-color:#DF4841;color:white;text-align:right;">MRC</td>
+<td width="12%" style="background-color:#DF4841;color:white;text-align:left;"></td>
+<td  width="12%" style="background-color:#DF4841;color:white;text-align:right;">NRC</td>
+<td  width="12%" style="background-color:#DF4841;color:white;text-align:left;"></td>
+</tr>-->
+                               <!-- <tr>
+                                    <td width="50%" >
+                                        <span style="font-size: 1.5em;padding-left:15px;">Product Categories</span>
+                                    </td>
+                                    <td width="50%" style="text-align:center;">QTY</td>
+                                    <!--<td width="12%" style="background-color:#DF4841;color:white;text-align:left;">Unit Price</td>
+<td width="12%" style="background-color:#DF4841;color:white;text-align:left;">Total</td>
+<td  width="12%" style="background-color:#DF4841;color:white;text-align:left;">Unit Price</td>
+<td  width="12%" style="background-color:#DF4841;color:white;text-align:left;">Total</td>-->
+                                    
+                                    
+                                <!--</tr>
+                            </table>-->
+                           <!-- <table class="tab4" width="100%">  
+                                <!--<apex:variable var="v" value="" rendered="{!IF(ipPhoneItemList.size>0 && IpMap[record1] == 'test', true, false )}">-->
+                                
+                                <!--<tr>
+                                    <th  width="50%" style="font-weight: bold;text-align:left;padding-left:20px;">
+                                        IP PHONES
+                                    </th>
+                                    <th  width="50%" style="font-weight: normal;">
+                                        
+                                    </th>
+                                    <!-- <th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+
+<th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+<th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+
+<th width="12%" style="font-weight: normal;text-align:left;">
+&nbsp;
+</th>-->
+                               <!-- </tr>-->
+                                <!-- </apex:variable>-->  
+                                <!--<apex:repeat value="{!ipPhoneItemList1}" var="item">
+                                    <apex:variable var="v" value="" rendered="{!IF(item.Site_Number__c == record1, true, false )}">
+                                        <!-- <apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                       <!-- <tr>
+                                            <td width="50%" style="text-align:left;padding-left:20px;">
+                                                {!item.Product_Name__c}
+                                            </td>
+                                            <td width="50%">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity}"/>
+                                                </apex:outputText>
+                                            </td>
+                                            <!--   <td width="12%" style="text-align:left;"> 
+<apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+</apex:outputPanel> 
+</td>
+
+<td width="12%" style="text-align:left;">
+<apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+</apex:outputPanel>
+</td>
+<td width="12%" style="text-align:left;">
+<apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+</apex:outputPanel>
+</td>
+
+<td width="12%" style="text-align:left;">
+<apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0 , true, false )}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+</apex:outputPanel>
+</td>-->
+                                        <!--</tr>
+                                        <!--   </apex:variable>-->
+                                    <!--</apex:variable>
+                                </apex:repeat>
+                                
+                                <tr>
+                                    <th  width="50%" style="font-weight: bold;text-align:left;padding-left:20px;">
+                                        POE SWITCHES
+                                    </th>
+                                    <th  width="50%" style="font-weight: normal;">
+                                        
+                                    </th>
+                                    <!-- <th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+
+<th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+<th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+
+<th width="12%" style="font-weight: normal;text-align:left;">
+&nbsp;
+</th>-->
+                               <!-- </tr>
+                                <!-- </apex:variable>-->  
+                               <!-- <apex:repeat value="{!switchesItemList1}" var="item">
+                                    <apex:variable var="v" value="" rendered="{!IF(item.Site_Number__c == record1, true, false )}">
+                                        <!-- <apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                        <!--<tr>
+                                            <td width="50%" style="text-align:left;padding-left:20px;">
+                                                {!item.Product_Name__c}
+                                            </td>
+                                            <td width="50%">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity}"/>
+                                                </apex:outputText>
+                                            </td>
+                                            <!--   <td width="12%" style="text-align:left;"> 
+<apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+</apex:outputPanel> 
+</td>
+
+<td width="12%" style="text-align:left;">
+<apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+</apex:outputPanel>
+</td>
+<td width="12%" style="text-align:left;">
+<apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+</apex:outputPanel>
+</td>
+
+<td width="12%" style="text-align:left;">
+<apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0 , true, false )}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+</apex:outputPanel>
+</td>-->
+                                       <!-- </tr>
+                                        <!--   </apex:variable>-->
+                                   <!-- </apex:variable>
+                                </apex:repeat>
+                                
+                                <tr>
+                                    <th  width="50%" style="font-weight: bold;text-align:left;padding-left:20px;">
+                                        ACCESSORIES
+                                    </th>
+                                    <th  width="50%" style="font-weight: normal;">
+                                        
+                                    </th>
+                                    <!-- <th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+
+<th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+<th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+
+<th width="12%" style="font-weight: normal;text-align:left;">
+&nbsp;
+</th>-->
+                              <!--  </tr>
+                                <!-- </apex:variable>-->  
+                               <!-- <apex:repeat value="{!accessoriesItemList1}" var="item">
+                                    <apex:variable var="v" value="" rendered="{!IF(item.Site_Number__c == record1, true, false )}">
+                                        <!-- <apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                      <!--  <tr>
+                                            <td width="50%" style="text-align:left;padding-left:20px;border-bottom: 1px solid #DCDCDC;">
+                                                {!item.Product_Name__c}
+                                            </td>
+                                            <td width="50%" style="border-bottom: 1px solid #DCDCDC;">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity}"/>
+                                                </apex:outputText>
+                                            </td>
+                                            <!--   <td width="12%" style="text-align:left;"> 
+<apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+</apex:outputPanel> 
+</td>
+
+<td width="12%" style="text-align:left;">
+<apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+</apex:outputPanel>
+</td>
+<td width="12%" style="text-align:left;">
+<apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+</apex:outputPanel>
+</td>
+
+<td width="12%" style="text-align:left;">
+<apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0 , true, false )}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+</apex:outputPanel>
+</td>-->
+                                       <!-- </tr>
+                                        <!--   </apex:variable>-->
+                                    <!--</apex:variable>
+                                </apex:repeat>
+                            </table>
+                        </apex:repeat>-->
+                        <br/>
+                        <!--<span class="p7" style="background:yellow;"> ****  LIST ALL CUSTOMER REQUIREMENTS HERE OR REFERENCE AND ATTACH A SEPARATE DOCUMENT  **** </span><br/><br/>-->
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> f.   &nbsp; &nbsp;    <u>  Scheduling.</u>  <span class="p7"> Frontier   resources  will  be  assigned  and  scheduled   based  on  availability.     An  initial  project  meeting  will  be  held  with  the  Frontier implementation team and Customer-designated representatives. During this meeting critical implementation milestones will be determined. If applicable a Frontier- assigned Project Manager will be responsible for maintaining the master project schedule.    Installation Services will be performed during regular business hours (8 a.m. to 5 p.m. local time) unless otherwise outlined in Section 6.</span></span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> g.   &nbsp; &nbsp;    <u>   Cut-Over.</u>   <span class="p7">  Installation Services by Frontier will be completed in one (1) single continuous phase, unless a “multi-phased” implementation is requested by
+                        Customer and agreed per Section 6 or Change Order. In the event a multi-phased implementation is requested, additional charges will apply.
+                        </span> </span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> h.   &nbsp; &nbsp;    <u>     Removal of Existing Equipment and Infrastructure</u>  <span class="p7">  Frontier is not responsible for removal, disposal and cleanup of existing cable, telephony and associated equipment (e.g., power supplies, racks, blocks, etc.), unless specified in Section 6.    </span></span><br/><br/>         
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> i.   &nbsp; &nbsp;    <u>        Out-of-Scope Services.   </u>  <span class="p7">   For clarification, anything not expressly identified in this SOW as provided by Frontier is out-of-scope, including but not limited to the following:</span> </span><br/><br/>
+                        <ul class="p7">
+                            <li> Hardware, software, telecommunications or network technology not included in the original design.</li>
+                            <li>Installation and configuration changes that result from site additions or relocations that were not included in this SOW.</li>
+                            <li>   Delays of more than one half (1/2) hour resulting from Customer’s failure to meet its responsibilities.</li>
+                            <li>   Additional site visits required by Frontier personnel as a result of changes in Customer requirements or Customer’s failure to meet its obligations.</li>
+                        </ul>
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                        
+                        <br clear="all" style='page-break-before:always' />
+                        <table width="100%">
+                            <tr>
+                                <td width="51%">
+                                    <!-- <img src="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000"/>-->
+                                    <apex:image url="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000" width="140" height="80" style="float:left;"/>
+                                </td>
+                                <td width="49%">
+                                    
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align:right;font-size:12px;"><b>FRONTIER ANYWARE UCaaS (FAW UCaaS) and Rental SCHEDULE</b> </p>
+                                    <p style="text-align:right;font-size:12px;">Frontier Confidential</p>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <br/><br/>
+                        <span class="p12"> <u><b> 3.    Frontier Responsibilities.</b></u> </span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> a.   &nbsp; &nbsp;    <u>  Scope.   </u> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p7"> As part of the FAW UCaaS service, Frontier will provide a site installation that includes all items on Attachment 1.  </span></span><br/><br/>
+                        <br/><br/><br/><br/><p class="p12"> <b>****  ADDITIONAL FRONTIER RESPONSIBILITES****</b>
+                        </p> <br/><br/><br/><br/>
+                        <span class="p7">For a complete list of hardware that is included in this sale, please refer to Attachment 1 of this schedule.  All cabling is existing and will be re-used and is not included. Feature Teacher is provided for end-user training and basic operating instructions are included. One-year warranty with an additional one-year extended warranty included.</span><br/>
+                        <!--<span class="p7" style="background:yellow;"><u> *** SUMMARIZE INSTALLATION SPECIFICS PROVIDED BY FRONTIER AND INSERT VISIO DIAGRAM IF POSSIBLE  *** </u></span><br/><br/>-->
+                        <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> b.   &nbsp; &nbsp;    <u>   Performance of Work.   </u>  <span class="p7">   Frontier  will  install  the  Equipment.  Installation  Services  will  be  performed  in  a  workmanlike  manner  consistent  with manufacturer-published specifications and practices. Workmanship will comply with applicable NEC (National Electric Code) and TIA (Telecommunication Industries Association) standards.</span> </span><br/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="p12"> c.   &nbsp; &nbsp;    <u>   Miscellaneous.   </u>   <span class="p7"> Frontier is also responsible for the following: </span></span><br/><br/>
+                        <ul class="p7">
+                            <li> Provide status to Customer SPOC per a mutually agreed schedule.</li>
+                            <li>Provide installation, configuration and testing of Equipment &amp; licensed software.</li>
+                            <li>End user training per Section 1D.</li>
+                            <li> Basic system administration training per Section 1D.</li>
+                            <li>Provide system documentation to Customer.</li>
+                            <li> Provide support contact information to Customer to respond to questions during the installation project.</li>
+                            <li>Prior to the scheduled  installation date, Frontier will provide manufacturer and/or Equipment and license specific requirements for QoS, DHCP, application and integration with respect to the design and configuration to which Customer’s network must adhere.</li>
+                            <li>Confirm that all shipped Equipment to the Installation Site aligns with the Parts List ordered by Frontier on behalf of the Customer.</li>
+                        </ul><br/><br/>
+                        <span class="p12"> <u><b> 4.    Customer Responsibilities</b></u> :   <span class="p7">  Customer is  responsible for  all  network  elements  not  specifically identified  in  this SOW  as a  Frontier responsibility,  including but not limited to the following:</span></span><br/>
+                        <ul class="p7">
+                            <li>Provide a qualified SPOC responsible for communicating Customer’s requests to Frontier, and assume responsibility for all requests for modification. </li>
+                            <li> Ensure that Customer Information Technology resources will be available as required by Frontier.</li>
+                            <li> Provide Frontier employees or representatives access, escort, suitable work space and safety training (if required by Customer).</li>
+                            <li> Actively and promptly assist in database gathering and providing all information required by Frontier for installation purposes.</li>
+                            <li>All data network requirements (hardware and software), except as otherwise specifically ordered through Frontier.</li>
+                            <li> All  voice  and  data  wiring,  except  as  specifically  outlined  in  this  SOW  or  a  separate  Frontier  Schedule.  Any  required  modifications/adds/repairs  during  the installation project are billable.</li>
+                            <li>  QoS for VoIP systems; (i.e. Customer shall insure minimum bandwidth requirements are met)</li>
+                            <li>  Administrative formal training for Customer employees, unless ordered through Frontier.</li>
+                            <li> Manage and coordinate 3rd  party vendors, as necessary, to allow the installation project to proceed as scheduled.</li>
+                            <li>  All manufacturer recommended environmental, HVAC, power and grounding requirements.</li>
+                            <li> All patch cables that are required with the exception of the single 2m (6.5’) patch cord provided with each IP device or a single 12ft line cord for each digital phone.</li>
+                            <li> Ensure that all network equipment, configurations, cabling, power and grounding requirements are completed prior to installation start date.</li>
+                            <li> Provide Frontier with two (2) copies of current floor plans of the Installation Site that identify the placement of all cable plant, desktop devices, voice mailbox users and PCs as applicable to Frontier’s installation responsibilities hereunder. These floor plans must be signed to indicate their completeness and accuracy. If cable records are inaccurate or unavailable, Frontier will require the purchase of cable “Tone &amp; Testing” to generate updated cable plant and cross-connect records.</li>
+                            <li>All drilling at the Installation Site with the exception that Frontier will complete any drilling to secure required Equipment racks.</li>
+                            <li> Ensure all servers and computers supplied by the Customer meet the hardware and software specifications for all application software purchased.</li>
+                            <li>Provide Frontier with all required information to successfully integrate Installed Equipment and any OEM equipment supplied by the Customer.</li>
+                            <li> Provide  a secure  location  for  Equipment  shipped  to  the  Installation  Site  and  sign required  documentation  (e.g. packing  slip)  to  confirm  receipt  of ordered <br/>Equipment at the Installation Site.  Upon signing the required documentation, the Customer is responsible for all Equipment.</li>
+                            <li> Wiring, cabling and connection to interface(s) of 3rd Party vendor equipment associated with the Installation (including headsets)</li>
+                            <li>Provide adequate conduit, duct and trough availability for required cabling associated with the installation.</li>
+                            <li> Prior to Project implementation, identify and remove all contaminated areas from asbestos or other hazardous materials.  If Frontier discovers contaminated areas  during  Installation,  Frontier  will  cease  all  Project  activity  until  all  hazardous  materials  are  removed.    Customer  is  responsible  for  all  costs  associated  with removal of hazardous materials and additional costs incurred from Project delays due to the removal of hazardous materials. </li>
+                        </ul> 
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                        <br clear="all" style='page-break-before:always' />
+                        <table width="100%">
+                            <tr>
+                                <td width="51%">
+                                    <!-- <img src="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000"/>-->
+                                    <apex:image url="https://ftr--ucaastest--c.cs45.content.force.com/servlet/servlet.ImageServer?id=0158A0000001WYI&oid=00D8A0000004h7D&lastMod=1582874622000" width="140" height="80" style="float:left;"/>
+                                </td>
+                                <td width="49%">
+                                    
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align:right;font-size:12px;"><b>FRONTIER ANYWARE UCaaS (FAW UCaaS) and Rental SCHEDULE</b> </p>
+                                    <p style="text-align:right;font-size:12px;">Frontier Confidential</p>
+                                    
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <br/><br/>
+                        <center>
+                            <span class="p7" style="font-size:21px;"><b>Attachment 3</b></span>
+                            <br/>
+                            <span class="p7"><b>Maintenance  </b></span>
+                            
+                        </center><br/><br/>
+                        <span class="p7">1.       During the Initial Rental Term and any extension thereof Frontier will provide maintenance and repair services with respect to the Equipment (“Maintenance” at the  Installation  Site.  Only  authorized  agents  and  representatives  of  Frontier  may  perform  such  work.   Any  repair,  alteration,  configuration  or  servicing  of  the Equipment by Customer or third parties without the prior written consent of Frontier is a default of this Agreement and cause for termination of the Initial Rental Term or any extension thereof , in whole or in part, at Frontier’s option.   </span><br/><br/>
+                        <span class="p7">2.      During the Initial Rental Term or any extension thereof  , Frontier will maintain a point-of-contact twenty-four (24) hours a day, seven (7) days a week for Customer to  report  a  problem  with  the  Equipment  to  Frontier.  When  a  problem  occurs,  after  Customer  has  ascertained  that  it  is  not  a  result  of  an  act  or  omission  of Customer,  Customer’s  equipment  or  facilities,  or  any  third  party  or  their  facilities,  Customer  must  contact  Frontier  to  identify  the  problem  and  initiate  an investigation (“Trouble Ticket”). Responsibility for Trouble Ticket initiation rests solely with Customer. Once the Trouble Ticket has been opened, the appropriate Frontier  departments  will  initiate  diagnostic  testing  and  isolation  activities  to  determine  the  source  and  severity  of  the  problem.  Frontier  and  Customer  will cooperate to restore the Equipment to operational condition.   If the source of the problem is within the Equipment, Frontier will be responsible for the repair or replacement of the Equipment, in Frontier’s sole discretion.  If the source of the problem is not the Equipment, at Customer’s request Frontier will cooperate with Customer to conduct testing and repair activities, subject to Frontier’s standard technician rates. </span><br/><br/>
+                        <span class="p7">3.       If  Frontier,  in  its  sole  discretion,  determines  that  a  unit  of  Equipment  needs  to  be  replaced,  such  Equipment  will  be  replaced  with  equipment  of  like  kind  and functionality  from  a  manufacturer  of  Frontier’s  choice  at  the  time  of  replacement  (“Exchange  Unit”).   The  Exchange  Unit  may  not  be  new  but  will  be  in  good working order and of like kind and functionality.    </span><br/><br/>
+                        <span class="p7">4.           Maintenance  does  not  include  or  apply  to:   (i)  electrical  work  external  to  the  Equipment,  including  but  not  limited  to  power  or  back-up  power  to  or  from  the Equipment; (ii) Equipment failures caused by factors not related to the Equipment or outside Frontier’s control, including but not limited to failure of the applicable Installation  Site  to  conform  with  Frontier’s  specifications;  (iii)  use  of  the  Equipment  for  any  purpose  other  than  as  intended  by  the  manufacturer;   (iv)  damage caused  by  attempted  maintenance  or  repairs  performed  by  anyone  other  than  an  Frontier  employee  or  representative;  (v)  Equipment  supplies,  accessories, painting, or refurbishing; and (vi) any activity related to anything not furnished by Frontier, or use of Equipment with other equipment which fails to conform to manufacturer or Frontier specifications.   </span><br/><br/>
+                        <span class="p7">5.          Customer  agrees  that  the  Services  provided  by  Frontier  hereunder  are  subject  to  the  terms,  conditions  and restrictions  contained  in  any  applicable  agreements
+                            (including software or other intellectual property license agreements) between Frontier and Frontier’s vendors.
+                        </span><br/> 
+                        
+                    </div>
+                </div>
+            </form>
+        </body>    
+    </html>
+</apex:page>

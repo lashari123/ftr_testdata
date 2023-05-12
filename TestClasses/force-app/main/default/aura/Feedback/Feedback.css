@@ -1,0 +1,26 @@
+.THIS .emoji { display: flex; }
+.THIS .emoji > span, .THIS .slds-box { cursor: pointer; }
+.THIS .emoji > span > div:first-child { font-size:30px; }
+.THIS .emoji > span > div:last-child { text-align:center; }
+.THIS .btn, .THIS .btn:focus, .THIS .btn:active, .THIS .btn:hover { background-color: #C23934; color: white; border-color: #C23934; }
+.THIS .active { background-color: #fbeecd; border: 1px solid black; border-radius: 5px; }
+.THIS .emoji > span { padding: 5px 15px; }
+.THIS .br { border-radius: 5px; }
+.THIS .success {
+    color: white;
+    background-color: green;
+    border: 1px solid green;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px;
+}
+.THIS .error {
+    color: white;
+    background-color: red;
+    border: 1px solid red;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px;
+}

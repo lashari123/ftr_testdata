@@ -1,0 +1,14 @@
+.THIS #ticket_num > div > .slds-form-element__static{
+    color : red;
+}
+.THIS .right{
+    
+    float:right;
+}
+.THIS .wid{
+    max-width:none;
+    width: 65%;
+}
+.THIS .modal__content {
+    /*height: 600px;*/
+}

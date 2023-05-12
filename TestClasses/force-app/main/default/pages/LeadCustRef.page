@@ -1,0 +1,68 @@
+<apex:page standardController="Lead"  tabStyle="Lead">
+
+    <apex:form >
+        <apex:pageMessages />
+        <apex:pageBlock title="Lead Edit" mode="edit" >
+
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" title="Save" value="Save"/>
+                <apex:commandButton action="{!cancel}" title="Cancel" value="Cancel"/>
+            </apex:pageBlockButtons>
+     
+            <apex:pageBlockSection collapsible="false" columns="2" title="Lead Information" >
+                    <apex:outputField value="{!Lead.OwnerId}" /> 
+                    <apex:inputField value="{!Lead.Status}"  />
+                       <apex:pageBlockSectionItem >
+                           <apex:outputLabel value=" First Name"/>                       
+                           <apex:outputPanel >
+                            <apex:inputField value="{!Lead.Salutation}" />
+                            <apex:inputField value="{!Lead.FirstName}" />
+                           </apex:outputPanel>
+                       </apex:pageBlockSectionItem> 
+                    <apex:inputField value="{!Lead.Phone}" required="true"/>
+                    <apex:inputField value="{!Lead.LastName}"  />
+                    <apex:inputField value="{!Lead.Email}" />                
+                    <apex:inputField value="{!Lead.Company}"  />
+                    <apex:inputField value="{!Lead.Referring_Account__c}" required="true"/>
+                    <apex:inputField value="{!Lead.Region__c}" />
+                    <apex:inputField value="{!Lead.Referring_Contact__c}" />
+                    <apex:inputField value="{!Lead.Local_Area_Market__c}" />
+                    <apex:inputField value="{!Lead.Campaign__c}"  required="true"/>
+                    <apex:inputField value="{!Lead.Disposition_Category__c}" />
+                    <apex:inputField value="{!Lead.Disposition__c}" />
+            </apex:pageBlockSection>       
+
+            <apex:pageBlockSection collapsible="false" columns="2" title="Address Information">
+                        <apex:inputField value="{!Lead.Street}" />
+                        <apex:inputField value="{!Lead.Website}" />
+                        <apex:inputField value="{!Lead.City}" />
+                        <apex:outputLabel />
+                        <apex:inputField value="{!Lead.State}" />
+                        <apex:outputLabel />
+                        <apex:inputField value="{!Lead.PostalCode}" />
+                        <apex:outputLabel />
+                        <apex:inputField value="{!Lead.Country}" />
+            </apex:pageBlockSection>
+                    
+            <apex:pageBlockSection collapsible="false" columns="2" title="Additional Information" >
+                    <apex:inputField value="{!Lead.Type__c}" />
+                    <apex:inputField value="{!Lead.Industry}" />
+                    <apex:inputField value="{!Lead.Assigned_Base__c}" />
+                    <apex:inputField value="{!Lead.LeadSource}" />
+                    <apex:inputField value="{!Lead.Switched_Access_Lines__c}" />
+                    <apex:inputField value="{!Lead.Total_Wire_Line_BIll__c}" />
+                    <apex:inputField value="{!Lead.VOIP_Index__c}" />
+                    <apex:inputField value="{!Lead.Metro_E_Index__c}" />
+                    <apex:inputField value="{!Lead.Node_Distance__c}" />
+                    <apex:inputField value="{!Lead.Node_City__c}" />
+                    <apex:inputField value="{!Lead.HSI_Lines_Replaced__c}" />
+                    
+            </apex:pageBlockSection>   
+
+            <apex:pageBlockSection columns="1" title="Description Information">                
+                       <apex:inputField value="{!Lead.Description}" id="Description" style="width:60%;height:80px;"/>
+            </apex:pageBlockSection>    
+            
+        </apex:pageBlock>        
+     </apex:form>
+</apex:page>

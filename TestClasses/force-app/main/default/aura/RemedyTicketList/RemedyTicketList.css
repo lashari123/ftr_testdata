@@ -1,0 +1,35 @@
+.THIS {
+}
+
+.THIS .dark{
+    background: red;
+}
+
+.THIS.header{
+    color: #f3f3f3;
+    background: #333;
+}
+.THIS .open_tickets{
+    font-size: 23px;
+     height: 900px;
+}
+
+.THIS .changeColorToRed svg{
+    fill : red;
+}
+.THIS .changeColorToRed, .THIS .changeColorToRed a{
+    color: red ;
+}
+.THIS .changeColorToRed svg{
+    fill: red !important;
+}
+
+.THIS .changeColorToGreen svg{
+    fill : green;
+}
+.THIS .changeColorToGreen, .THIS .changeColorToGreen a{
+    color: green;
+}
+.THIS .changeColorToGreen svg{
+    fill: green !important;
+}

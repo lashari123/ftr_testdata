@@ -1,0 +1,225 @@
+<apex:page standardController="EVC__c" extensions="EVC_ExtensionController" docType="html-5.0">
+    <apex:sectionHeader title="EVC Edit" subtitle="{!EVC__c.name}" />
+    <apex:form html-novalidate="novalidate">
+        <apex:pageBlock title="EVC Edit" mode="edit">
+            <apex:pageMessages id="showmsg"></apex:pageMessages>
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Save" action="{!saveEVC}" />
+                <apex:commandButton value="Save & New" action="{!saveAndNewEVC}" />
+                <apex:commandButton value="Cancel" action="{!cancel}" /> 
+            </apex:pageBlockButtons>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Save" action="{!saveEVC}" />
+                <apex:commandButton value="Save & New" action="{!saveAndNewEVC}" />
+                <apex:commandButton value="Cancel" action="{!cancel}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Information" columns="2">
+                <apex:inputField value="{!EVC__c.Name}" required="true" />
+                <apex:outputText value="{!EVC__c.DGF__r.Name}" />
+                <apex:inputField id="EVCType" value="{!EVC__c.Type__c}" required="true" onchange="onChangeType(this)" />
+                <apex:inputField id="Bandwidth" value="{!EVC__c.Bandwidth__c}" required="true" />
+                <apex:inputField id="EVCSubtype" value="{!EVC__c.Subtype__c}" required="true" onchange="onChangeSubtype(this)" />
+                <apex:inputField id="Class_of_Service" value="{!EVC__c.Class_of_Service__c}" required="true" />
+                <apex:inputField id="Interstate_Intrastate" value="{!EVC__c.Interstate_Intrastate__c}" required="true" />
+                <apex:inputField id="Custom_SLA" value="{!EVC__c.Custom_SLA__c}" required="false" onclick="onClickCustomSla(this)" />
+                <apex:inputField id="DIA_PE_Router_Termination_CLLI" value="{!EVC__c.DIA_PE_Router_Termination_CLLI__c}" />
+                <apex:inputField id="Custom_SLA_Approver_Email" value="{!EVC__c.Custom_SLA_Approver_Email__c}" required="{!EVC__c.Custom_SLA__c}" />
+                <apex:inputField id="Existing_M6_Circuit_ID" value="{!EVC__c.Existing_M6_Circuit_ID__c}" />
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="UNIs and CE-VLAN" columns="2">
+                <apex:inputField label="{!CE_VLAN_ID_Label}" id="CE_VLAN_Id" value="{!EVC__c.CE_VLAN_ID__c}" type="number" html-min="1" html-max="4094" />
+                <apex:inputField label="{!CE_VLAN_ID_2_Label}" id="CE_VLAN_Id2" value="{!EVC__c.CE_VLAN_ID2__c}" type="number" html-min="1" html-max="4094" />
+                <apex:inputField label="{!CE_VLAN_ID_Preservation_Label}" id="CE_VLAN_ID_Preservation" value="{!EVC__c.CE_VLAN_ID_Preservation__c}" required="false" onclick="onClickCeVlanIdPreservation(this)" />
+                <apex:inputField label="{!CE_VLAN_ID_Preservation_2_Label}" id="CE_VLAN_ID2_Preservation" value="{!EVC__c.CE_VLAN_ID_Preservation2__c}" required="false" onclick="onClickCeVlanIdPreservation(this)" />
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="1">
+                <apex:inputField id="CE_VLAN_Class_of_Service_Preservation" value="{!EVC__c.CE_VLAN_Class_of_Service_Preservation__c}" required="false" onclick="onClickCEVLANCoSPreservation(this)" />
+                <apex:pageBlockSectionitem >
+                    <apex:outputPanel styleClass="requiredInput" layout="block">
+                        <apex:outputPanel styleClass="requiredBlock" layout="block" />
+                        <c:MultiselectPicklist id="UNIs"
+                                               leftLabel="Available UNIs" 
+                                               leftOption="{!UNIOptions}" 
+                                               rightLabel="Selected UNIs" 
+                                               rightOption="{!selectedUNIs}"
+                                               size="8"
+                                               width="300px"
+                                               showUpDownButtons="false" />
+                    </apex:outputPanel>
+                </apex:pageBlockSectionitem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    <script>
+    window.addEventListener('load', function() {
+        handleType();
+		handleCeVlan();
+
+        // custom sla approval
+        enableCustomSlaApproverEmail({!EVC__c.Custom_SLA__c});
+    });
+    
+    function getSelectedUnis() {
+        var selectedUniOptions = document.querySelectorAll('span[id$=UNIs] select[id$=rightList] option');
+        var selectedUnis = [];
+        for (var i = 0, n = selectedUniOptions.length; i < n; i++) {
+        	selectedUnis.push(selectedUniOptions[i].innerHTML);
+        }
+        return selectedUnis;
+    }
+    
+    function handleCeVlan() {
+        var evcType = document.querySelector('select[id$=EVCType]').value;
+        var evcSubtype = document.querySelector('select[id$=EVCSubtype]').value;
+        var ceVlanCmps = document.querySelectorAll('input[id$=CE_VLAN_Id],input[id$=CE_VLAN_ID_Preservation],input[id$=CE_VLAN_Class_of_Service_Preservation]');
+
+        var selectedUnis = getSelectedUnis();
+        document.querySelector('label[for$=CE_VLAN_Id]').innerHTML = 'CE-VLAN Id for ' + selectedUnis[0];
+        document.querySelector('label[for$=CE_VLAN_ID_Preservation]').innerHTML = 'CE-VLAN Id Preservation for  ' + selectedUnis[0];
+
+        var shouldBeDisabled = evcSubtype !== 'EVPL' && evcSubtype !== 'EVPLAN';
+        if (ceVlanCmps) {
+            ceVlanCmps.forEach(function(el) {
+                el.disabled = shouldBeDisabled;
+                if (el.type === 'checkbox') {
+                    el.checked = shouldBeDisabled ? false : el.checked;
+                } else {
+                    el.value = shouldBeDisabled ? '' : el.value;
+                }
+            });
+        }
+        if (evcType === 'EIA') {
+            // using indexes to keep from having to re-query
+            // if ceVlanCmps querySelector string changes, this will have to be adjusted
+            ceVlanCmps[0].disabled = false; 
+            ceVlanCmps[1].disabled = true;
+        }
+    	handleCeVlan2();
+    }
+    function handleCeVlan2() {
+        var evcSubtype = document.querySelector('select[id$=EVCSubtype]').value;
+        var ceVlan2Cmps = document.querySelectorAll('label[for$=CE_VLAN_Id2],input[id$=CE_VLAN_Id2],label[for$=CE_VLAN_ID2_Preservation],input[id$=CE_VLAN_ID2_Preservation]');
+        if (ceVlan2Cmps) {
+            ceVlan2Cmps.forEach(function(el) {
+                el.hidden = evcSubtype !== 'EVPL';
+                el.value = evcSubtype !== 'EVPL' ? '' : el.value;
+            });
+            var selectedUnis = getSelectedUnis();
+            document.querySelector('label[for$=CE_VLAN_Id2]').innerHTML = 'CE-VLAN Id for ' + selectedUnis[1];
+            document.querySelector('label[for$=CE_VLAN_ID2_Preservation]').innerHTML = 'CE-VLAN Id Preservation for  ' + selectedUnis[1];
+        }
+    }                       
+
+    function onClickCustomSla(cmp){
+    	enableCustomSlaApproverEmail(cmp.checked);
+    }
+
+    function enableCustomSlaApproverEmail(enabled) {
+        var targetCmp = document.querySelector('input[id$=Custom_SLA_Approver_Email]');
+    	targetCmp.disabled = !enabled;
+        targetCmp.value = enabled ? targetCmp.value : '';
+    }
+    
+    function handleType() {
+        var evcType = document.querySelector('select[id$=EVCType]').value;
+        setSubtype(evcType);
+        setInterstateIntrastate(evcType);
+        setClassOfService(evcType);
+        setCustomSLA(evcType);
+        handleCeVlan();
+    }
+    
+    function setInterstateIntrastate(evcType) {
+        var iiCmp = document.querySelector('select[id$=Interstate_Intrastate]');
+		if (evcType === 'EIA') {
+        	iiCmp.value = 'Interstate';
+            for (var i = 0, n = iiCmp.children.length; i < n; i++){
+                iiCmp.children[i].disabled = iiCmp.children[i].value !== 'Interstate';
+            }
+        } else {
+            for (var i = 0, n = iiCmp.children.length; i < n; i++){
+                iiCmp.children[i].disabled = false;
+            }
+        }
+    }
+
+    function setClassOfService(evcType) {
+        var cosCmp = document.querySelector('select[id$=Class_of_Service]');
+        if (evcType !== 'ELINE') {
+            cosCmp.value = 'Silver';
+            for (var i = 0, n = cosCmp.children.length; i < n; i++){
+                cosCmp.children[i].disabled = cosCmp.children[i].value !== 'Silver';
+            }
+        } else {
+            for (var i = 0, n = cosCmp.children.length; i < n; i++){
+                cosCmp.children[i].disabled = false;
+            }
+        }
+    }
+    
+    function setCustomSLA(evcType) {
+        var slaCmp = document.querySelector('input[id$=Custom_SLA]');
+        var slaAppr = document.querySelector('input[id$=Custom_SLA_Approver_Email]');
+        if (evcType !== 'ELINE') {
+            slaCmp.checked = false;
+            slaAppr.value = '';
+        }
+        slaCmp.disabled = evcType !== 'ELINE';
+        slaAppr.disabled = !slaCmp.checked;
+    }
+    
+    function setSubtype(evcType) {
+        var evcSubtypeCmp = document.querySelector('select[id$=EVCSubtype]');
+        Array.prototype.forEach.call(evcSubtypeCmp.children, function(o) {
+        	if (evcType === 'EIA') {
+            	o.disabled = o.value === 'Internet' ? false : true;
+                evcSubtypeCmp.value = 'Internet';
+                //evcSubtypeCmp.disabled = true;
+            } else if (evcType === 'ELINE') {
+            	o.disabled = o.value === 'EPL' || o.value === 'EVPL' ? false : true;
+                evcSubtypeCmp.value = evcSubtypeCmp.value === 'EPL' || evcSubtypeCmp.value === 'EVPL' ? evcSubtypeCmp.value : 'EVPL';
+                //evcSubtypeCmp.disabled = false;
+            } else { // ELAN
+            	o.disabled = o.value === 'EPLAN' || o.value === 'EVPLAN' ? false : true;
+                evcSubtypeCmp.value = evcSubtypeCmp.value === 'EPLAN' || evcSubtypeCmp.value === 'EVPLAN' ? evcSubtypeCmp.value : 'EVPLAN';
+                //evcSubtypeCmp.disabled = false;
+            }
+        });
+    }
+    
+    function onChangeType(cmp) {
+    	handleType();
+    }
+    
+    function onChangeSubtype(cmp) {
+        handleCeVlan();
+    }
+    
+    function onClickCEVLANCoSPreservation(cmp) {
+        setCEVLANIdPreservation();
+    }
+    
+    function setCEVLANIdPreservation() {
+        var cmps = document.querySelectorAll('input[id$=CE_VLAN_ID_Preservation],input[id$=CE_VLAN_ID2_Preservation]');
+        var evcType = document.querySelector('select[id$=EVCType]').value;
+        var CEVLANCoSPreservation = document.querySelector('input[id$=CE_VLAN_Class_of_Service_Preservation]').checked;
+        var evcSubType = document.querySelector('select[id$=EVCSubtype]').value;
+        if (evcType === 'ELINE' && evcSubType === 'EVPL' && CEVLANCoSPreservation === true) {
+            cmps.forEach(function(cmp){
+                cmp.checked = true;
+                //cmp.disabled = true;
+            });
+        }
+    }
+    
+    function onClickCeVlanIdPreservation(cmp) {
+        var CEVLANCoSPreservation = document.querySelector('input[id$=CE_VLAN_Class_of_Service_Preservation]');
+		if (!cmp.checked && CEVLANCoSPreservation.checked) {
+        	alert('CE-VLAN Class of Service Preservation requires that both CE-VLAN Id Preservation checkboxes be selected. You cannot deselect this checkbox without first deselecting Class of Service Preservation');
+			cmp.checked = true;
+        }
+    }
+    
+    </script>
+    
+</apex:page>

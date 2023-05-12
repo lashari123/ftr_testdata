@@ -1,0 +1,471 @@
+<aura:component controller="AssetHomeController">
+    
+    <aura:attribute type="Remedy_Ticket__c" name="ticketInfo" default="{'sObjectType':'Remedy_Ticket__c'}" />
+    <aura:attribute name="showContactFields" type="Boolean" default="true" />
+    <aura:attribute name="displayRows" type="Object" />
+    <aura:attribute name="errorPhoneFields" type="String" />
+    <aura:attribute name="errorNameFields" type="String" />
+    
+   	<aura:attribute name="selectedContactId1" type="string" access="public" />
+    <aura:attribute name="selectedContactId2" type="string" access="public" />
+    <aura:attribute name="selectedContactId3" type="string" access="public" />
+    <aura:attribute name="selectedContactId4" type="string" access="public" />
+    <aura:attribute name="selectedContactId5" type="string" access="public" />
+    <aura:attribute name="selectedContactId6" type="string" access="public" />
+    <aura:attribute name="selectedContactId7" type="string" access="public" />
+    
+    <aura:attribute name="searchText1" type="string" access="public" />
+    <aura:attribute name="searchText2" type="string" access="public" />
+    <aura:attribute name="searchText3" type="string" access="public" />
+    <aura:attribute name="searchText4" type="string" access="public" />
+    <aura:attribute name="searchText5" type="string" access="public" />
+    <aura:attribute name="searchText6" type="string" access="public" />
+    <aura:attribute name="searchText7" type="string" access="public" />
+    
+    <aura:attribute name="phone1" type="Boolean" access="public" />
+    <aura:attribute name="phone2" type="Boolean" access="public" />
+    <aura:attribute name="phone3" type="Boolean" access="public" />
+    <aura:attribute name="phone4" type="Boolean" access="public" />
+    <aura:attribute name="phone5" type="Boolean" access="public" />
+    <aura:attribute name="phone6" type="Boolean" access="public" />
+    <aura:attribute name="phone7" type="Boolean" access="public" />
+    <aura:attribute name="phone8" type="Boolean" access="public" />
+    
+    <aura:attribute name="name1" type="Boolean" access="public" />
+    <aura:attribute name="name2" type="Boolean" access="public" />
+    <aura:attribute name="name3" type="Boolean" access="public" />
+    <aura:attribute name="name4" type="Boolean" access="public" />
+    <aura:attribute name="name5" type="Boolean" access="public" />
+    <aura:attribute name="name6" type="Boolean" access="public" />
+    <aura:attribute name="name7" type="Boolean" access="public" />
+    <aura:attribute name="name8" type="Boolean" access="public" />
+    
+    <aura:attribute name="isLoading" type="Boolean" access="public" default="false" />
+    
+    <aura:attribute name="numberOfContactsActive" type="Integer" access="public" default="0" />
+    <aura:attribute name="recordId" type="String" default="" />
+    <aura:handler name="init" value="{!this}" action="{!c.init }" />
+    
+    <aura:handler name="change" value="{!v.ticketInfo.Additional_Contact_Name_1__c}" action="{!c.handleContact1}" />
+    <aura:handler name="change" value="{!v.ticketInfo.Additional_Contact_Name_2__c}" action="{!c.handleContact2}" />
+    <aura:handler name="change" value="{!v.ticketInfo.Additional_Contact_Name_3__c}" action="{!c.handleContact3}" />
+    <aura:handler name="change" value="{!v.ticketInfo.Additional_Contact_Name_4__c}" action="{!c.handleContact4}" />
+    <aura:handler name="change" value="{!v.ticketInfo.Additional_Contact_Name_5__c}" action="{!c.handleContact5}" />
+    <aura:handler name="change" value="{!v.ticketInfo.Additional_Contact_Name_6__c}" action="{!c.handleContact6}" />
+    <aura:handler name="change" value="{!v.ticketInfo.Additional_Contact_Name_7__c}" action="{!c.handleContact7}" />
+    <aura:handler name="change" value="{!v.ticketInfo.Additional_Contact_Name_8__c}" action="{!c.handleContact8}" />
+    
+    <aura:handler name="change" value="{!v.errorPhoneFields}" action="{!c.handlePhoneError}" />
+    <aura:handler name="change" value="{!v.errorNameFields}" action="{!c.handleNameError}" />
+    
+    <aura:attribute name="options" type="List" default="[
+		{'label': 'Yes', 'value': 'Yes'},
+    	{'label': 'No', 'value': 'No'}]"/>
+
+    <aura:if isTrue="{!v.showContactFields}">
+        <aura:if isTrue="{! v.numberOfContactsActive >= 1 }">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="3">
+                <div class="{! 'font ' + (v.name1? 'slds-has-error' : '') }">
+                 
+                    <c:lookupField
+                                   objectAPIName="Contact"
+                                   required="false"
+                                   label="Contact Name"
+                                   returnFields="['Name']"
+                                   queryFields="['Name','Email','Phone']"
+                                   selectedId="{!v.ticketInfo.Additional_Contact_Name_1__c}"
+                                   searchText="{!v.ticketInfo.Additional_Contact_Name_Text_1__c}"
+                                   />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 required="false"
+                                 value="{!v.ticketInfo.Additional_Contact_Email_1__c}"
+                                 type="email"
+                                 name="contact_email"
+                                 label="Contact Email"
+                                 maxlength="50"
+                                 class="font"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 value="{!v.ticketInfo.Additional_Contact_Phone_1__c}"
+                                 type="tel"
+                                 name="contact_number"
+                                 label="SMS Text Number"
+                                 onchange="{!c.getPhoneNum}"
+                                 maxlength="10"
+                                 minlength="10"
+                                 messageWhenTooShort="Please enter 10 digit phone number"
+                                 class="{! 'font ' + (v.phone1? 'slds-has-error' : '') }"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="2">
+                <lightning:combobox name="sendUpdates" label="Send Text updates?" value="{!v.ticketInfo.Send_update_1__c}" 
+                                    placeholder="Select Y or N" options="{! v.options }" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="1">
+                <lightning:buttonIcon class="slds-m-top_large" iconName="utility:close" name="1" onclick="{!c.clearContact}" alternativeText="Clear" title="Clear" />
+            </lightning:layoutItem>
+            </lightning:layout></aura:if>
+        <aura:if isTrue="{! v.numberOfContactsActive >= 2 }">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="3">
+                <div class="{! 'font ' + (v.name2? 'slds-has-error' : '') }">
+                    <c:lookupField
+                                   objectAPIName="Contact"
+                                   required="false"
+                                   label="Contact Name"
+                                   returnFields="['Name']"
+                                   queryFields="['Name','Email','Phone']"
+                                   selectedId="{!v.ticketInfo.Additional_Contact_Name_2__c}"
+                                   searchText="{!v.ticketInfo.Additional_Contact_Name_Text_2__c}"
+                                   />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 required="false"
+                                 value="{!v.ticketInfo.Additional_Contact_Email_2__c}"
+                                 type="email"
+                                 name="contact_email"
+                                 label="Contact Email"
+                                 maxlength="50"
+                                 class="font"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 value="{!v.ticketInfo.Additional_Contact_Phone_2__c}"
+                                 type="tel"
+                                 name="contact_number"
+                                 label="SMS Text Number"
+                                 onchange="{!c.getPhoneNum}"
+                                 maxlength="10"
+                                 minlength="10"
+                                 messageWhenTooShort="Please enter 10 digit phone number"
+                                 class="{! 'font ' + (v.phone2? 'slds-has-error' : '') }"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="2">
+                <lightning:combobox name="sendUpdates" label="Send Text updates?" value="{!v.ticketInfo.Send_update_2__c}" 
+                                    placeholder="Select Y or N" options="{! v.options }" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="1">
+                <lightning:buttonIcon class="slds-m-top_large" iconName="utility:close" name="2" onclick="{!c.clearContact}" alternativeText="Clear" title="Clear" />
+            </lightning:layoutItem>
+        </lightning:layout></aura:if>
+        <aura:if isTrue="{! v.numberOfContactsActive >= 3 }">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="3">
+                <div class="{! 'font ' + (v.name3? 'slds-has-error' : '') }">
+                    <c:lookupField
+                                   objectAPIName="Contact"
+                                   required="false"
+                                   label="Contact Name"
+                                   returnFields="['Name']"
+                                   queryFields="['Name','Email','Phone']"
+                                   selectedId="{!v.ticketInfo.Additional_Contact_Name_3__c}"
+                                   searchText="{!v.ticketInfo.Additional_Contact_Name_Text_3__c}"
+                                   />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 required="false"
+                                 value="{!v.ticketInfo.Additional_Contact_Email_3__c}"
+                                 type="email"
+                                 name="contact_email"
+                                 label="Contact Email"
+                                 maxlength="50"
+                                 class="font"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 value="{!v.ticketInfo.Additional_Contact_Phone_3__c}"
+                                 type="tel"
+                                 name="contact_number"
+                                 label="SMS Text Number"
+                                 onchange="{!c.getPhoneNum}"
+                                 maxlength="10"
+                                 minlength="10"
+                                 messageWhenTooShort="Please enter 10 digit phone number"
+                                 class="{! 'font ' + (v.phone3? 'slds-has-error' : '') }"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="2">
+                <lightning:combobox name="sendUpdates" label="Send Text updates?" value="{!v.ticketInfo.Send_update_3__c}" 
+                                    placeholder="Select Y or N" options="{! v.options }" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="1">
+                <lightning:buttonIcon class="slds-m-top_large" iconName="utility:close" name="3" onclick="{!c.clearContact}" alternativeText="Clear" title="Clear" />
+            </lightning:layoutItem>
+        </lightning:layout></aura:if>
+        <aura:if isTrue="{! v.numberOfContactsActive >= 4 }">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="3">
+                <div class="{! 'font ' + (v.name4? 'slds-has-error' : '') }">
+                    <c:lookupField
+                                   objectAPIName="Contact"
+                                   required="false"
+                                   label="Contact Name"
+                                   returnFields="['Name']"
+                                   queryFields="['Name','Email','Phone']"
+                                   selectedId="{!v.ticketInfo.Additional_Contact_Name_4__c}"
+                                   searchText="{!v.ticketInfo.Additional_Contact_Name_Text_4__c}"
+                                   />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 required="false"
+                                 value="{!v.ticketInfo.Additional_Contact_Email_4__c}"
+                                 type="email"
+                                 name="contact_email"
+                                 label="Contact Email"
+                                 maxlength="50"
+                                 class="font"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 value="{!v.ticketInfo.Additional_Contact_Phone_4__c}"
+                                 type="tel"
+                                 name="contact_number"
+                                 label="SMS Text Number"
+                                 onchange="{!c.getPhoneNum}"
+                                 maxlength="10"
+                                 minlength="10"
+                                 messageWhenTooShort="Please enter 10 digit phone number"
+                                 class="{! 'font ' + (v.phone4? 'slds-has-error' : '') }"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="2">
+                <lightning:combobox name="sendUpdates" label="Send Text updates?" value="{!v.ticketInfo.Send_update_4__c}" 
+                                    placeholder="Select Y or N" options="{! v.options }" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="1">
+                <lightning:buttonIcon class="slds-m-top_large" iconName="utility:close" name="4" onclick="{!c.clearContact}" alternativeText="Clear" title="Clear" />
+            </lightning:layoutItem>
+        </lightning:layout></aura:if>
+        <aura:if isTrue="{! v.numberOfContactsActive >= 5 }">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="3">
+                <div class="{! 'font ' + (v.name5? 'slds-has-error' : '') }">
+                    <c:lookupField
+                                   objectAPIName="Contact"
+                                   required="false"
+                                   label="Contact Name"
+                                   returnFields="['Name']"
+                                   queryFields="['Name','Email','Phone']"
+                                   selectedId="{!v.ticketInfo.Additional_Contact_Name_5__c}"
+                                   searchText="{!v.ticketInfo.Additional_Contact_Name_Text_5__c}"
+                                   />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 required="false"
+                                 value="{!v.ticketInfo.Additional_Contact_Email_5__c}"
+                                 type="email"
+                                 name="contact_email"
+                                 label="Contact Email"
+                                 maxlength="50"
+                                 class="font"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 value="{!v.ticketInfo.Additional_Contact_Phone_5__c}"
+                                 type="tel"
+                                 name="contact_number"
+                                 label="SMS Text Number"
+                                 onchange="{!c.getPhoneNum}"
+                                 maxlength="10"
+                                 minlength="10"
+                                 messageWhenTooShort="Please enter 10 digit phone number"
+                                 class="{! 'font ' + (v.phone5? 'slds-has-error' : '') }"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="2">
+                <lightning:combobox name="sendUpdates" label="Send Text updates?" value="{!v.ticketInfo.Send_update_5__c}" 
+                                    placeholder="Select Y or N" options="{! v.options }" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="1">
+                <lightning:buttonIcon class="slds-m-top_large" iconName="utility:close" name="5" onclick="{!c.clearContact}" alternativeText="Clear" title="Clear" />
+            </lightning:layoutItem>
+        </lightning:layout></aura:if>
+        <aura:if isTrue="{! v.numberOfContactsActive >= 6 }">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="3">
+                <div class="{! 'font ' + (v.name6? 'slds-has-error' : '') }">
+                    <c:lookupField
+                                   objectAPIName="Contact"
+                                   required="false"
+                                   label="Contact Name"
+                                   returnFields="['Name']"
+                                   queryFields="['Name','Email','Phone']"
+                                   selectedId="{!v.ticketInfo.Additional_Contact_Name_6__c}"
+                                   searchText="{!v.ticketInfo.Additional_Contact_Name_Text_6__c}"
+                                   />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 required="false"
+                                 value="{!v.ticketInfo.Additional_Contact_Email_6__c}"
+                                 type="email"
+                                 name="contact_email"
+                                 label="Contact Email"
+                                 maxlength="50"
+                                 class="font"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 value="{!v.ticketInfo.Additional_Contact_Phone_6__c}"
+                                 type="tel"
+                                 name="contact_number"
+                                 label="SMS Text Number"
+                                 onchange="{!c.getPhoneNum}"
+                                 maxlength="10"
+                                 minlength="10"
+                                 messageWhenTooShort="Please enter 10 digit phone number"
+                                 class="{! 'font ' + (v.phone6? 'slds-has-error' : '') }"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="2">
+                <lightning:combobox name="sendUpdates" label="Send Text updates?" value="{!v.ticketInfo.Send_update_6__c}" 
+                                    placeholder="Select Y or N" options="{! v.options }" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="1">
+                <lightning:buttonIcon class="slds-m-top_large" iconName="utility:close" name="6" onclick="{!c.clearContact}" alternativeText="Clear" title="Clear" />
+            </lightning:layoutItem>
+        </lightning:layout></aura:if>
+        <aura:if isTrue="{! v.numberOfContactsActive >= 7 }">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="3">
+                <div class="{! 'font ' + (v.name7? 'slds-has-error' : '') }">
+                    <c:lookupField
+                                   objectAPIName="Contact"
+                                   required="false"
+                                   label="Contact Name"
+                                   returnFields="['Name']"
+                                   queryFields="['Name','Email','Phone']"
+                                   selectedId="{!v.ticketInfo.Additional_Contact_Name_7__c}"
+                                   searchText="{!v.ticketInfo.Additional_Contact_Name_Text_7__c}"
+                                   />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 required="false"
+                                 value="{!v.ticketInfo.Additional_Contact_Email_7__c}"
+                                 type="email"
+                                 name="contact_email"
+                                 label="Contact Email"
+                                 maxlength="50"
+                                 class="font"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 value="{!v.ticketInfo.Additional_Contact_Phone_7__c}"
+                                 type="tel"
+                                 name="contact_number"
+                                 label="SMS Text Number"
+                                 onchange="{!c.getPhoneNum}"
+                                 maxlength="10"
+                                 minlength="10"
+                                 messageWhenTooShort="Please enter 10 digit phone number"
+                                 class="{! 'font ' + (v.phone7? 'slds-has-error' : '') }"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="2">
+                <lightning:combobox name="sendUpdates" label="Send Text updates?" value="{!v.ticketInfo.Send_update_7__c}" 
+                                    placeholder="Select Y or N" options="{! v.options }" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="1">
+                <lightning:buttonIcon class="slds-m-top_large" iconName="utility:close" name="7" onclick="{!c.clearContact}" alternativeText="Clear" title="Clear" />
+            </lightning:layoutItem>
+        </lightning:layout></aura:if>
+        <aura:if isTrue="{! v.numberOfContactsActive == 8 }">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="3">
+                <div class="{! 'font ' + (v.name8? 'slds-has-error' : '') }">
+                    <c:lookupField
+                                   objectAPIName="Contact"
+                                   required="false"
+                                   label="Contact Name"
+                                   returnFields="['Name']"
+                                   queryFields="['Name','Email','Phone']"
+                                   selectedId="{!v.ticketInfo.Additional_Contact_Name_8__c}"
+                                   searchText="{!v.ticketInfo.Additional_Contact_Name_Text_8__c}"
+                                   />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 required="false"
+                                 value="{!v.ticketInfo.Additional_Contact_Email_8__c}"
+                                 type="email"
+                                 name="contact_email"
+                                 label="Contact Email"
+                                 maxlength="50"
+                                 class="font"
+                                 
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3">
+                <lightning:input
+                                 aura:id="fieldId"
+                                 value="{!v.ticketInfo.Additional_Contact_Phone_8__c}"
+                                 type="tel"
+                                 name="contact_number"
+                                 label="SMS Text Number"
+                                 onchange="{!c.getPhoneNum}"
+                                 maxlength="10"
+                                 minlength="10"
+                                 messageWhenTooShort="Please enter 10 digit phone number"
+                                 class="{! 'font ' + (v.phone8? 'slds-has-error' : '') }"
+                                 />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="2">
+                <lightning:combobox name="sendUpdates" label="Send Text updates?" value="{!v.ticketInfo.Send_update_8__c}" 
+                                    placeholder="Select Y or N" options="{! v.options }" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="1">
+                <lightning:buttonIcon class="slds-m-top_large" iconName="utility:close" name="8" onclick="{!c.clearContact}" alternativeText="Clear" title="Clear" />
+            </lightning:layoutItem>
+        </lightning:layout></aura:if>
+        
+        <aura:if isTrue="{!v.numberOfContactsActive &lt; 8}">
+        	<lightning:button class="slds-m-vertical_medium btn" variant="brand" label="Add Contact" title="Add Contact" onclick="{! c.handleAddMore }" />
+        </aura:if>
+        
+        <aura:if isTrue="{!v.numberOfContactsActive &gt;= 8}">
+        	<div class="slds-m-vertical_medium">You can add upto 8 contacts utmost.</div>
+        </aura:if>
+        
+    </aura:if>
+    <aura:if isTrue="{!v.isLoading}"><lightning:spinner alternativeText="Loading" size="large" /></aura:if>
+</aura:component>

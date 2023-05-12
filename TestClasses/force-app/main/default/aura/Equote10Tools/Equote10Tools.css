@@ -1,0 +1,964 @@
+.THIS .btn1{
+    width: 23%;
+    padding: 1.5%;
+    border-radius:7px;
+    font-size:25px;
+     font-family: nexa;
+    font-weight: 600;
+    color:#333333;
+    background:#4ACC83;
+    border:none;
+}
+.THIS .btn2{
+    width: 23%;
+    padding: 1.5%;
+    border-radius:7px;
+    font-size:25px;
+     font-family: nexa;
+    font-weight: 600;
+    color:#333333;
+     background: #edebe9;
+     border:none;
+    margin-top:10px;
+}
+.THIS .btn3{
+    width: 23%;
+    padding: 1.5%;
+    border-radius:7px;
+    font-size:25px;
+     font-family: nexa;
+    font-weight: 600;
+    color:#333333;
+     background: #edebe9;
+     border:none;
+    margin-top:10px;
+}
+.THIS .slds-form-element__label{
+    font-size:20px;
+    font-weight:600;
+    color:#333333;
+}
+.THIS .slds-form-element__label1{
+    font-size:20px;
+    font-weight:600;
+    margin-left:20px;
+    color:#333333;
+}
+.THIS .slds-radio .slds-radio_faux{
+   width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    border: 2px solid gray;
+    border-radius: 1.125rem;
+    background: rgb(255, 255, 255);
+    transition: border .1s linear,background-color .1s linear;
+}
+.THIS .slds-checkbox .slds-checkbox_faux{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    border: 2px solid gray;
+    border-radius: .125rem;
+    background: rgb(255, 255, 255);
+    transition: border .1s linear,background-color .1s linear;
+}
+.THIS .container2 {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 20px;
+    color:#333333;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+    font-weight:600;
+}
+
+/* Hide the browser's default radio button */
+.THIS .container2 input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.THIS .checkmark2 {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #b6baba;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.THIS .container2:hover input ~ .checkmark2 {
+  background-color: #b6baba;
+}
+
+/* When the radio button is checked, add a blue background */
+.THIS .container2 input:checked ~ .checkmark2 {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.THIS .checkmark2:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.THIS .container2 input:checked ~ .checkmark2:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.THIS .container2 .checkmark2:after {
+    top: 8px;
+    left: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: white;
+}
+
+.THIS .container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.THIS .container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.THIS .checkmark {
+ position: absolute;
+    top: 5px;
+    left: 0;
+    height: 23px;
+    width: 23px;
+    background-color: #b6baba;
+    border-radius: 3px;
+}
+
+/* On mouse-over, add a grey background color */
+.THIS .container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.THIS .container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.THIS .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.THIS .container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.THIS .container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.THIS .slds-size_4-of1-12{
+    width:38%;
+}
+.THIS .slds-size_4-of2-12{
+    width:50%;
+}
+.THIS .para-preview-product-name{
+    margin-left: 12%;
+    margin-top: -7%;
+    font-size: 16px;
+    font-weight: 600;
+color:#333333;
+}
+.THIS .table-amount-top-alignment-right{
+    font-size: 16px;
+    float: right;
+    color:#333333;
+    font-weight: 600;
+    padding-right: 11px;
+    margin-top: 9%;
+}
+.THIS .table-total-alignment-right{
+        float: right;
+    margin-top: 14%;
+}
+.THIS .cEquote10Tools .slds-textarea {
+       font-size: 20px;
+    color:#333333;
+    font-weight: 600;
+    border: 2px solid gray;
+}
+.THIS span.spa :hover{
+    position: relative;
+    width: 25px;
+}
+
+.THIS span.spa[data-toolTip]:hover:after {
+    content: attr(data-toolTip);
+    position: absolute;
+    white-space: pre-wrap;
+    z-index: 20;
+    float: right;
+    top: 0px;
+    padding: 4px 17px 3px 17px;
+    border-radius:5px;
+    color:white;
+    background: #101d2f;
+}
+.THIS .slds-form-element .slds-form-element__control .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+    font-size: 21px;
+    color:#DF4841;
+}
+.THIS .slds-spinner_container  {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: var(--lwc-zIndexSpinner,9050);
+     background-color: transparent;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .2s ease,visibility 0s;
+    transition-delay: 0s,.3s;
+}
+.THIS .table-height{
+    height:23.3rem;
+    overflow-y:auto;
+}
+.THIS .img2{
+    height: 44px;
+    width: 300px;
+    margin-top: 34px;
+    margin-left: 8px;
+}
+.THIS .slds-textarea{
+   font-size: 23px;
+   color:#333333;
+    font-weight: 600;
+    border: 2px solid gray;
+}
+.THIS  .slds-select-one input.slds-input {
+    font-size :16px;
+            color:#333333;
+}
+.THIS .slds-path__nav .slds-is-active .slds-path__title {
+    transform: rotateX(0deg);
+    font-family: nexa;
+    font-weight:600;
+   color:#333333;
+}
+.THIS .slds-col.backgroundcolor1.slds-size1_2-of-12{
+    background-color: #4ACC83;
+    color:white;
+}
+.THIS .slds-path__title {
+     font-family: nexa;
+    font-size: 16px; 
+            font-weight:600;
+  color:#333333;
+        }
+
+.THIS .scroller {
+ 	max-height:22.3rem;
+	overflow-y:auto;
+ 
+}
+.THIS .scroller::-webkit-scrollbar {
+  	width: 10px;
+}
+ 
+.THIS .scroller::-webkit-scrollbar-thumb {
+  background: #f8fdfd;
+  border-radius: 20px;
+    border: 1px solid #D5DBDB;
+}
+
+.THIS .scroller::-webkit-scrollbar-track {
+  background: #ddd;
+  border-radius: 20px;
+}
+.THIS .pricebook-paragraph{
+            padding:7px;
+            font-family : nexa;
+            font-weight: 600;
+            font-size:21px;
+           color:#333333;
+        }
+      
+.THIS .slds-size1_2-of-12{
+    width:16.6666666667%;
+    border-radius:5px;
+     border : 1px solid var(--lwc-colorBorder,rgb(221, 219, 218));
+    background:  #f8fdfd;
+}
+.THIS .slds-col.slds-size1_2-of-12:hover {
+    background:#4ACC83;
+            cursor:pointer;
+                    color:white;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(even)>td  {
+    background-color: white;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(even)>th{
+     background-color: white;
+}
+.THIS .slds-table--striped tbody tr:nth-of-type(even)>td{
+     background-color: white;
+}
+.THIS .slds-table--striped tbody tr:nth-of-type(even)>th{
+     background-color: white;
+}
+/*.THIS .slds-table--striped tbody tr:nth-of-type(even)>th {
+     background-color: var(--lwc-colorBackgroundRowHover,rgb(243, 242, 242)); 
+    background-color: white;
+}*/
+.THIS .slds-table tbody tr {
+    counter-increment: row-number;
+    background: #f6fbfe;
+}
+.THIS .slds-size_12-of-12{
+   height:32rem; 
+    margin-top : 0.7%;
+    background : #f8fdfd;
+	border-radius: 30px;
+    padding:20px;
+}
+.THIS .slds-path__nav .slds-is-complete:after {
+    background:  #74CDDE;
+}
+.THIS .slds-path__nav .slds-is-complete:before  {
+    background:  #74CDDE;
+}
+.THIS .slds-path__nav .slds-is-complete {
+    background:   #74CDDE;
+}
+                        .THIS .abc:hover{
+                            font-family:nexa;
+                        }
+
+                        
+
+
+.THIS .indicator {
+    margin-top: -0.8%;
+}
+.THIS .th{
+    padding-left:1%
+}
+.THIS .imgHeader{
+    float:left;
+}
+
+.THIS .btnCancel{
+    width: 23%;
+    padding: 0.4%;
+    border-radius:7px;
+    font-size:25px;
+    font-family: nexa;
+    font-weight: 600;
+                    background: #edebe9;
+                    border:none;
+                                    color:#333333;
+}
+
+.THIS .selPar{
+    font-size: 20px;
+    color:#333333;
+    margin-top: -0.7%;
+}
+.THIS .p1 {
+    font-size:28px;
+    color:#333333;
+}
+.THIS .p2{
+    font-size:20px;
+  color:#333333;
+}
+
+.THIS .p3{
+    font-size:20px;
+    color:white;
+    padding:1%;
+}
+.THIS .p4{
+    font-size:20px;
+    color:white;
+    margin-left:12%;
+}
+.THIS .p5{
+    font-size:20px;
+    color:white;
+    margin-left:35%;
+}
+.THIS .p6{
+    font-size:15px;
+    color:white;
+    margin-left:35%;
+}
+.THIS .p9 {
+    font-size:30px;
+   color:#333333;
+    
+}
+
+.THIS .p10 {
+    font-size:50px;
+    color:#333333;
+    
+}
+.THIS .p11 {
+    font-size:17px;
+    color:#df4841;
+    text-align : center;
+}
+.THIS .p12 {
+    font-size:20px;
+    color:red;
+}
+.THIS .backgroundcolor{
+    background-color:green;
+    width: 75%;
+    margin-left: 12%;
+    border-radius: 9px;
+    border: 1px solid white;
+    padding: 2px;
+}
+/*.THIS .backgroundcolor1{
+    padding: 4.2px;
+    background-color: green;
+    border-radius: 7px;
+    width: 56%;
+    font-size:25px;
+}*/
+/*.THIS .backgroundcolor2{
+    padding: 4.2px;
+    background-color: brand;
+    border-radius: 7px;
+    width: 56%;
+}*/
+
+.THIS .pQuote{
+    font-size:20px;
+    color:white;
+    margin-top:-2%;
+}
+.THIS .slds-modal__container {
+    width: 72.0625rem;
+    max-width: 70rem;
+    margin-left:-37%;
+}
+.THIS .div3{
+    border-radius: 7px;
+    width: 57%;
+    padding: 1.5%;
+    font-size:25px;
+                                    color:#333333;
+}
+.THIS .img{
+    max-width: 100%;
+    height: auto;
+    padding-left: 16px;
+    padding-top: 13px;
+    
+}
+.THIS .div4{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor: pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 139%;
+    margin-left: -81%;
+    border: 1px solid white;
+    margin-top: -27%;
+}
+.THIS .div5{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor: pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 144%;
+    margin-left: -245%;
+    border: 1px solid white;
+}
+.THIS .quoteBack{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor: pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 142%;
+    margin-left: -465%;
+    border: 1px solid white;
+}
+.THIS .quoteBack1{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor: pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 148%;
+    margin-left: -139%;
+    border: 1px solid white;
+    margin-top: -23%;
+    margin-top: -23%;
+}
+.THIS .quoteBack2{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor: pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 137%;
+    margin-left: -300%;
+    border: 1px solid white;
+    margin-top: -31%;
+}
+.THIS .div6{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor: pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 140%;
+    border: 1px solid white;
+    margin-top: -27%;
+    margin-left: 76%;
+}
+.THIS .div{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor:pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 55%;
+    margin-left: 23%;
+}
+.THIS .innerDiv{
+    height:21rem;
+}
+.THIS .slds-input{
+    width: 35%;
+    
+}
+.THIS .siteBack{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor:pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 145%;
+    border: 1px solid white;
+    margin-left: 41%;
+}
+.THIS .siteBack1{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor:pointer;
+    
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 145%;
+    border: 1px solid white;
+    margin-left: 382%;
+    margin-top: -24%;
+}
+.THIS .siteBack2{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor:pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 145%;
+    border: 1px solid white;
+    margin-left: 213%;
+    margin-top: -28%;
+}
+.THIS .bottom-button-sec {
+    text-align: center;                            
+}
+
+.THIS .license{
+    width: 19%;
+    display: inline-block;
+}
+                        .THIS .btnOf1{
+                            background: #4ACC83;
+                            width: 25%;
+                            color: white;
+                            font-family: nexa;
+                            display: inline-block;
+                            margin: 0 15px 0 0;
+                            padding: .2%;
+                            font-size: 19px;
+                            line-height: 1.8rem;
+                            font-size: 19px;
+                            border-radius: 7px;
+                        }
+                        .THIS .btnOf2{
+                            border-radius: 7px;
+                            line-height: 1.8rem;
+                            background:#EDEBE9;
+                            width: 25%;
+                               color:black;
+                            font-family:nexa;
+                            display: inline-block;  
+                            margin: 0 15px 0 0;
+                            padding:0.2%;
+                            font-size:19px;
+                                    border:none;
+                        }
+                        .THIS .btnOf3{
+                            border-radius: 7px;
+                            line-height: 1.8rem;
+                            width: 25%;
+                               color:white;
+                            font-family:nexa;
+                            display: inline-block;  
+                            margin: 0 15px 0 0;
+                            padding:0.2%;
+                            font-size:19px;
+                            background: #4ACC83;
+                                    
+                                }
+.THIS .license1{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor:pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 19%;
+    border: 1px solid white;
+    margin-left: 61%;
+    margin-top: -5%;
+    
+}
+.THIS .license2{
+    background-color: cornflowerblue;
+    border-color: #c23934;
+    cursor:pointer;
+    height: 1.8rem;
+    border-radius: 6px;
+    width: 20%;
+    border: 1px solid white;
+    margin-left: 38%;
+    margin-top: -4%;
+    
+}
+.THIS .indicator{
+    margin-top:-1.2%;
+}
+.THIS .page{
+    font-size:24px;
+                                    font-weight: 600;
+                                   color:#333333;
+                                            margin-left: 60px;
+   /* margin-left:9%;*/
+}
+.THIS .slds-fade-in-open {
+    outline: none !important;
+}
+.THIS .slds-modal.slds-fade-in-open:focus {
+    outline: none !important;
+}
+.THIS .slds-modal:focus {
+    outline: none !important;                            
+}
+.THIS .slds-table--header-fixed_container {
+    padding-top:3rem;
+}
+.THIS.slds-spinner_container {
+    background-color : none;
+} 
+.THIS .slds-select-one input.slds-input {
+    width: 100%;
+    background: white;
+    margin-top:-3%;
+    margin-left:0px;
+   color:#333333;
+    font-weight: 600;
+    font-family: nexa;
+    border: 2px solid gray;
+    font-size: 20px;
+}
+.THIS #productLic_list .product-qty-input-box input[type="text"]{
+    text-align:right !important;   
+     font-size:20px;  
+                                            color:#333333;
+}
+  .THIS #productAddOn_list .product-qty-input-box input[type="text"]{
+    text-align:right !important;   
+     font-size:20px;
+                                            color:#333333;
+}
+   
+    .THIS #otherProduct_list .product-qty-input-box input[type="text"]{
+    text-align:right !important;   
+     color:#333333;
+      font-weight:600;
+                      font-size:20px;
+}
+                                .THIS .input-num{
+                                    
+                                }
+ 
+.THIS .slds-select-two input.slds-input {
+    width: 100%;
+    background: white;
+    margin-top:0;
+    margin-left:0px;
+}
+.THIS .slds-select-one input.slds-input{
+    width:100%;
+}
+.THIS .TypeOfBillingOption .slds-select{
+    border: 2px solid gray;
+    height: 34px; 
+}
+.THIS .slds-input{
+    font-size: 22px;
+    font-weight: 600;
+   color:#333333;
+    border: 2px solid gray;
+}
+
+.THIS .slds-table thead th{
+    font-family: serif;
+    padding: 15px 10px;
+    background : #f8fdfd;
+}
+
+.THIS #modal-content-id-1 {
+    position: relative;
+}
+.THIS .bottom-button-sec {
+     /* position: absolute;
+    bottom: 65px;
+    left: 0;
+    right: 0;
+    margin: 0 auto; */
+   position: absolute;
+    left: 1000px;
+    right: 0;
+    margin: 0 auto;
+    top: 180px;
+} 
+
+.THIS .footer-cancel-button .btnCancel {
+    margin-top:3.5%;
+}
+
+
+                                .THIS .popup-section-heading{
+                                   /* border-bottom: 1px solid var(--lwc-colorBorder,rgb(221, 219, 218));*/
+                                            margin-bottom: 15px;
+                                            font-size: 28px;
+                                            font-family:nexa;
+                                            font-weight: 600;
+                                           color:#333333;
+                                        }
+.THIS .quote-type-radio-button-list .slds-radio_faux {
+    margin-bottom: 7px;
+}
+.THIS .brand-selection-button-section .btn {
+    margin-bottom: 15px;   
+}
+.THIS .footer-back-cancel-continue-button {
+    margin-top: 30px;
+}
+.THIS .quote-type-radio-button-list .slds-form-element__label {
+    font-size: 20px;
+    margin-bottom:3%;
+                                            font-family: nexa;
+                                            font-weight: 600;
+                                            color:#333333;
+}
+.THIS .quote-type-radio-button-list .slds-radio_faux {
+    
+    margin-top: 7px;
+}
+.THIS .top-space-setting{
+    margin-top:2%;
+}
+.THIS .top-space2-setting{
+    margin-top:2%;
+  margin-left: 115px;
+
+}
+.THIS .quote-type-radio-button-list {
+    margin-top: 1%;
+}
+
+.THIS .provided-by-the-customer-height{
+    margin-top: 2%;
+    
+}
+.THIS .How-Many-PoE-Title-Size{
+    font-size: 20px;
+    margin-bottom: 5px !important;    
+}
+.THIS .How-Many-PoE--Subtitle-Size{
+    font-size: 16px;
+}
+.THIS .How-Many-PoE-input-value .slds-input {
+    width:150px;
+}
+.THIS .product-table-on-popup-outer-box {
+    margin-top: 15px;
+}
+.THIS .table-amount-alignment-right{
+    font-size:16px;
+    float:right;
+    color:#333333;
+            font-weight: 600;
+            padding-right: 11px;
+        }
+        .THIS .product-table-heading-column-2 p {
+            float:right;
+        }
+        .THIS .product-table-heading-column-3 p {
+            float:right;
+        }        
+        .THIS .product-table-heading-column-4 p {
+            float:right;
+        }
+        .THIS .product-table-heading-column-5 p {
+            float:right;
+        }
+        .THIS .product-qty-input-box label.slds-form-element__label.slds-no-flex {
+            display: none;
+        }
+        .THIS .product-qty-input-box .slds-input {
+            margin-top: unset !important;
+            font-size: 13px;
+            float: right;
+            color: var(--lwc-colorTextLabel,rgb(62, 62, 60));
+                    font-weight: 500;
+                }
+                .THIS .two-custom-error-message .erroe-message-custom{
+                    font-size: 16px;
+                                                    color:var(--lwc-colorTextError,rgb(194, 57, 52));
+                    margin-top:5px;
+                }       
+                .THIS .action-button-container{
+                    float:right;                  
+                }        
+                
+                .THIS .slds-button--brand{
+                    text-align: center;
+                    color: var(--lwc-colorTextBrandPrimary,rgb(255, 255, 255));
+                        }
+                        .THIS .p7{
+                            margin-left:12%;
+                            margin-top:-3%;
+                               font-family: nexa;
+                                    font-size: 16px;
+                                    font-weight: 600;
+                         
+                                                            
+                                                            
+                                                            color:#333333;                                       
+                                }
+                                .THIS.slds-spinner_container {  
+                                    z-index: 10000;
+                                    position: fixed;   
+                                }
+                                .THIS .p8{
+                                    font-size:13px;
+                                    color: var(--lwc-colorTextLabel,rgb(62, 62, 60));
+                                            font-weight:500;
+                                            
+                                        }
+                                        .THIS .erroe-message-custom {
+                                            font-size: 20px;
+                                            color: var(--lwc-colorTextError,rgb(194, 57, 52));
+                                                    margin-top: 15px;
+                                                }
+                                                .THIS .slds-modal__close1{
+                                                    margin-left: 68.7rem;
+                                                    position: relative;
+                                                    display: inline-flex;
+                                                    align-items: center;
+                                                    padding: 0;
+                                                    background: transparent;
+                                                    background-clip: border-box;
+                                                    /* border: var(--lwc-borderWidthThin,1px) solid lightgrey; */
+                                                    border-radius: var(--lwc-buttonBorderRadius,72.25rem);
+                                                            /* line-height: var(--lwc-lineHeightButton,-1.125rem); */
+                                                            color: var(--lwc-brandAccessible,rgb(0, 112, 210));
+                                                                width: 2%;
+                                                                line-height: 1.7;
+                                                                border: 2px solid white;
+                                                                -webkit-user-select: none;
+                                                                -moz-user-select: none;
+                                                                -ms-user-select: none;
+                                                                user-select: none;
+                                                            }
+                                                            .THIS .slds-button_icon{
+                                                              color: var(--lwc-colorTextIconDefaultHint,rgb(176, 173, 171));
+    
+                                                            }
+                                                            .THIS .div3:hover{
+                                                                cursor:pointer;
+                                                                background: var(--lwc-brandAccessible,rgb(0, 112, 210));
+                                                                    }
+                                                                     .THIS .slds-truncate1{
+                                                                        font-size:17px;
+                                                                                 white-space: normal; 
+                                                                                                    }
+                                                                    .THIS .slds-truncate{
+                                                                          font-size: 23px;
+                                                                                 white-space: normal;
+                                                                                                font-weight: 600;
+                                                                                                        color:#333333;
+                                                                                                          
+                                                                            }
+                                                                            .THIS .slds-table--bordered tbody td {
+                                                                                padding: 15px 5px;
+                                                                            }
+                                                                            .THIS .slds-table td {
+                                                                                white-space: normal;
+                                                                            }

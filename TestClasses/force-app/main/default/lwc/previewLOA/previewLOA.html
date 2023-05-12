@@ -1,0 +1,23 @@
+<!--
+  @File Name          : previewLOA.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 10/28/2019, 11:39:55 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/2/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="Preview LOA" icon-name="standard:record">
+                <template if:true={contract.data}>
+                        <div>
+                                <lightning-button variant="brand"  class="slds-m-around_medium" label="Click to Preview LOA" onclick={previewLOA}></lightning-button>
+                            </div>
+                        </template>
+                <template if:true={contract.error}>
+                    <!-- handle Apex error -->
+                </template>
+        </lightning-card>
+    </template>

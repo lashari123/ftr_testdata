@@ -1,0 +1,431 @@
+<apex:page standardController="Opportunity" extensions="FilterProduct" contentType="{!renderAsExcel}" sidebar="false" action="{!change1}" >
+    <style>
+        body .bPageBlock .pbBody .dataCol {
+        border-right-color: transparent;
+        width: 100%;
+        }
+        .opportunityBlock{
+        margin-left: 5%;
+        }
+        
+         
+        .fonttest2{
+       
+        font-size: 13px;
+        color:red;
+        }
+    </style>
+     <apex:pageBlock title="Product Details" >
+ <apex:form >
+     <apex:outputText rendered="{!IF(contractTable == true, false, true )}">
+                    <apex:pageBlockTable value="{!Prodlst}" var="item" rendered="{!IF(productType != 'Parent-Child', true, false )}">
+                        <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                        <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                        <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                        <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                        <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                        <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                        <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                        <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                        <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                        <apex:column headerValue="Unit Price" >
+                            <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                        </apex:column>
+                        <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                        <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                        <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                        <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                        <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                        <apex:column headerValue="Total MRC">
+                            <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                        </apex:column>
+                        <apex:column headerValue="Total NRC">
+                            <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                        </apex:column>
+                    </apex:pageBlockTable>
+                    
+                    <apex:pageBlockTable value="{!Prodlst}" var="item1" rendered="{!IF(productType == 'Parent-Child', true, false )}"  >
+                        
+                        <apex:column value="{!item1.Product_Name__c}"  headerValue="Product Name"/>
+                        <apex:column value="{!item1.ProductCode}" headerValue="Product Code"/>
+                        <apex:column value="{!item1.lineItem__c}" headerValue="S&E DPI"/>
+                        <apex:column value="{!item1.Part_Number__c}" headerValue="Part Number"/>
+                        <apex:column value="{!item1.Sub_Category__c}" headerValue="Sub Category"/>
+                        <apex:column value="{!item1.Site_Number__c}" headerValue="Site Number"/>
+                        <apex:column value="{!item1.Filter_Product__c}" headerValue="Type"/>
+                        <apex:column value="{!item1.Quantity}" headerValue="Quantity"/>
+                        <apex:column value="{!item1.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                        <apex:column headerValue="Unit Price" >
+                            <apex:outputText value="{!item1.Unit_Price__c}" rendered="{!IF(item1.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            <apex:outputText value="{!item1.NRC__c}" rendered="{!IF(item1.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                        </apex:column>
+                        <apex:column value="{!item1.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                        <apex:column value="{!item1.GPM__c}" headerValue="GPM"/>
+                        <apex:column value="{!item1.DISCOUNT__c}" headerValue="Discount"/>
+                        <apex:column value="{!item1.UNITCOST__c}" headerValue="Unit Cost"/>
+                        <apex:column value="{!item1.TotalPrice}" headerValue="Total Price" />
+                        <apex:column headerValue="Total MRC">
+                            <apex:outputText value="{!item1.TotalPrice}" rendered="{!IF(item1.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                        </apex:column>
+                        <apex:column headerValue="Total NRC">
+                            <apex:outputText value="{!item1.TotalPrice}" rendered="{!IF(item1.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                        </apex:column>
+                        <apex:column breakBefore="true" colspan="18">
+                            
+                            <apex:outputPanel rendered="{!IF(noChildMap[item1.id]=='yes',true,false)}" styleClass="fonttest2">
+                               
+                                <apex:pageBlock title="Child" >
+                                    <table width="100%"  style="border-collapse: collapse;font-size:13px;color:CadetBlue;font-family:Calibri;">
+                                        <tr>
+                                            <th style="font-weight:bolder;">Product Name</th>
+                                            <th style="font-weight:bolder;">Product Code</th>
+                                            <th style="font-weight:bolder;">S&amp;E DPI</th>
+                                            <th style="font-weight:bolder;">Part Number</th>
+                                            <th style="font-weight:bolder;">Sub Category</th>   
+                                            <th style="font-weight:bolder;">Site Number</th>
+                                            <th style="font-weight:bolder;">Type</th>
+                                            <th style="font-weight:bolder;">Quantity</th>
+                                            <th style="font-weight:bolder;">Type of Billing</th>
+                                            <th style="font-weight:bolder;">Unit Price</th>
+                                            <th style="font-weight:bolder;">Vender Price List To Offer</th>
+                                            <th style="font-weight:bolder;">GPM</th>
+                                            <th style="font-weight:bolder;">Discount</th>
+                                            <th style="font-weight:bolder;">Unit Cost</th>
+                                            <th style="font-weight:bolder;">Total Price</th>
+                                            <th style="font-weight:bolder;">Total MRC</th>
+                                            <th style="font-weight:bolder;">Total NRC</th>
+                                        </tr>
+                                        <apex:repeat value="{!childItemLst}" var="item2"  >
+                                            <apex:variable value="" var="v" rendered="{!IF(item2.Parent_ID__c == item1.id,true,false)}">
+                                                <tr>
+                                                    <td style="background-color:white;">{!item2.Product_Name__c}</td>
+                                                    <td style="background-color:white;">{!item2.ProductCode}</td> 
+                                                    <td style="background-color:white;">{!item2.lineItem__c}</td> 
+                                                    <td style="background-color:white;">{!item2.Part_Number__c}</td> 
+                                                    <td style="background-color:white;">{!item2.Sub_Category__c}</td> 
+                                                    <td style="background-color:white;">{!item2.Site_Number__c}</td> 
+                                                    <td style="background-color:white;">{!item2.Filter_Product__c}</td> 
+                                                    <td style="background-color:white;">
+                                                        <apex:outputText value="{0,number,#,##0}">    
+                                                            <apex:param value="{!item2.Quantity}"/>
+                                                        </apex:outputText>
+                                                    </td> 
+                                                    <td style="background-color:white;">{!item2.Type_of_Billing__c}</td>
+                                                    <td style="background-color:white;">
+                                                        <apex:outputPanel rendered="{!IF(item2.Type_of_Billing__c == 'MRC',true,false)}">
+                                                            <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item2.Unit_Price__c}"/></apex:outputText>
+                                                        </apex:outputPanel>
+                                                        <apex:outputPanel rendered="{!IF(item2.Type_of_Billing__c == 'NRC',true,false)}">
+                                                            <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item2.NRC__c}"/></apex:outputText>
+                                                        </apex:outputPanel>
+                                                    </td>
+                                                    <td style="background-color:white;"><apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item2.VENDOR_PRICE_LIST_TO_OFFER__c}"/></apex:outputText></td>
+                                                    <td style="background-color:white;"><apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item2.GPM__c}"/></apex:outputText></td>
+                                                    <td style="background-color:white;"><apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item2.DISCOUNT__c}"/></apex:outputText></td>
+                                                    <td style="background-color:white;"><apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item2.UNITCOST__c}"/></apex:outputText></td>
+                                                    <td style="background-color:white;"><apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item2.TotalPrice}"/></apex:outputText></td>
+                                                    <td style="background-color:white;">
+                                                        <apex:outputText value="{!item2.TotalPrice}" rendered="{!IF(item2.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                                    </td>
+                                                    <td style="background-color:white;"> 
+                                                        <apex:outputText value="{!item2.TotalPrice}" rendered="{!IF(item2.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                                                    </td>
+                                                </tr>
+                                            </apex:variable>
+                                        </apex:repeat>
+                                    </table>
+                                    <hr/>
+                                </apex:pageBlock>
+                            </apex:outputPanel>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:outputText>
+                <apex:outputText rendered="{!IF(contractTable == true, true, false )}">
+                    <apex:pageBlock title="Licenses" rendered="{!Licenses}">
+                        <apex:pageBlockTable value="{!parentLicensesLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+                    <apex:pageBlock title="Add-On" rendered="{!AddOn}">
+                        <apex:pageBlockTable value="{!parentAddOnLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+                    <apex:pageBlock title="Toll Free" rendered="{!TollFree}">
+                        <apex:pageBlockTable value="{!parentTollfreeLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+                    <apex:pageBlock title="Ip Phones" rendered="{!IpPhone}">
+                        <apex:pageBlockTable value="{!childIpphoneLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+                    <apex:pageBlock title="Switches POE" rendered="{!SwitchesPOE}">
+                        <apex:pageBlockTable value="{!childSwitchLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+                    <apex:pageBlock title="Accessories" rendered="{!Accessories}">
+                        <apex:pageBlockTable value="{!childAccessoriesLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+                    <apex:pageBlock title="Miscellaneous" rendered="{!Miscellaneous}">
+                        <apex:pageBlockTable value="{!childMiscellaneousLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+                    <apex:pageBlock title="Installation" rendered="{!Installation}">
+                        <apex:pageBlockTable value="{!installationLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+                    <apex:pageBlock title="1 Yr Warranty Reserve" rendered="{!WarrantyReserve}">
+                        <apex:pageBlockTable value="{!warrantyLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock>
+                    <apex:pageBlock title="PostWarranty" rendered="{!PostWarranty}">
+                        <apex:pageBlockTable value="{!postWarrantyLst}" var="item">
+                            <apex:column value="{!item.Product_Name__c}"  headerValue="Product Name"/>
+                            <apex:column value="{!item.ProductCode}" headerValue="Product Code"/>
+                            <apex:column value="{!item.lineItem__c}" headerValue="S&E DPI"/>
+                            <apex:column value="{!item.Part_Number__c}" headerValue="Part Number"/>
+                            <apex:column value="{!item.Sub_Category__c}" headerValue="Sub Category"/>
+                            <apex:column value="{!item.Site_Number__c}" headerValue="Site Number"/>
+                            <apex:column value="{!item.Filter_Product__c}" headerValue="Type"/>
+                            <apex:column value="{!item.Quantity}" headerValue="Quantity"/>
+                            <apex:column value="{!item.Type_of_Billing__c}" headerValue="Type of Billing"/>
+                            <apex:column headerValue="Unit Price" >
+                                <apex:outputText value="{!item.Unit_Price__c}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                                <apex:outputText value="{!item.NRC__c}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column value="{!item.VENDOR_PRICE_LIST_TO_OFFER__c}" headerValue="Vender Price List To Offer"/>
+                            <apex:column headerValue="GPM" value="{!item.GPM__c}"/>
+                            <apex:column headerValue="Discount" value="{!item.DISCOUNT__c}"/>
+                            <apex:column value="{!item.UNITCOST__c}" headerValue="Unit Cost"/>
+                            <apex:column value="{!item.TotalPrice}" headerValue="Total Price" />
+                            <apex:column headerValue="Total MRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'MRC',true,false)}"/> 
+                            </apex:column>
+                            <apex:column headerValue="Total NRC">
+                                <apex:outputText value="{!item.TotalPrice}" rendered="{!IF(item.Type_of_Billing__c == 'NRC',true,false)}"/> 
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlock> 
+                    
+                </apex:outputText>
+            </apex:form>
+        
+    </apex:pageBlock>
+    
+</apex:page>

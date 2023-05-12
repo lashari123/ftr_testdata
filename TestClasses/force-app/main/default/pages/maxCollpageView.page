@@ -1,0 +1,39 @@
+<apex:page controller="maxCollapseViewController" showHeader="false" action="{!calFullData}" >
+    <apex:form >
+    <!--    ---------- Radha , Vijay & Srikanth code starts-------------  -->
+    
+    <apex:pageblock >
+      <apex:outputpanel layout="block"  style="overflow:auto;height:550px;">
+              <apex:outputText value="Filter Phone # " style="font-weight:bold;white-space:nowrap;" />
+              <apex:InputText value="{!strColumnValue}" label="Search Text" style="position:relative;left:20px;" />
+            <apex:commandButton value="Search" action="{!prepareCollapseViewFilterData}" style="position:relative;left:30px;" status="counterStatus" />
+            <br />
+            <br />
+            <apex:pageblockTable id="collView" value="{!lstLatestProdValOutputValue }" var="prod">
+                   
+                   <apex:column value="{!prod.Phone_Number_1__c}" headerValue="Description" headerClass="TableTitle">
+                       <apex:facet name="header">Telephone <br/> Number </apex:facet>
+                   </apex:column>
+                   <apex:column value="{!prod.Description_1__c}" headerValue="Description" headerClass="TableTitle"/>
+                   <apex:column value="{!prod.S_E_1__c}" headerValue="Primary S&E" headerClass="TableTitle"/>
+                   <apex:column value="{!prod.Account_Id__c}" headerValue="USI" headerClass="TableTitle"/>
+                   <apex:column headerClass="TableTitle">
+                       <apex:facet name="header"> Line Connect <br/> Date</apex:facet>
+                       <apex:outputfield value="{!prod.Connect_Date_1__c}"/>
+                   </apex:column>
+                   <apex:column headerClass="TableTitle">
+                       <apex:facet name="header">Line Disc. <br/> Date</apex:facet>
+                       <apex:outputfield value="{!prod.Disconnect_Date_1__c}"/>
+                   </apex:column>
+                   <apex:column value="{!prod.Service_Location_1__c}" headerValue="Service Location" headerClass="TableTitle"/>
+                   
+                   <apex:column headerClass="TableTitle">
+                       <apex:facet name="header">Service <br/> Type</apex:facet>
+                       {!prod.Service_Type_ST_1__c}
+                   </apex:column>                                                  
+                   <apex:column value="{!prod.I_HSI_WIFI_1__c}" headerValue="HSI/WIFI" headerClass="TableTitle"/>                                                
+            </apex:pageblockTable>
+        </apex:outputpanel>
+    </apex:pageblock>
+    </apex:form>
+</apex:page>

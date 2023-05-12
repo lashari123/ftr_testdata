@@ -1,0 +1,76 @@
+<apex:page controller="AccountOverrideController" showHeader="false" sidebar="false">
+    <style type="text/css">
+            .customPopup{
+            background-color: transparent;
+            border-style: solid;
+            border-width: 2px;
+            left: 50%;
+            padding:10px;
+            position: absolute;
+            z-index: 9999;
+
+            /* These are the 3 css properties we will need to tweak so the popup displays in the center of the  screen.
+               First set the width. Then set margin-left to negative half of what the width is.
+               We can also add the height property for a fixed size pop up.*/
+            width: 500px;
+            margin-left: -255px;
+            top:0px;
+            }
+            .grayscrean{
+            opacity:.5;
+            }
+            .Nograyscrean{
+            opacity:1;
+            }
+    </style>
+    <script>           
+           window.onload=setFocus;
+
+           function ClickedOne(code, desc){
+               if (code == "0") {
+                      code = "";
+                      desc = "";
+                  }
+              window.top.opener.SetSIC(code, desc);
+              window.top.close();
+           }
+                   
+           function handleKeyPressSearch(event){
+                if (event.keyCode == 13){
+                    actionSearch();
+                 }    
+           }
+
+    </script>
+    
+       <apex:form id="searchForm">
+        <apex:outputPanel id="popup" styleClass="customPopup" layout="block" rendered="{!displayPopUp}">
+            <apex:pageblock id="pageblock">
+                <apex:selectRadio value="{!checkValue}" >
+                    <apex:selectOptions value="{!items}"/>
+                </apex:selectRadio><p/>
+                <apex:inputText id="sInput" onkeypress="handleKeyPressSearch(event)" value="{!searchInput}"/>
+                <apex:commandButton value="Search" action="{!Search}"  rerender="searchresults" /> 
+                <apex:commandButton value="Close" onclick="window.top.close()" status="status" rerender="searchresults"/>
+                <apex:actionFunction name="setFocus" focus="sInput" rerender="searchresults" />
+                <apex:actionFunction name="actionSearch" action="{!Search}" />
+
+            </apex:pageblock>
+
+            <p> <b>You can search for the desired SIC code and select from the results shown below. </b></p>
+            
+            <apex:pageBlock title="Search Results" id="searchresults">
+                <apex:outputText id="nullDisp" rendered="{!display}" value="No Match Found"/>
+                <div style="width:430px;height:280px;overflow:auto;">
+                    <apex:pageBlockTable value="{!objList}" var="item" id="pgBlTable">
+                        <apex:column >
+                            <apex:outputLink id="oLink" onclick="ClickedOne('{!item.SIC__c}','{!item.Description__c}')" value="" > {!item.SIC__c}
+                            </apex:outputLink>
+                        </apex:column>    
+                        <apex:column id="descid" value="{!item.Description__c}"/>                        
+                    </apex:pageBlockTable> 
+                </div>  
+            </apex:pageBlock>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

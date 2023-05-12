@@ -1,0 +1,24 @@
+<apex:page standardcontroller="Attachment" >
+        <apex:form >
+                    <apex:pageBlock title="{!attachment.name}">
+                        <apex:pageBlockButtons >
+                            <apex:commandButton value="Update" onclick="navigateToUrl('/apex/AttachmentOverride?id={!attachment.id}&retURL=%2F{!attachment.parentId}','DETAIL','Update')"/>
+                            <apex:commandButton value="Delete" action="{!delete}"/>
+                        </apex:pageBlockButtons>
+                        <apex:pageBlockSection title="Attachment Information">
+                            <apex:outputText value="{!attachment.name}"/> <br/>
+                            <apex:outputText value="{!attachment.description}"/><br/>
+           
+                        <apex:pageBlockSectionItem >
+                                <apex:outputLabel >Existing</apex:outputLabel><apex:outputLink value="/servlet/servlet.FileDownload/{!attachment.name}?file={!attachment.Id}">View</apex:outputLink>
+                          <!--   <apex:outputLabel >Back</apex:outputLabel><apex:outputLink value="https://cs8.salesforce.com/{!SterlingQuoteItem__c}">Back to QuotelineItem</apex:outputLink>-->
+                            </apex:pageBlockSectionItem>
+                            </apex:pageBlockSection>
+                            <apex:pageBlockSection >                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel ></apex:outputLabel><apex:outputLink value="/{!attachment.parentId}">Return to QuotelineItem</apex:outputLink>
+
+                            </apex:pageBlockSectionItem>
+                        </apex:pageBlockSection>
+                    </apex:pageBlock>
+        </apex:form>
+</apex:page>

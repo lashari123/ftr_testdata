@@ -1,0 +1,167 @@
+<apex:page id="UNI" standardController="UNI__c" extensions="UNI_ExtensionController">
+    <style>
+    	.notes {
+        	color: darkblue;
+        }
+    </style>
+    <apex:sectionHeader title="UNI Edit" subtitle="{!UNI__c.name}" />
+    <apex:form id="UNI_Form">
+        <apex:pageBlock title="UNI Edit" mode="edit">
+            <apex:pageMessages id="showmsg"></apex:pageMessages>
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Save" action="{!save}" />
+                <apex:commandButton value="Save & New" action="{!saveNew}" />
+                <apex:commandButton value="Cancel" action="{!cancel}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Save" action="{!save}" />
+                <apex:commandButton value="Save & New" action="{!saveNew}" />
+                <apex:commandButton value="Cancel" action="{!cancel}" /> 
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="UNI" columns="2">
+                <apex:inputField id="UNI_Name" value="{!UNI__c.Name}" required="true" />
+                <apex:outputText label="DGF" value="{!UNI__c.Physical_Site__r.DGF__r.Name}"></apex:outputText>
+                <apex:pageBlockSectionitem >
+                    <apex:outputLabel value="Physical Medium" for="Physical_Medium" />
+                    <apex:outputPanel styleClass="requiredInput" layout="block">
+                        <apex:outputPanel styleClass="requiredBlock" layout="block" />
+                        <apex:selectList id="Physical_Medium" value="{!UNI__c.Physical_Medium__c}" required="true" size="1" onchange="onChangePhysicalMedium(this);">
+                            <apex:selectOptions value="{!PhysicalMediumOptions}" />
+                        </apex:selectList>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionitem>
+                <apex:outputText label="Physical Site" value="{!UNI__c.Physical_Site__r.Name}"></apex:outputText>
+                <apex:outputText value="{!UNI__c.Mode__c}"></apex:outputText>
+                <apex:selectList id="Frame_Size" value="{!UNI__c.Frame_Size__c}" required="true" size="1" onchange="onChangeFrameSize(this)">
+                    <apex:selectOptions value="{!FrameSizeOptions}" />
+                </apex:selectList>
+                <apex:selectList id="Negotiation" value="{!UNI__c.Negotiation__c}" required="true" size="1">
+                    <apex:selectOptions value="{!NegotiationOptions}" />
+                </apex:selectList>
+                <apex:selectList id="Speed" value="{!UNI__c.Speed__c}" required="true" size="1">
+                    <apex:selectOptions value="{!SpeedOptions}" />
+                </apex:selectList>
+                <apex:pageBlockSectionitem >
+                    <apex:outputLabel value="VLAN Tag Configuration" for="Tag" />
+                    <apex:outputPanel styleClass="requiredInput" layout="block">
+                        <apex:outputPanel styleClass="requiredBlock" layout="block" />
+                        <apex:selectRadio id="Tag" value="{!UNITag}" onchange="onChangeTag(this);" required="true">
+                            <apex:selectOptions value="{!TagOptions}"></apex:selectOptions>
+                        </apex:selectRadio>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionitem>
+                <apex:selectList id="Oversubscription" value="{!UNI__c.Oversubscription__c}" size="1">
+                    <apex:selectOptions value="{!OversubscriptionOptions}" />
+                </apex:selectList>
+                <apex:outputText styleClass="notes" id="TagNotes" label=" " value="{!TagNotes}"></apex:outputText>
+                <apex:inputField id="Oversubscription_Authorizers_Email" 
+                                 value="{!UNI__c.Oversubscription_Authorizers_Email__c}" />
+                <apex:inputText value="{!UNI__c.Existing_M6_UNI_CNL_ID__c}" style="float:left;">
+                    <apex:commandButton id="CID_Search" value="Search CID" action="{!Search_CID}" rendered="false" />
+                </apex:inputText>
+                <apex:outputField label="UNI Rate Adjusted BW" value="{!UNI__c.UNI_Rate_Adjusted_BW__c}" />
+                <apex:inputField id="L2CP" value="{!UNI__c.L2CP2__c}" />
+                <apex:inputCheckbox id="Fault_Propagation" value="{!UNI__c.Fault_Propagation__c}" />
+                <apex:inputHidden id="Enabled" value="{!UNI__c.Enabled__c}" required="false" />
+                <apex:inputHidden id="TagHidden" value="{!UNI__c.Tag_Value__c}" />
+                <apex:inputHidden id="DGF_Id" value="{!UNI__c.DGF_Id__c}" />
+                <apex:inputHidden id="Speed_Value" value="{!UNI__c.Speed_Value__c}" />
+                <apex:inputHidden id="Oversubscription_Value" value="{!UNI__c.Oversubscription_Value__c}" />
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    <script>
+    
+    window.addEventListener('load', function() {
+        var tagHiddenCmp = document.querySelector('input[id$=TagHidden]');
+        enableL2CP(tagHiddenCmp.value === 'All-to-One Bundling');
+        enableFaultPropagation(tagHiddenCmp.value !== 'All-to-One Bundling');
+        handleTag(tagHiddenCmp.value);
+        handleSpeed();
+    });
+    
+    function onChangeTag(cmp) {
+        handleTag(cmp.value);
+    }
+    
+    function handleTag(tagVal) {
+        var tagHiddenCmp = document.querySelector('input[id$=TagHidden]');
+        var tagNotesCmp = document.querySelector('span[id$=TagNotes]');
+        tagHiddenCmp.value = tagVal;
+        switch (tagVal) {
+            case 'All-to-One Bundling':
+                tagNotesCmp.innerHTML = 'L2CP is supported.<br />EVC may not specify a CEVLAN.<br />Fault Propagation is supported.<br />Only one EVC can be associated with this UNI.';
+                enableL2CP(true);
+                enableFaultPropagation(true);
+                break;
+            case 'Service Multiplexing':
+                tagNotesCmp.innerHTML = 'L2CP is not supported (and will be disabled).<br />EVC may have a CEVLAN specified.';
+                enableL2CP(false);
+                enableFaultPropagation(false);
+                break;
+            case 'Untagged': 
+                tagNotesCmp.innerHTML = 'L2CP is not supported.<br />EVC may not specify a CEVLAN.<br />Fault Propagation is supported.<br />Only one EVC can be associated with this UNI.';
+                handleUntagged();
+                break;
+            default:
+                tagNotesCmp.innerHTML = '';
+        }
+    }
+
+    function onChangePhysicalMedium(cmp) {
+        var speedCmp = document.querySelector('select[id$=Speed]');
+        var currentSpeed = speedCmp.value;
+        var medium = cmp.value.toLowerCase();
+        if (medium === '--none--') return;
+        if (medium === 'copper rj45') {
+            alert('Copper requires a speed setting lower than 10000.');
+            speedCmp.value = currentSpeed > 1000 ? '1000' : currentSpeed;
+        } else {
+            alert('Fiber requires a speed setting of 1000 or above.');
+            speedCmp.value = currentSpeed < 1000 ? '1000' : currentSpeed;
+        }
+        handleSpeed(medium, speedCmp);
+    }
+    
+    function handleSpeed(medium, speedCmp) {
+        if (!speedCmp) speedCmp = document.querySelector('select[id$=Speed]');
+        if (!medium) medium = document.querySelector('select[id$=Physical_Medium]').value.toLowerCase();
+        speedCmp.querySelectorAll('option[value="100"]').forEach(function(o) {
+        	o.disabled = medium !== 'copper rj45';
+        });
+        speedCmp.querySelectorAll('option[value="10000"]').forEach(function(o) {
+        	o.disabled = medium === 'copper rj45';
+        });
+    }
+    
+    function onChangeFrameSize(cmp) {
+        if (cmp.value !== '<=1600') {
+            alert('Frame Size higher than 1600 requires Fiber Transport. This should be noted in the scope of work sent to Engineering.');
+        }
+    }
+    
+    function handleUntagged() {
+        enableFaultPropagation(true);
+        enableL2CP(false);
+    }
+    
+    function enableL2CP(enabled) {
+        var L2CPCmp = document.querySelectorAll('select[id$=L2CP_unselected],select[id$=L2CP_selected]');
+        if (!enabled) {
+            while(L2CPCmp[1].options.length > 0) {
+                L2CPCmp[0].add(L2CPCmp[1].options[0]);
+                L2CPCmp[1].remove(0);
+            }
+            document.querySelector('select[id$=L2CP]').value = '';
+        }
+        L2CPCmp.forEach(function(cmp){cmp.disabled=!enabled;});
+    }
+    
+    function enableFaultPropagation(enabled) {
+        var faultPropagationCmp = document.querySelector('input[id$=Fault_Propagation]');
+        faultPropagationCmp.checked = enabled ? faultPropagationCmp.checked : false;
+        faultPropagationCmp.disabled = !enabled;
+    }
+    
+    </script>
+</apex:page>

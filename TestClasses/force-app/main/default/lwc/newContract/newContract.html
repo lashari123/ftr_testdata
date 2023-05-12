@@ -1,0 +1,27 @@
+<!--
+  @File Name          : textlwc.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 10/28/2019, 3:32:13 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/4/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="New Contract" icon-name="standard:record">
+
+                <template if:true={oppportunity.data}>
+                    <div class="slds-m-around_medium">
+                            <p>Click The Below Button to Create New Contract</p>
+                        </div>
+                        <div>
+                                <lightning-button variant="brand"  class="slds-m-around_medium" label="New Contract" onclick={newContract}></lightning-button>
+                            </div>
+                        </template>
+                <template if:true={oppportunity.error}>
+                    <!-- handle Apex error -->
+                </template>
+        </lightning-card>
+    </template>

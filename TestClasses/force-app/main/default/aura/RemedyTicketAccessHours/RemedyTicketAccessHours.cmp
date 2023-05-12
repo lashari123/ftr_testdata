@@ -1,0 +1,160 @@
+<aura:component controller="RemedySubmitTroubleTicket">
+    
+    <aura:attribute name="monStart" type="time" default="" />
+    <aura:attribute name="tueStart" type="time" default="" />
+    <aura:attribute name="wedStart" type="time" default="" />
+    <aura:attribute name="thuStart" type="time" default="" />
+    <aura:attribute name="friStart" type="time" default="" />
+    <aura:attribute name="satStart" type="time" default="" />
+    <aura:attribute name="sunStart" type="time" default="" />
+    
+    <aura:attribute name="monEnd" type="time" default="" />
+    <aura:attribute name="tueEnd" type="time" default="" />
+    <aura:attribute name="wedEnd" type="time" default="" />
+    <aura:attribute name="thuEnd" type="time" default="" />
+    <aura:attribute name="friEnd" type="time" default="" />
+    <aura:attribute name="satEnd" type="time" default="" />
+    <aura:attribute name="sunEnd" type="time" default="" />
+    
+	<aura:attribute name="recordId" type="String" default="" />
+    <aura:attribute name="prevRecordId" type="String" default="" />
+    <aura:attribute name="hasError" type="time" default="" />
+    <aura:attribute name="accessHours" type="time" default="" />
+    <aura:attribute name="editable" type="Boolean" default="false" />
+    <aura:attribute name="tabChanged" type="Boolean" default="false" />
+
+	<aura:handler name="init" value="{!v.recordId}" action="{!c.handleTicketId}" />    
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.handleTicketId}" />
+    
+    <div class="container">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" padding="around-small">
+               <div class="slds-text-title_bold">Access Hours</div>
+                	<lightning:layoutItem size="4" padding="around-small">
+                        <div></div>
+                    </lightning:layoutItem>
+                    <aura:if isTrue="{!v.editable}">
+                        <div class="slds-m-vertical_medium ">
+                            <!--<lightning:button variant="brand" label="generate " title="24 x 7" onclick="{! c.handleGenerate }" />-->
+                            <lightning:button variant="brand-outline" label="24 x 7" title="24 x 7" onclick="{! c.handle24x7 }" />
+                            <lightning:button variant="brand-outline" label="8-5 (Mon-Fri)" title="8-5 (M-F)" onclick="{! c.handle8To5 }" />
+                            <lightning:button variant="brand-outline" label="Clear All" title="Clear All" onclick="{! c.handleClear }" />
+                        </div>
+                    </aura:if>
+                 <lightning:layout>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <div></div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small" class="slds-text-align_center">
+				       Access Start
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small" class="slds-text-align_center">                  
+                        Access End
+                 </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:layout>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <div>Sunday</div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.sunStart}" aura:id="sun-st" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}" />
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.sunEnd}" aura:id="sun-en" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}" />
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:layout>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <div>Monday</div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.monStart}" aura:id="mon-st" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.monEnd}" aura:id="mon-en" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:layout>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <div>Tuesday</div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.tueStart}" aura:id="tue-st" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.tueEnd}" aura:id="tue-en" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:layout>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <div>Wednesday</div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.wedStart}" aura:id="wed-st" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.wedEnd}" aura:id="wed-en" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:layout>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <div>Thursday</div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.thuStart}" aura:id="thu-st" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.thuEnd}" aura:id="thu-en" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:layout>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <div>Friday</div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.friStart}" aura:id="fri-st" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.friEnd}" aura:id="fri-en" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:layout>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <div>Saturday</div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.satStart}" aura:id="sat-st" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:input type="time" value="{!v.satEnd}" aura:id="sat-en" label="" variant="label-hidden" placeholder="" disabled="{! !v.editable}" onchange="{!c.handleGenerate}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+       <!-- <aura:if isTrue="{!v.editable}">
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <lightning:button variant="brand" label="24 x 7" title="24 x 7" onclick="{! c.handle24x7 }" />
+                <lightning:button variant="brand" label="8-5 (Mon-Fri)" title="8-5 (M-F)" onclick="{! c.handle8To5 }" />
+                <lightning:button variant="brand-outline" label="Clear All" title="Clear All" onclick="{! c.handleClear }" />
+            </div>
+        </aura:if>-->
+       	
+	</div>
+    
+    
+</aura:component>

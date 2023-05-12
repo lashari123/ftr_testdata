@@ -1,0 +1,24 @@
+<!--
+  @File Name          : textlwc.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 10/29/2019, 11:58:45 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/8/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="Cancel Order" icon-name="standard:record">
+            <div class="slds-m-around_medium">
+                <template if:true={order.data}>
+                        <p>Please click below button to Cancel Order</p><br>
+                    <lightning-button label="Cancel Order" variant="brand" onclick={updateOrder} ></lightning-button>
+                </template>
+                <template if:true={order.error}>
+                    <!-- handle Apex error -->
+                </template>
+            </div>
+        </lightning-card>
+    </template>

@@ -1,0 +1,168 @@
+<apex:page controller="Account_AccountsReceivable" cache="false" doctype="html-5.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+    <script>
+        var j$ = jQuery.noConflict();
+    </script>
+    <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery/jquery-1.9.1.js')}" />
+    <apex:form >
+        <apex:sectionHeader title="Billing Cycle: {!acc.DPI_BillCycle__c}" subtitle="Accounts Receivable Information"/>
+        
+         <apex:pageBlock title="Monthly Charges"  mode="detail">
+                <apex:pageblocksection columns="2" showheader="false">
+                    <apex:pageblocksectionitem >
+                        <center><b>Monthly Charge Trending</b></center><br/>
+                        <apex:chart height="100%" width="100%" data="{!AccountsReceivableTrending}">                       
+                            <apex:axis grid="true" type="Numeric" position="left" fields="Charges"/>
+                            <apex:axis type="Category" position="bottom" fields="Month">
+                                <apex:chartLabel rotate="315"/>
+                            </apex:axis>
+                            <apex:barSeries tips="true" orientation="vertical" axis="left" xField="Month" yField="Charges">
+                                <apex:chartTips height="20" width="170"/>
+                            </apex:barSeries>     
+                        </apex:chart>
+                    </apex:pageblocksectionitem>
+                    <apex:pageblocksectionitem >
+                        <center><b>Aging Information</b></center><br/>
+                        <apex:pageblockTable value="{!AgingInformation}" var="row">                       
+                            <apex:column headerValue="" style="font-weight:bold;" value="{!row.Interval}"/>
+                            <apex:column headervalue="Amount">
+                                <apex:outputtext value="{0, number, currency}"><apex:param value="{!row.Amount}"/></apex:outputtext>
+                            </apex:column>
+                        </apex:pageblockTable>
+                    </apex:pageblocksectionitem>
+                </apex:pageblocksection>
+                <apex:pageBlockSection columns="1" showHeader="true"/>          
+                <apex:pageBlockSection columns="1" showHeader="false">
+                    <apex:pageblockTable value="{!AccountsReceivable}" var="row">
+                        <apex:column headerValue="Bill Date" style="font-weight: bold;">
+                            <apex:outputtext escape="false" value="{!row.BillDateString}"/>
+                        </apex:column>
+                        <!-- <apex:column headerValue="Last Pay Date" value="{!row.LastPayment}" />-->
+                        <apex:column headerValue="Last Pay Date">
+                            <apex:outputtext value="N/A" rendered="{!ISNULL(row.LastPaymentDate)}"/>
+                            <apex:outputText value="{0, date, MM/dd/yyyy}" rendered="{!NOT(ISNULL(row.LastPaymentDate))}"><apex:param value="{!row.LastPaymentDate}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column headerValue="Prior Bill">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!row.PriorBill}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column headerValue="Adjustments">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!row.TotalAdjustments}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column headerValue="Payments">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!row.TotalPayments}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column headerValue="Net Bill" style="background-color:#d3d3d3;font-weight: bold;">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!row.NetBill}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column headerValue="AdjC/LocalSvc">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!row.AdjLocalSvcs}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column headerValue="P.P./O.C.C.">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!row.PPOCC}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column headerValue="Toll Charges">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!row.TollCharges}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column headerValue="Total Taxes">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!row.TotalTaxes}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column headerValue="Balance" style="background-color:#d3d3d3;font-weight:bold;">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!row.Balance}"/></apex:outputText>
+                        </apex:column>        
+                    </apex:pageblockTable>                  
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+            
+            <apex:pageBlock title="Payments">       
+            <apex:pageBlockSection columns="1" id="payments" collapsible="false" showheader="false">
+                <apex:outputpanel id="pendingHistory" layout="block" style="overflow:auto;">
+                    <apex:pageblockTable value="{!lstPayments}" var="pay" headerClass="colHeadr">
+                        <apex:column value="{!pay.Batch_Name}" headerValue="Batch Name" />
+                        <apex:column value="{!pay.Billing_Number}" headerValue="Billing TN" />
+                        <apex:column headerValue="Received Date">
+                                        <apex:outputtext value="N/A" rendered="{!ISNULL(pay.Payement_Rcvd_Date)}"/>
+                                        <apex:outputText value="{0, date, MM/dd/yyyy}" rendered="{!NOT(ISNULL(pay.Payement_Rcvd_Date))}"><apex:param value="{!pay.Payement_Rcvd_Date}"/></apex:outputText>
+                                </apex:column>
+                        <apex:column value="{!pay.PostDate}" headerValue="Post Date & Time" />
+                        <apex:column value="{!pay.Posted_Pay_Type}" headerValue="Pay Type" /> 
+                        <apex:column headerValue="Payment Amount" style="font-weight:bold;">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!pay.Posted_Amount}"/></apex:outputText>
+                        </apex:column>
+                        <apex:column value="{!pay.Posted_Ref}" headerValue="Reference Number" />
+                        <apex:column value="{!pay.Deposit_Id}" headerValue="BankDeposit ID" />
+                        <apex:column value="{!pay.Posted_By}" headerValue="Posted By" />
+                    </apex:pageblockTable>
+                    
+                    
+                    <apex:outputText value="" rendered="{!dataPayments}">
+                     <center><b><font color="red">No Payments Available</font></b></center><br/>
+                    </apex:outputText>
+                    
+                    
+                </apex:outputpanel>
+                  <apex:outputPanel layout="block" styleClass="pSearchShowMore">
+                    <apex:image url="/img/search_prevarrow_disabled.gif" styleClass="prevArrow" rendered="{!NOT(hasPrevPayments)}" />
+                    <apex:image url="/img/search_prevarrow.gif" title="Previous Page" styleClass="prevArrow" rendered="{!hasPrevPayments}" />
+                    <apex:commandLink status="paymentStatus" reRender="payments" action="{!prevPayments}" title="Previous Page" value="Previous Page" rendered="{!hasPrevPayments}" />
+                    <apex:outputPanel styleClass="pShowLess noLink" style="color:grey" rendered="{!NOT(hasPrevPayments)}">Previous Page</apex:outputPanel>
+                    &nbsp;({!CurrentPageDescription} of {!actualRecordSize})&nbsp;
+                    <apex:outputPanel styleClass="pShowLess noLink" style="color:grey" rendered="{!NOT(hasNextPayments)}">Next Page</apex:outputPanel>
+                    <apex:commandLink status="paymentStatus" reRender="payments" title="Next Page" value="Next Page" rendered="{!hasNextPayments}" action="{!nextPayments}" />&nbsp;
+                    <apex:image url="/img/search_nextarrow.gif" title="Next Page" styleClass="nextArrow" rendered="{!hasNextPayments}" />
+                    <apex:image url="/img/search_nextarrow_disabled.gif" rendered="{!NOT(hasNextPayments)}" />
+                </apex:outputPanel>
+                <apex:outputPanel layout="block" styleClass="pSearchShowMore" style="color:#4AA02C;font-weight:bold;">
+                    <apex:actionStatus id="paymentStatus" startText="Loading..." stopText="" />
+                </apex:outputPanel>     
+            </apex:pageBlockSection>
+            </apex:pageBlock>
+           
+          
+            <apex:pageBlock title="Adjustments">       
+            <apex:pageBlockSection columns="1" id="adjustments" collapsible="false" showheader="false">
+                <apex:outputpanel id="adjustmentHistory" layout="block" style="overflow:auto;">
+                    <apex:pageblockTable headerClass="colHeadr" value="{!lstAdjustments}" var="adj">
+                        <apex:column headerValue="Charge Code" value="{!adj.ChargeCode}"/>
+                        <apex:column headerValue="Account" value="{!adj.AccountAdj}"/>
+                        <apex:column headerValue="Batch Name" value="{!adj.BatchName}"/>
+                        <apex:column headerValue="Date" value="{!adj.TransactionDate}"/>
+                        <apex:column headerValue="Posted" value="{!adj.DateAdj}"/>
+                        <apex:column headerValue="Posted By" value="{!adj.Posted_By}"/>
+                        <apex:column headerValue="Reference Number" value="{!adj.ReferenceNumber}"/>
+                        <apex:column headerValue="Type" value="{!adj.Type}"/>
+                        <apex:column headerValue="Description" value="{!adj.Description}"/>
+                        <apex:column headerValue="Amount">
+                            <apex:outputText value="{0, number, currency}"><apex:param value="{!adj.Amount}"/></apex:outputText>
+                        </apex:column>
+                    </apex:pageblockTable>
+                    
+                 
+                 <apex:outputText value="" rendered="{!dataAdjustments}">
+                     <center><b><font color="red">No Adjustments Available</font></b></center><br/>
+                 </apex:outputText>  
+                    
+                    
+                </apex:outputPanel>
+                <apex:outputPanel layout="block" id="pagId" styleClass="pSearchShowMore">
+                    <apex:image url="/img/search_prevarrow_disabled.gif" styleClass="prevArrow" rendered="{!NOT(hasPrevAdjustments)}" />
+                    <apex:image url="/img/search_prevarrow.gif" title="Previous Page" styleClass="prevArrow" rendered="{!hasPrevAdjustments}" />
+                    <apex:commandLink status="Adjustmentstatus" reRender="Adjustments" action="{!prevAdjustments}" title="Previous Page" value="Previous Page" rendered="{!hasPrevAdjustments}" />
+                    <apex:outputPanel styleClass="pShowLess noLink" style="color:grey" rendered="{!NOT(hasPrevAdjustments)}">Previous Page</apex:outputPanel>
+                    &nbsp;({!CurrentPageDescription1} of {!actualRecordSize1})&nbsp;
+                    <apex:outputPanel styleClass="pShowLess noLink" style="color:grey" rendered="{!NOT(hasNextAdjustments)}">Next Page</apex:outputPanel>
+                    <apex:commandLink status="Adjustmentstatus"  title="Next Page" value="Next Page" rendered="{!hasNextAdjustments}" action="{!nextAdjustments}" reRender="adjustmentHistory,pagId" />&nbsp;
+                    <apex:image url="/img/search_nextarrow.gif" title="Next Page" styleClass="nextArrow" rendered="{!hasNextAdjustments}" />
+                    <apex:image url="/img/search_nextarrow_disabled.gif" rendered="{!NOT(hasNextAdjustments)}" />
+                </apex:outputPanel>
+                <apex:outputPanel layout="block" styleClass="pSearchShowMore" style="color:#4AA02C;font-weight:bold;">
+                    <apex:actionStatus id="Adjustmentstatus" startText="Loading..." stopText="" />
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+            
+            <apex:outputText value="" rendered="{!dataResponseCO}">
+                     <center><b><font color="red">No Callout Response Available</font></b></center><br/>
+                 </apex:outputText> 
+            </apex:pageBlock>
+    </apex:form>
+    <br/><br/>
+    </apex:page>

@@ -1,0 +1,10 @@
+.THIS .slds-modal__container{
+   	width: 137%;
+    right:21%;
+  }
+.THIS .slds-modal__footer{
+    text-align:center;
+}
+.THIS .slds-align_absolute-center{
+    display:none
+}

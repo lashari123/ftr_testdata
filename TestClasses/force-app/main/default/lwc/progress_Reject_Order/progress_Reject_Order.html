@@ -1,0 +1,27 @@
+<!--
+  @File Name          : progress_Reject_Order.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 10/28/2019, 11:17:31 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    9/30/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="Progress Reject Order" icon-name="standard:record">
+
+                <template if:true={order.data}>
+                    <div class="slds-m-around_medium">
+                            <p>Click The Below Button to Progress/Reject Order</p>
+                        </div>
+                        <div>
+                                <lightning-button variant="brand"  class="slds-m-around_medium" label="Progress/Reject Order" onclick={Progress}></lightning-button>
+                            </div>
+                        </template>
+                <template if:true={order.error}>
+                    <!-- handle Apex error -->
+                </template>
+        </lightning-card>
+    </template>

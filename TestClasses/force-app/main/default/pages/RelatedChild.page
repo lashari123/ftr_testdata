@@ -1,0 +1,17 @@
+<apex:page standardController="OpportunityLineItem" extensions="Childrecord">
+    <apex:form id="RID"> 
+    <apex:pageblock title="Child Record">
+        <apex:pageBlockTable value="{!opplinelist}" var="item">
+            <apex:column >
+                 <apex:commandLink value="{!item.Product_Name__c}"  action="{!redircet}" rerender="RID">
+                     <apex:param name="childid" assignTo="{!childid}" value="{!item.id}" />
+                </apex:commandLink>
+            </apex:column>
+            <apex:column value="{!item.Part_Number__c}"/>
+            <apex:column value="{!item.Quantity}"/>
+            <apex:column value="{!item.Unit_Price__c}"/>
+            <apex:column value="{!item.TotalPrice}" title="Total Price"/>
+        </apex:pageBlockTable>
+    </apex:pageblock>
+    </apex:form>
+</apex:page>

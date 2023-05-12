@@ -1,0 +1,21 @@
+<apex:page standardController="Account" showHeader="false" extensions="CompanyNumberURLController" >
+    
+   <!-- <apex:outputLabel rendered="{!if(lstHierarchyCompNum.size>0,false,true)}">No Matching BTN's Found</apex:outputLabel>-->
+    
+    <apex:pageBlock rendered="{!if(lstHierarchyCompNum.size>0,true,false)}" >
+        
+        <apex:pageBlockTable value="{!lstHierarchyCompNum}"  var="CM" >
+            <!--<apex:column value="{!CM.BTN_Phone__c}"/>-->
+                    
+            <apex:column value="{!CM.Customer_Number__c}" headerValue="CustomerNumber"/>
+           <apex:column headerValue="BTN" >
+              <apex:outputLink value="/apex/TreeViewDemo155?btnPhoneVal={!CM.BTN_Phone__c}" target="_blank">
+                  {!CM.BTN_Phone__c}
+              </apex:outputLink> 
+            </apex:column>
+            <apex:column value="{!CM.BTN_Name__c}" headerValue="BTN Name"/>
+        </apex:pageBlockTable>
+       
+    </apex:pageBlock>
+
+</apex:page>

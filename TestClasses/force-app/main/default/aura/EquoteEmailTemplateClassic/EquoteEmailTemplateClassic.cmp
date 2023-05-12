@@ -1,0 +1,301 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" controller="EmailSendController" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content {
+        overflow-y: hidden !important;
+        height: unset !important;
+        max-height: unset !important;
+        
+        }   
+        .slds-modal__container {   
+        margin: 0 auto;
+        max-width: 40rem;
+        min-width: 66rem;
+        //min-width: auto;
+        }
+    </aura:html>
+    <aura:attribute name="checkeEmailFormat" type="string"/>
+    <aura:attribute name="email" type="string"/>
+    <aura:attribute name="subject" type="string"/>
+    <aura:attribute name="body" type="string"/>
+    <aura:attribute name="createDate" type="string"/>
+    <aura:attribute name="fName" type="string"/>
+    <aura:attribute name="lName" type="string"/>
+    <aura:attribute name="open" type="boolean" default="true"/>
+    <aura:attribute name="mailStatus" type="boolean" default="false"/>
+    <aura:attribute name="attachmentOperationList" type="list"/>
+    <aura:attribute name="attachmentLegalList" type="list"/>
+    <aura:attribute name="attachmentMarketingList" type="list"/>
+    <aura:attribute name="attachmentContractList" type="list"/>
+    <aura:attribute name="attachmentOrderList" type="list"/>
+    <aura:attribute name="attachmentLOAsList" type="list"/>
+    <aura:attribute name="emailList" type="list"/>
+    <aura:attribute name="attach" type="list"/>
+    <aura:attribute name="ids1" type="list"/>
+    <aura:attribute name="ids2" type="list"/>
+    <aura:attribute name="ids3" type="list"/>
+    <aura:attribute name="ids4" type="list"/>
+    <aura:attribute name="ids5" type="list"/>
+    <aura:attribute name="ids6" type="list"/>
+    
+        <aura:attribute name="Spinner" type="boolean" default="false"/>
+
+    <!-- 'showLoadingSpinner' attribute for show/hide the uploading image and msg in aura:if-->
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <!-- 'fileName' attribute for display the selected file name -->  
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    
+    <aura:attribute name="ContactBool" type="Boolean" default="false"/>
+    <aura:attribute name="isOperation" type="Boolean" default="false"/>
+    <aura:attribute name="isLegal" type="Boolean" default="false"/>
+    <aura:attribute name="isMarketDocument" type="Boolean" default="false"/>
+    <aura:attribute name="isContract" type="Boolean" default="false"/>
+    <aura:attribute name="isOrder" type="Boolean" default="false"/>
+    <aura:attribute name="isLOAs" type="Boolean" default="false"/>
+    
+    <aura:attribute name="isMarketDocumentChecked" type="Boolean" default="false"/>
+    <aura:attribute name="isOperationDisable" type="Boolean" default="false"/>
+    <aura:attribute name="isMarketingDisable" type="Boolean" default="false"/>
+    <aura:attribute name="isContractDisable" type="Boolean" default="false"/>
+    <aura:attribute name="isLegalDisable" type="Boolean" default="false"/>
+    <aura:attribute name="isOrderDisable" type="Boolean" default="false"/>
+    <aura:attribute name="isLOAsDisable" type="Boolean" default="false"/>
+    
+    <aura:attribute name="ContactemailBool" type="Boolean" default="false"/>
+    <aura:attribute name="bodydata" type="string[]"/>
+    <aura:attribute name="ownername" type="string"/>
+    <aura:attribute name="emailbody" type="string"/>
+    <aura:attribute name="year" type="string"/>
+    
+    <aura:attribute name="picklistOptsList" type="String[]"/>
+    <aura:attribute name="objAcc" type="Contact" default="{sobjectType : 'Contact'}" />
+      <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+<!--<aura:handler event="force:refreshView" action="{!c.changeItrate}" />-->
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/> 
+    <ltng:require styles="{! $Resource.select2 + '/select2-4.0.3/dist/css/select2.min.css'}" 
+                  scripts="{!join(',', 
+                           $Resource.jquery224 ,  
+                           $Resource.select2 + '/select2-4.0.3/dist/js/select2.js')
+                           }" afterScriptsLoaded="{!c.scriptsLoaded}"/>
+    
+    
+    
+    
+    <!--<ltng:require script src="jquery.email.multiple.js" sensor="false" type="text/javascript"/>-->
+    <div class="slds-col modal-header slds-modal__header1">
+        <img class="img" src="{!$Resource.FrontierLogo}" />
+        <img class="img2" src="{!$Resource.newUcaasLogo}" />
+        <hr class="hr1"></hr>
+    </div>
+    <div class="slds-col modal-body scrollable slds-p-around_medium" style="height: 25rem; overflow-y: auto !important">
+        <aura:if isTrue="{!v.Spinner}">
+            <div aura:id="spinnerId" class="slds-spinner_container">
+                <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </aura:if>
+        <div class="slds-grid slds-gutters">
+            <!---Part 3 [message display part] --> 
+            <aura:if isTrue="{!v.mailStatus}">
+                <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                    <center>
+                        <div class="container1" style="">
+                            <div class="slds-modal__header slds-theme--error slds-theme--alert-texture" style="background-color: #4bca81;height: 3rem;">
+                                <h2 class="slds-text-heading--medium" id="prompt-heading-id">Mail Status</h2>
+                            </div>
+                            <div class="slds-modal__content slds-p-around--medium">
+                                <div>
+                                    <p class="p1">Email Sent successfully to {!v.email}</p>
+                                </div>
+                            </div>
+                            <div class="slds-modal__footer slds-theme--default">
+                                <button class="slds-button slds-button--brand" onclick="{!c.closeMessage}">Close</button>
+                            </div>
+                        </div>
+                    </center>
+                </div>
+                <div class="slds-backdrop slds-backdrop--open"></div>
+            </aura:if>
+            
+            <div class="slds-col slds-size_1-of-2" style="border-right: 1px solid #806e6e1a;">
+                <table>
+                    <tr>
+                        <td style="padding-top:25px">To</td>
+                        <!-- <td>:</td>-->
+                        <td><lightning:input type="email" name="email1" value="{!v.email}" />
+                            
+                        </td>
+                    </tr><br></br>
+                    <tr>
+                        <td style="padding-top:25px">Cc</td>
+                        <td> <div class="slds-form-element">  
+                            <label for="picklist"></label> <br/>
+                            <select style="width:100%" id="picklist" placeholder="select" class="select2Class" multiple="multiple">
+                                <aura:iteration items="{!v.picklistOptsList}" var="opts">
+                                    <option value="{!opts}"> {!opts} </option>
+                                </aura:iteration>     
+                            </select>
+                            </div> </td>
+                    </tr>
+                    <br></br>
+                    
+                    
+                    <tr>
+                        <td style="padding-top:25px">Subject</td>
+                        <!--<td>:</td>-->
+                        <td><lightning:input name="input1" value="{!v.subject}" /></td> 
+                    </tr>
+                </table><br/>
+                
+                <div style="margin-left:30px;">
+                    <lightning:input aura:id="fileId" onchange="{!c.handleFilesChange}" type="file" name="file" label="Upload Attachment" multiple="false"/>
+                    <div class="slds-text-body_small slds-text-color_error">{!v.fileName} </div>
+                    
+                    <!--use aura:if for show-hide the loading spinner image--> 
+                    <aura:if isTrue="{!v.showLoadingSpinner}">
+                        <div class="slds-text-body_small slds-text-color_error">Uploading... 
+                            <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading"/>
+                        </div>
+                    </aura:if>
+                    
+                    <br/>
+                    
+                    <button class="slds-button slds-button_brand" onclick="{!c.doSave}">Upload Attachment</button>
+                </div>
+                
+                
+                <br></br>
+                <table>
+                    
+                    <tr style="border-top: 1px solid #806e6e1a;">
+                        <br></br>
+                        <br></br>
+                        <th colspan="2">Please Select Attachment</th>
+                    </tr>
+                    <tr>
+                        <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="" value="Operation" disabled="{!v.isOperationDisable}" onchange="{!c.handleOperation}"/></td>
+                        <td><b>Equote</b></td>
+                    </tr><br/>
+                    <aura:if isTrue="{!v.isOperation}">
+                        <aura:iteration items="{!v.attachmentOperationList}" var="item">
+                            <tr style="margin-left:15%">
+                                <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="{!item.label}" value="{!item.value}" onchange="{!c.handleClickoperation}" style="margin-left:100%;" /></td>
+                                <td><P style="margin-left:10%;">{!item.label}</P></td>
+                            </tr>
+                            <br/>
+                        </aura:iteration>
+                    </aura:if>
+                    <tr>
+                        <td><lightning:input type="checkbox" name="" class="slds-checkbox_faux" value="Marketing document" disabled="{!v.isMarketingDisable}" onchange="{!c.handleMarketingDocument}"/></td>
+                        <td><b>Marketing</b></td>
+                    </tr><br/>
+                    <aura:if isTrue="{!v.isMarketDocument}">
+                        <aura:iteration items="{!v.attachmentMarketingList}" var="item">
+                            <tr style="margin-left:15%">
+                                <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="{!item.label}" value="{!item.value}"  onchange="{!c.handleClickMarketing}" style="margin-left:100%;" /></td>
+                                <td><p style="margin-left:10%;">{!item.label}</p></td>
+                            </tr>
+                            <br/>
+                        </aura:iteration>
+                    </aura:if>
+                    
+                    <tr>
+                        <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="" disabled="{!v.isLegalDisable}" value="Legal" onchange="{!c.handleContract}"/></td>
+                        <td><b>Contract</b></td>
+                    </tr><br/>
+                    <aura:if isTrue="{!v.isLegal}">
+                        <aura:iteration items="{!v.attachmentLegalList}" var="item">
+                            <tr style="margin-left:15%">
+                                <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="{!item.label}" value="{!item.value}" onchange="{!c.handleClickContract}" style="margin-left:100%;" /></td>
+                                <td><p style="margin-left:10%;">{!item.label}</p></td>
+                            </tr>
+                            <br/>
+                        </aura:iteration>
+                    </aura:if>
+                    <tr>
+                        <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="" disabled="{!v.isContractDisable}" value="Contract" onchange="{!c.handleLegal}"/></td>
+                        <td><b>Legal</b></td>
+                    </tr><br/>
+                    <aura:if isTrue="{!v.isContract}">
+                        <aura:iteration items="{!v.attachmentContractList}" var="item">
+                            <tr style="margin-left:15%">
+                                <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="{!item.label}" value="{!item.value}" onchange="{!c.handleClickLegal}"  style="margin-left:100%;"/></td>
+                                <td><p style="margin-left:10%;">{!item.label}</p></td>
+                            </tr>
+                            <br/>
+                        </aura:iteration>
+                    </aura:if>
+                    <tr>
+                        <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="" disabled="{!v.isOrderDisable}" value="Contract" onchange="{!c.handleOrder}"/></td>
+                        <td><b>Order</b></td>
+                    </tr><br/>
+                    <aura:if isTrue="{!v.isOrder}">
+                        <aura:iteration items="{!v.attachmentOrderList}" var="item">
+                            <tr style="margin-left:15%">
+                                <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="{!item.label}" value="{!item.value}" onchange="{!c.handleClickOrder}"  style="margin-left:100%;"/></td>
+                                <td><p style="margin-left:10%;">{!item.label}</p></td>
+                            </tr>
+                            <br/>
+                        </aura:iteration>
+                    </aura:if>
+                    <tr>
+                        <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="" disabled="{!v.isLOAsDisable}" value="Contract" onchange="{!c.handleLOAs}"/></td>
+                        <td><b>LOAs</b></td>
+                    </tr><br/>
+                    <aura:if isTrue="{!v.isLOAs}">
+                        <aura:iteration items="{!v.attachmentLOAsList}" var="item">
+                            <tr style="margin-left:15%">
+                                <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="{!item.label}" value="{!item.value}" onchange="{!c.handleClickLOAs}"  style="margin-left:100%;"/></td>
+                                <td><p style="margin-left:10%;">{!item.label}</p></td>
+                            </tr>
+                            <br/>
+                        </aura:iteration>
+                    </aura:if>
+                    <br></br>
+                    <aura:iteration items="{!v.attachment}" var="item">
+                        <!-- <div class="slds-grid slds-p-around_small">
+                                                <div class="slds-col slds-size_2-of-12">
+                                                    <lightning:input type="checkbox" name="{!item.label}" value="{!item.value}" onchange="{!c.handleClick}"/>
+                                                </div>
+                                                <div class="slds-col slds-size_10-of-12">
+                                                    <p class="p1">{!item.label}</p>
+                                                </div>
+                                            </div>-->
+                        <tr>
+                            <td><lightning:input type="checkbox" class="slds-checkbox_faux" name="{!item.label}" value="{!item.value}" onchange="{!c.handleClick}"/></td>
+                            <td>{!item.label}</td>
+                        </tr>
+                        <br/>
+                    </aura:iteration>
+                </table>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <lightning:inputRichText value="{!v.emailbody}" />
+                
+                <!--Dear&nbsp;{!v.lName},-->
+                
+                <!-- <aura:iteration items="{!v.bodydata}" var="item">
+           {!item}
+            <br></br>
+      </aura:iteration>-->
+                
+                
+            </div>
+            
+        </div>
+    </div>
+    <div class="slds-col modal-footer slds-modal__footer">        
+        <button class="slds-button slds-button_neutral" onclick="{!c.cancel}">Cancel</button>
+        <button class="slds-button slds-button_brand"  onclick="{!c.sendMail}">Send</button>
+    </div>
+</aura:component>

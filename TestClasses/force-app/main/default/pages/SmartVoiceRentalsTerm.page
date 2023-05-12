@@ -1,0 +1,403 @@
+<apex:page standardController="Opportunity" renderAs="pdf" extensions="pdfClass"  cache="false"   standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" applyHtmlTag="false" applyBodyTag="false">
+ <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <svg aria-hidden="true" class="slds-icon slds-icon-standard-account">
+                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+            </svg>      
+            <style>
+                @page { size: 10.5in 14.5in;  }
+                
+                @page {
+                padding-top : 65px;
+                @top-center {
+                content: element(header);
+                padding-top :32px;
+                
+                }
+                }
+                .header{
+                position: running(header);
+                }
+                
+                .div1{
+                margin-left: 20%;
+                }
+                .div2 { 
+                margin-top: -80px;
+                font-size : 13px;
+                padding-right: 10px;
+                }
+                .Redclr{
+                color: rgb(255,0,0);
+                }
+                
+                .p1 {
+                text-align:right;
+                
+                }
+                .div2 {
+                font-family: "Calibri Bold",serif;
+                margin-top: -80px;
+                font-size : 13px;
+                padding-right: 10px;
+                color: rgb(0,0,0);
+                
+                font-style: normal;
+                text-decoration: none;
+                }
+                .cls_005 {
+                font-family: "Calibri Bold",serif;
+                font-size: 13.1px;
+                color: rgb(0,0,0);
+                font-weight: bold;
+                font-style: normal;
+                text-decoration: none;
+                }
+                .cls_006 {
+                font-family: "Calibri Bold",serif;
+                font-size: 11.5px;
+                color: rgb(0,0,0);
+                font-weight: bold;
+                font-style: normal;
+                text-decoration: none;
+                }
+                
+                .cls_009 {
+                font-family: "Calibri",serif;
+                font-size: 13.1px;
+                color: rgb(0,0,0);
+                font-weight: normal;
+                font-style: normal;
+                text-decoration: none;
+                }
+                
+                .cls_010 {
+                font-family: "Calibri Bold",serif;
+                font-size: 13.1px;
+                color: rgb(255,0,0);
+                font-weight: bold;
+                font-style: normal;
+                text-decoration: none;
+                }
+                
+                .table2,.tablepage3{
+                border-collapse: collapse;
+                width: 100%;
+                }
+                
+                .table2 td {
+                border: 1px solid black;
+              padding: 1px;
+                }
+                .table2 th {
+                border: 1px solid black;
+              padding: 1px;
+                }
+                .tablepage3 td{
+                padding-left: 10px;
+                }
+                .page3td{
+                border-left:   1px solid  black;
+                border-top:    1px solid black;
+                }
+                .page3td2 {
+                border-right:   1px solid  black;
+                border-top:    1px solid black;
+                }
+                .leftrightborder{
+                border-left:   5px solid  black;
+                border-right:  5px solid black;
+                background-color:#EBE8E8;
+                }
+            </style>
+        </head>
+        
+        <body>
+            <div width="100%" >
+                <div class="header" style="border: 2px solid black">
+                    
+                    <div class="div1">
+                        <apex:image url="{!$Resource.FrontierComunication}" width="140" height="80" />
+                    </div>
+                    <div class="div2">
+                        <p class="p1">  <b>UCaaS FAW and SmartVoice Rental SCHEDULE</b><br/>
+                            UCaaS FAW and bdhhfcgfvhjvg  {!acc.BillingStreet} vhjSmartVoice Equipment Purchase (only)<br/>
+                            <b> Business</b><br/>
+                            <b>   Frontier Confidential</b></p>
+                        
+                    </div>
+                </div>
+                <div><br/>
+                    <p><span class="cls_005">This is Schedule Number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="cls_009"> to the Frontier Services Agreement dated {!nowDate} </span><span class="cls_005">(“FSA”)</span><span class="cls_009"> by and between ACS Group Inc (“Customer”) and</span><span class="cls_005">Frontier 
+                        Communications of America, Inc.</span><span class="cls_009"> on behalf of itself and its affiliates (“Frontier”).  Customer orders and Frontier agrees to provide the Services and Equipment 
+                        identified in the Schedule below.</span></p>
+                    <p ><span class="cls_005">Customer Information:</span></p>
+                    <table width="100%">
+                        <tr>
+                            <td width="20%"><span class="cls_009">Installation Site:</span></td>
+                            <td style ="overflow-wrap: break-word;" class="cls_005">{!sitePrime.Site_Street__c} &nbsp; {!sitePrime.Site_city__c} <br/> {!sitePrime.Site_Country__c}&nbsp;  {!sitePrime.Site_zipcode__c}  </td>
+                            <td style="text-align: right;" class="cls_005">Schedule Date:</td>
+                            <td style="text-align: right;" class="cls_005">{!nowDate}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="cls_009">Billing Address:</span></td>
+                            <td style ="overflow-wrap: break-word;"  class="cls_005">{!acc.BillingStreet} &nbsp; {!acc.BillingCity} <br/> {!acc.BillingState}&nbsp;  {!acc.BillingPostalCode} &nbsp; {!acc.BillingCountry}</td>
+                            <td style="text-align: right;" class="cls_005">Requested Install Date:</td>
+                            <td style="text-align: right;" class="cls_005">{!nowDate}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="cls_009">Single Point of Contact (“SPOC”):</span></td>
+                            <td class="cls_005">{!con.Name}</td>
+                            <td style="text-align: right;" class="cls_005">Phone:</td>
+                            <td style="text-align: right;" class="cls_005">{!con.Phone}</td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table class="table2">
+                        <tr class="sty1">
+                            <td colspan="3"  style="text-align: center;background: #dddddd"><span  class="cls_005">Table 1. UCaaS Equipment, Installation and Maintenance (</span><span class="cls_010">UCaaS only</span><span class="cls_005">)</span></td>
+                            
+                        </tr>
+                        <tr style="background: #dddddd">
+                            <td></td>
+                            <th colspan="2" style="text-align: center;" ><span class="cls_005">Payment</span></th>
+                        </tr>
+                        <tr>
+                            <td class="cls_006">Equipment Rental and associated products specifically identified in Frontier AnyWare UCaaS Schedule (Month to Month)</td>
+                            <td style="background-color:black;"></td>
+                            <td style="text-align: center;" class="cls_006">MRC<br/>$</td>
+                        </tr>
+                        <tr>
+                            <td class="cls_006">Equipment Purchase See Attachment 1 for details</td>
+                            <td style="text-align: center;" class="cls_006">NRC<br/>$</td>
+                            <td style="background-color:black;"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="cls_006">UCaaS installation Services</span></td>
+                            <td style="text-align: center;"><span class="cls_006">NRC<br/>$ </span></td>
+                            <td style="background-color:black;"></td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="cls_006">Total</span> </td>
+                            <td style="text-align: center;"><span class="cls_006">NRC<br/>$ </span></td>
+                            <td style="text-align: center;"><span class="cls_006">MRC<br/>$ </span></td>
+                        </tr>
+                    </table><br/>
+                    <table class="table2">
+                        <tr class="sty1">
+                            <td colspan="3"  style="text-align: center;background: #dddddd"><span class="cls_005">Table 2.  SmartVoice Equipment, Installation and Maintenance (</span><span class="cls_010">SmartVoice only</span><span class="cls_005">)</span></td>
+                            
+                        </tr>
+                        <tr style="background: #dddddd">
+                            <td></td>
+                            <th colspan="2" style="text-align: center;" ><span class="cls_005">Payment</span></th>
+                        </tr>
+                        <tr>
+                            <td><span class="cls_006">Conference Room Polycom</span></td>
+                            <td></td>
+                            <td style="text-align: center;"><span class="cls_006">MRC<br/>$ </span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="cls_006">MRCEquipment Rental and associated products specifically identified in Frontier SmartVoice Schedule (Month to Month)</span></td>
+                            <td style="background-color:black;"></td>
+                            <td style="text-align: center;"><span class="cls_006">MRC<br/>$ </span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="cls_006">Equipment Purchase (see details in Attachment 1)
+                                </span></td>
+                            <td style="text-align: center;"><span class="cls_006">NRC<br/>$ </span></td>
+                            <td style="background-color:black;"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="cls_006">SmartVoice installation Services (waived if 2, 3 or 5 year Service term on Smart Voice Schedule)</span></td>
+                            <td style="text-align: center;"><span class="cls_006">NRC<br/>$ </span></td>
+                            <td style="background-color:black;"></td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="cls_006">Total</span> </td>
+                            <td style="text-align: center;"><span class="cls_006">NRC<br/>$ </span></td>
+                            <td style="text-align: center;"><span class="cls_006">MRC<br/>$ </span></td>
+                        </tr>
+                    </table><br/>
+                    <div style="text-align: center;" class="cls_005">Supplemental Terms for UCaaS and SmartVoice Rental Terms and Conditions</div>
+                    <p><span class="cls_005">1. Rental Term </span><span class="cls_009">The term of the rental as to Equipment designated above shall begin on the Installation Date in accordance with the Schedule and shall continue for aone-month period (the “Initial Rental Term”). Except as otherwise provided in the Schedule or any amendment thereto, Customer or Frontier may terminate therental at the expiration of the Initial Rental Term by giving the other at least thirty (30) day’s prior written notice of termination. If neither party gives such notice,then the term shall automatically be extended on the same rental terms for successive periods of one (1) month until terminated by either Customer or Frontiergiving the other at least thirty (30) days’ written notice of termination.</span>.
+                    </p>
+                    <p><span class="cls_005">2. Rental payments. </span><span class="cls_009"> The monthly rental payments for each item of Equipment (the “MRC Rental Payments”) are set forth in Table 1 or Table 2 above.</span></p>
+                    <p><span class="cls_005">3. Payment of taxes. </span><span class="cls_009">Customer shall also pay all taxes, however designated, which are levied or based on the rental, the Equipment or its purchase, use, lease, rental,operation, control or value, including, without limitation, personal property taxes, state and local privilege or excise taxes based on gross revenue, and any penaltiesor interest in connection therewith, or taxes or amounts in lieu thereof paid or payable by Frontier or Customer in respect of the foregoing, but excluding taxes basedon Frontier’s net income. Charges for taxes, penalties and interest, if any, shall be promptly paid by Customer. In the event Customer defaults in the payment of anysuch tax, Frontier may pay such tax and shall be promptly reimbursed by Customer, with interest (plus attorneys’ fees and costs if any) as additional rent.</span></p>
+                    <p><span class="cls_005">4. Limitations of Liability. </span><span class="cls_009">FRONTIER HAS NOT MADE AND MAKES NO, AND HEREBY EXPRESSLY DISCLAIMS ANY REPRESENTATION OR EXPRESS OR IMPLIEDWARRANTY WHATSOEVER HEREUNDER, INCLUDING ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR ANY PURPOSE, OR OTHERWISE, REGARDING THEEQUIPMENT OR ANY PART OR THE DESIGN, QUALITY, OPERATION OR CONDITION THEREOF OR WITH RESPECT TO PATENT INFRINGEMENT OR THE LIKE.</span></p>
+                    <p><span class="cls_005">5. Risk of Loss.</span><br/>
+                        <span class="cls_009"><b>A.</b> Frontier shall not be responsible for, nor shall the MRC Rental Payments or other sums due hereunder abate for any reason, including, but not limited to, anyinterruption in or loss of the service or use of the Equipment or any part thereof, or any loss or damage caused thereby, or by error in programming or instruction tothe Equipment, latent defect, wear and tear, or gradual deterioration of the Equipment or any part thereof.</span><br/><br/>
+                        <span class="cls_009"><b>B.</b> Customer assumes and shall bear the entire risk of partial or complete loss, theft, damage, destruction or other interruption or termination of use of theEquipment from any cause whatsoever, from the date of delivery of the Equipment to Customer until the Equipment is returned to and received by Frontier.</span>
+                    </p>
+                </div>
+                
+                <!-------------------second page start---------------->
+                
+                
+                <br/>
+                <p><span class="cls_009"><b>C.</b> During the term of the rental, and until the Equipment is redelivered to Frontier, Customer shall be liable for the prompt repair of the Equipment at its soleexpense. If the Equipment or any portion thereof is lost, stolen, destroyed or damaged beyond repair, Customer, at its option, will (i) continue to make the MRCRental Payments, and, at Customer’s sole expense, replace the Equipment with equipment of identical manufacture and equal or greater capacity, utility andresidual value to that of the Equipment replaced (in which case Customer will transfer title to the replacement Equipment to the Frontier free of all liens, claims andencumbrances), or (ii) pay Frontier on the next Monthly Rental Payment date following the loss, theft, damage or destruction of the Equipment an amount equal tothe replacement value or the minimum casualty value, whichever is greater, attached to the applicable Equipment Schedule for such Equipment in effect on the dateof the loss, theft, damage or destruction thereof and all rent accrued on such Equipment up to the date of payment and all other amounts then due in connectionwith such Equipment. Upon such payment, the Equipment Schedule, or portion thereof, as applicable, will terminate with respect to the Equipment so paid for, andFrontier will transfer full ownership and title to such Equipment to Customer, free of liens, claims and encumbrances created by Frontier.</span>
+                </p>
+                <p><span class="cls_005">6.  Insurance and Indemnity.  </span><span class="cls_009">Customer shall at all times during the term of the rental, at its own expense, maintain: (A) all-risk property damage insurance coveringthe Equipment in an amount not less than the greater of (i) the replacement value of the Equipment, or (ii) the minimum casualty value of such Equipment as setforth in the Equipment Schedule, and (B) public liability coverage in such amounts, and with such companies as are in general usage by companies owning oroperating similar property and engaged in a business similar to Customer's. The insurance required by this Section may be obtained by Customer by endorsement onany blanket insurance policies maintained by Customer or its parent. All insurance so maintained shall provide for a thirty-day (30) prior written notice to Frontier ofany cancellation or reduction of coverages and an option in favor of Frontier to prevent cancellation by payment of premiums, which shall promptly be repaid byCustomer, and further shall provide that all insurance proceeds shall be payable to the Customer and Frontier. Frontier shall be named as loss payee and additionalinsured on all public liability insurance policies so maintained. Customer shall furnish to Frontier copies of such insurance policies and satisfactory insurancecertificates on or before the Installation Date. Customer's above obligation shall commence on the date of delivery of the Equipment and shall continue until theInitial Rental Term (or any extension or renewal thereof) of each Schedule expires and the Equipment is returned to Frontier. By this Section, Frontier does notmodify or limit any provision of this rental relating to disclaimer of warranties and liability, or indemnity.<br/>
+                    <br/>Customer assumes all risk and liabilities, whether or not covered by insurance, and shall indemnify and hold Frontier harmless of and from any liability, claim, loss,damage or expense (including reasonable attorneys’ fees) for injuries or deaths of persons and for damage to property, to the extent caused by , operation orstorage of the Equipment, whether such injury or death to person be of agents or employees of Customer or be of third persons and whether such damage toproperty be of Customer, or to property of others.</span></p>
+                <p><span class="cls_005">7.   RETURN OF EQUIPMENT:</span><br/>
+                    <span class="cls_009">Unless otherwise agreed to by Frontier in writing, Customer shall throughout the term of this Rental maintain the Equipment in good working order and appearance.Upon termination of the rental, Customer, at its sole expense, shall return the Equipment, together with manufacturer's certificate of authenticity, if provided, toFrontier, or to such other location within the Continental U.S. designated by Frontier in good condition and repair excepting only reasonable wear and tear.Customer shall pack the Equipment to be so returned in accordance with the manufacturer’s guidelines.
+                        <br/><br/>If Customer fails to return the Equipment in accordance with the preceding paragraph upon the expiration of the Initial Rental Term or any extension thereof,Customer shall be obligated to pay to Frontier per diem rent until the Equipment is returned in addition to all other remedies available to Frontier described inSection 8.(Remedies).</span></p>
+                <p><span class="cls_005">8.  ALTERATION AND ATTACHMENTS:</span><br/>
+                    <span class="cls_009">Customer shall not make any such alteration that would create a safety hazard, impair or reduce the performance of the Equipment. If the alterations or attachmentsinterfere with the normal or satisfactory maintenance, operation or insurability of the Equipment, or any part thereof, in such manner as to materially decrease thevalue of the Equipment, or create a safety hazard, Customer will, upon written notice from Frontier to that effect, promptly remove the alterations or attachmentsand restore the Equipment to its normal condition. In the case of increased cost of maintenance and insurance, or either, due to Customer’s alterations orattachments permitted herein, Customer shall pay such increase. Notwithstanding the preceding, the Customer is still required to comply with provisions in Section(maintenance). herein</span></p>
+                <p><span class="cls_005">9.  ASSIGNMENTS:</span><br/>
+                    <span class="cls_009">Customer may not assign the rental or any of Customer’s rights hereunder or sublease any Equipment or its use without the prior written consent of Frontier or anysuch assignment or sublease shall be void. Any permitted sublessee or assignee of Customer must execute an assumption of this rental in form and substanceacceptable to Frontier, but no sublease or assignment shall relieve Customer of any of its obligations or liabilities under this rental.</span></p>
+                <p><span class="cls_005">6.  INSTALLATION:</span><br/>
+                    <span class="cls_009">The Equipment is to be installed at the location indicated on the Schedule. All installation charges shall be paid by Customer unless indicated otherwise on thisSchedule</span>
+                </p>
+                <p>
+                    <span class="cls_005">7. Default. </span>
+                    <span class="cls_009">Any one of the following events shall constitute an "Event of Default" hereunder: (a) Customer shall fail to pay when due any installment of rent or otheramount due hereunder; (b) Customer shall fail to observe or perform any other agreement to be observed or performed by Customer hereunder; (c) Customer, anyguarantor of the rental, or any partner of Customer if Customer is a partnership shall cease doing business as a going concern or make an assignment for the benefitof creditors; (d) Customer, any guarantor of the rental, or any partner of Customer if Customer is a partnership shall voluntarily file, take any action to authorize thefiling, or have filed against it involuntarily, a petition for liquidation, reorganization, adjustment of debt or similar relief under the federal or state bankruptcy orinsolvency law; (e) a trustee, receiver, or liquidator be appointed for Customer, any guarantor of the rental, or for all or a substantial part of the assets of Customer orany guarantor; (f) any individual Customer or individual guarantor of the rental, or partner of Customer if Customer is a partnership, shall die; (g) an event of defaultshall occur under any other obligation Customer or any guarantor of the rental owes to Frontier; (h) an event of default by Customer shall occur under any agreementinvolving Customer's or a guarantor's indebtedness to a lender for borrowed money; or (i) Customer shall have terminated its corporate existence, consolidated with,merged into, or conveyed or leased substantially all of its assets as an entity to any person unless:(i) such person executes and delivers to Frontier an agreementsatisfactory in form and substance to Frontier, in its sole discretion, containing such person’s effective assumption and its agreement to pay, perform, comply withand otherwise be liable for all of Customer’s obligations having previously arisen, or then or thereafter arising, under the rental together with any documents,Agreements investments, certificates, opinions and filings by Frontier; and (ii) Frontier (and any Assignee) is satisfied as to the creditworthiness of such person.</span>
+                </p>
+                
+                
+                <!-------------------Third page start---------------->
+                
+                <p>
+                    <span class="cls_005">8. Remedies.</span>
+                    <span class="cls_009"> Upon the occurrence of an Event of Default and at any time thereafter, Frontier may exercise from time to time any one or more of the followingremedies: (a) terminate this rental as to any portion or all of the Equipment; (b) take immediate possession of any or all of the Equipment; wherever situated, and forsuch purpose enter upon any premises (without a requirement to post bond in any legal proceeding); (c) hold, use, rent, lease, sell or otherwise dispose of any or allof the Equipment in such manner as Frontier in its sole discretion may decide. With respect to any exercise of its rights to recover and/or dispose of any Equipment,Customer acknowledges and agrees that Frontier shall have no obligation, subject to the requirements of commercial reasonableness, to clean up or otherwiseprepare the Equipment for disposition; (d) accelerate the due date of all remaining rent payments due hereunder for the entire remaining Initial Rental Term of thisrental or any amendment thereto, including any renewal term then in effect, whereupon said amounts shall be immediately due and payable; (e) recover the sum of:(i) any accrued and unpaid rent, plus (ii) the present value of all future rentals reserved in this rental and contracted to be paid over the unexpired Initial Rental Termof this rental (or any renewal period then in effect), discounted at the rate of four percent (4%) per annum; plus (iii) the anticipated residual value of the Equipmentas of the expiration of this rental or any renewal thereof discounted at the rate of four percent (4%) per annum, (iv) any indemnity payment, if then determinable; (v)all reasonable costs and expenses incurred by Frontier in any repossession, recovery, storage, repair, sale, re-rental, re-lease or other disposition of the Equipment,including but not limited to costs of transportation, possession, storage, refurbishing, advertising and broker’s fees together with all attorney’s fees and cost incurredin connection therewith or otherwise resulting from Customer’s default (including any incurred at trial, on appeal or any other proceeding) of the foregoing at therate of one and one-half (1½%) per month (“default interest”) (f) expend such monies as Frontier deems appropriate to cure or mitigate the effect of the Event ofDefault, or to protect the Frontier’s interest in the Equipment and this rental, with all such sums to be immediately reimbursed to Frontier by Customer; (g) setoffCustomer's security deposit or any other property of Customer held by Frontier against any amount owed by Customer to Frontier; and (h) exercise any other remedypermitted by law, equity or any other agreements with Customer or any guarantor of this rental. No remedy given in this paragraph is intended to be exclusive andeach shall be cumulative. No express or implied waiver by Frontier of any Event of Default shall constitute a waiver of any subsequent Event of Default.</span>
+                </p>
+                <p>
+                    <span class="cls_005">9. Representation and Warranties By Customer.</span>
+                    <span class="cls_009"> Customer represents and warrants to Frontier that: (a) the rental constitutes the Customer's legal, valid andbinding obligation and is enforceable against Customer in accordance with its terms; (b) Customer's entry into and performance under the rental will not result in anybreach, default or violation under Customer's charter documents (articles of incorporation and bylaws in the case of a corporation or partnership agreement in thecase of a partnership or articles of organization and operating agreement in the case of a limited liability Frontier) or any other agreement to which Customer is aparty or to which it or its property is subject; (c) there are no suits or proceedings pending or threatened before any court, government agency or arbitrator which, ifdetermined adversely to Customer, would have a material adverse effect on its financial condition or ability to perform its obligations under the rental; (d) that anyfinancial statements or other information which Customer has furnished Frontier concerning the business or condition of Customer was true, correct and complete atthe time furnished or as of the date of such financial statements; (e) the Equipment shall remain personal property;\. The Equipment is removable from and is notessential to the premises upon which it is located regardless of its attachment to realty, and Customer agrees to take such action at its expense as may be necessaryto prevent any third party from acquiring any interest in the Equipment as a result of its attachment to realty with respect to all of the Equipment leased hereto.</span>
+                </p>
+                <p>
+                    <span class="cls_005">10.  General.</span><br/>
+                    <span class="cls_009"><b>A. </b> The Equipment remains the personal property of Frontier and may be removed at any time, without notice, after termination of the rental.<br/>
+                        <b> B.</b>  t Frontier’s request, Customer shall affix to the Equipment and each unit or element thereof, in a prominent place, appropriate tags, decals, or plates stating thatthe Equipment is owned by Frontier, and Customer shall not cause or permit any such tags, decals, or plates to be removed, defaced or covered in any way.<br/><br/></span>
+                    <span class="cls_005">This Schedule is not effective and pricing, dates and terms are subject to change until signed by both parties.</span> <span class="cls_009"> This Schedule and any of the provisions hereof maynot be modified in any manner except by mutual written agreement. The above rates do not include any taxes, fees or surcharges applicable to the Equipment orService. This Schedule, the documents incorporated herein by reference, and all terms and conditions of the FSA, comprise the entire agreement between the partieswith respect to the purchase of Equipment and Services described herein, and supersede any and all prior or contemporaneous agreements, representations,statements, negotiations, and undertakings written or oral with respect to the subject matter hereof.</span>
+                </p>
+                
+                <table class="tablepage3 cls_005">
+                    <tr>
+                        <td width="49%" class="page3td" style="padding:12px;">Frontier Communications of America, Inc.</td>
+                        <td width="2%" class="leftrightborder" style="border-top:1px solid black;"></td>
+                        <td width="49%" class="page3td2">ACS Group Inc</td>
+                    </tr>
+                    <tr>
+                        <td class="page3td" style="padding-bottom:25px;">Frontier’s Signature:</td>
+                        <td class="leftrightborder"></td>
+                        <td class="page3td2">Customer’s Signature:</td>
+                    </tr>
+                    <tr>
+                        <td class="page3td">Printed Name:&nbsp;&nbsp;Danielle H. Evirgen</td>
+                        <td class="leftrightborder"></td>
+                        <td class="page3td2">Printed Name:&nbsp;&nbsp;{!con.Name}</td>
+                    </tr>
+                    <tr>
+                        <td class="page3td">Title:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assistant General Counsel</td>
+                        <td class="leftrightborder"></td>
+                        <td class="page3td2">Title:</td>
+                    </tr>
+                    <tr>
+                        <td class="page3td" style="border-bottom: 1px solid black;">Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!nowDate}</td>
+                        <td class="leftrightborder" style="border-bottom: 1px solid black;"></td>
+                        <td class="page3td2" style="border-bottom: 1px solid black;">Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {!nowDate}</td>
+                    </tr>
+                </table><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                
+                <!-------------------Fourth page start---------------->
+                
+                <div style="text-align: center;" class="cls_005">Attachment 1</div><br/><br/>
+                <div> <span class="cls_005">*</span><span class="cls_009">Only specifically identified Equipment and Licenses identified in this Attachment are included.</span></div><br/><br/>
+                <div style="text-align: center;"><span style="background-color:Yellow;" class="cls_010">*** Sales to delete this instruction, and paste pricing table from PPT or Quick Quote ***</span></div>
+                
+                
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                
+                <!-------------------Fifth page start---------------->
+                
+                <div style="text-align: center;" class="cls_005">Attachment 2</div>
+                <br/><div style="text-align: center;" class="cls_005">Scope of Work</div>
+                <br/><div style="text-align: center;" class="cls_005">Installation Services</div><br/><br/>
+                
+                <p>
+                    <span class="cls_005">1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Overview</u>.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">a.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This Scope of Work (“SOW”) outlines the services and deliverables Frontier will provide as part of the Installation Services. In addition, this SOW outlinesthe roles and responsibilities of Frontier and Customer with respect to the Installation Services, and the key dependencies upon which this SOW is based.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">b.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;During the installation process, Frontier will work closely with Customer on a consultative basis to ensure the successful completion of this SOW. This SOWoutlines all services and deliverables covered by the compensation outlined in the Schedule. Any requested changes or additions to this SOW may only beaccommodated according to the change management process outlined in Section 7 of the Schedule.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">c.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The services and deliverables described in this SOW are designed to properly configure the Equipment according to manufacturer specifications. Inaddition, all work performed by Frontier pursuant to this SOW will comply with manufacturer-recommended installation procedures.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">d.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The work described under this SOW will begin on a date mutually agreeable to Customer and Frontier. The start date will be determined following fullexecution of both the Schedule incorporating this SOW and the underlying Frontier Service Agreement.</span><br/>
+                    
+                    
+                </p>
+                <p>
+                    <span class="cls_005">2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Key Assumptions</u>.</span><span class="cls_009">This SOW and related pricing are based on the following key assumptions. If these assumptions are not met, changes in project scope,pricing and/or schedule may be required in order to satisfy project objectives.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">a.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Hours</u>. All work will be performed during normal business hours (8:00am - 5:00pm local time, excluding holidays).</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">b.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Installation</u>Installation. Customer is responsible for providing and configuring all routers, switches, and servers necessary for installation of the Equipment. Frontieris not responsible for anything outside the scope of this SOW, unless outlined in a mutually agreed Change Order to this SOW.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">c.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Wiring</u>. Wiring is in place, easily accessible, in proper working order, properly identified on both ends and within reach of the provided 2m patch cord forIP devices or the provided 12’ line cord for digital devices of the set location is to be placed for this installation. Unless otherwise specifically agreed in Section 6 or aChange Order, installation and/or repair of wiring is<u> not included</u> in this SOW.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">d.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Standards</u>. All routers and switches supporting a VoIP System must meet industry standards for Quality of Service (QOS).</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">e.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Installation Site</u>. Customer will ensure that the installation site is prepared for and compatible with the installation services and operation of theEquipment, including but not limited to the following:</span><br/>
+                    <br/><span style="background-color:Yellow;" class="cls_009">****  LIST ALL CUSTOMER REQUIREMENTS HERE OR REFERENCE AND ATTACH A SEPARATE DOCUMENT  ****_</span><br/><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">f.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Scheduling</u>. Frontier resources will be assigned and scheduled based on availability. An initial project meeting will be held with the Frontierimplementation team and Customer-designated representatives. During this meeting critical implementation milestones will be determined. If applicable a Frontier-assigned Project Manager will be responsible for maintaining the master project schedule. Installation Services will be performed during regular business hours (8a.m. to 5 p.m. local time) unless otherwise outlined in Section 6.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">g.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Cut-Over</u>. Installation Services by Frontier will be completed in one (1) single continuous phase, unless a “multi-phased” implementation is requested byCustomer and agreed per Section 6 or Change Order. In the event a multi-phased implementation is requested, additional charges will apply.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">h.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Removal of Existing Equipment and Infrastructure</u>. Frontier is not responsible for removal, disposal and cleanup of existing cable, telephony and associatedequipment (e.g., power supplies, racks, blocks, etc.), unless specified in Section 6.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Out-of-Scope Services</u>. For clarification, anything not expressly identified in this SOW as provided by Frontier is out-of-scope, including but not limited tothe following:</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">•  Hardware, software, telecommunications or network technology not included in the original design.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">•  Installation and configuration changes that result from site additions or relocations that were not included in this SOW.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">•  Delays of more than one half (1/2) hour resulting from Customer’s failure to meet its responsibilities.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">•   dditional site visits required by Frontier personnel as a result of changes in Customer requirements or Customer’s failure to meet its obligations.</span><br/>
+                </p>
+                <p>
+                    <span class="cls_005">3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Frontier Responsibilities</u>.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">a.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Scope</u>. Frontier will perform the following installation Services:</span><br/>
+                    <br/><span style="background-color:Yellow;" class="cls_009"><u>*** SUMMARIZE INSTALLATION SPECIFICS PROVIDED BY FRONTIER AND INSERT VISIO DIAGRAM IF POSSIBLE ***</u></span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">b.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Performance of Work</u>. Frontier will install the Equipment. Installation Services will be performed in a workmanlike manner consistent with manufacturer-published specifications and practices. Workmanship will comply with applicable NEC (National Electric Code) and TIA (Telecommunication Industries Association)standards.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">c.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Miscellaneous</u>. Frontier is also responsible for the following:</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Provide status to Customer SPOC per a mutually agreed schedule.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Provide installation, configuration and testing of Equipment and licensed software.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• End user training per Section 5.• Basic system administration training per Section 5.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Provide system documentation to Customer.• Provide support contact information to Customer to respond to questions during the installation project.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Prior to the scheduled installation date, Frontier will provide manufacturer and/or Equipment and license specific requirements for QoS, DHCP, applicationand integration with respect to the design and configuration to which Customer’s network must adhere.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Confirm that all shipped Equipment to the Installation Site aligns with the Parts List ordered by Frontier on behalf of the Customer.</span><br/>
+                </p>
+                <p>
+                    <span class="cls_005">4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Customer Responsibilities: </u></span><span class="cls_009">Customer is responsible for all network elements not specifically identified in this SOW as a Frontier responsibility, includingbut not limited to the following:</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Provide a qualified SPOC responsible for communicating Customer’s requests to Frontier, and assume responsibility for all requests for modification.</span><br/><br/>
+                    
+                    
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Ensure that Customer Information Technology resources will be available as required by Frontier.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Provide Frontier employees or representatives access, escort, suitable work space and safety training (if required by Customer).</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Actively and promptly assist in database gathering and providing all information required by Frontier for installation purposes.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• All data network requirements (hardware and software), except as otherwise specifically ordered through Frontier.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• All voice and data wiring, except as specifically outlined in this SOW or a separate Frontier Schedule. Any required modifications/adds/repairs during theinstallation project are billable.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• QoS for VoIP systems; (i.e. Customer shall insure minimum bandwidth requirements are met).</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Administrative formal training for Customer employees, unless ordered through Frontier.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Manage and coordinate 3rd party vendors, as necessary, to allow the installation project to proceed as scheduled.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">•All manufacturer recommended environmental, HVAC, power and grounding requirements.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• All patch cables that are required with the exception of the single 2m (6.5’) patch cord provided with each IP device or a single 12ft line cord for each digitalphone.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Ensure that all network equipment, configurations, cabling, power and grounding requirements are completed prior to installation start date.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Provide Frontier with two (2) copies of current floor plans of the Installation Site that identify the placement of all cable plant, desktop devices, voice mailboxusers and PCs as applicable to Frontier’s installation responsibilities hereunder. These floor plans must be signed to indicate their completeness and accuracy. If cablerecords are inaccurate or unavailable, Frontier will require the purchase of cable “Tone and Testing” to generate updated cable plant and cross-connect records</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• All drilling at the Installation Site with the exception that Frontier will complete any drilling to secure required Equipment racks.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Ensure all servers and computers supplied by the Customer meet the hardware and software specifications for all application software purchased.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Provide Frontier with all required information to successfully integrate Installed Equipment and any OEM equipment supplied by the Customer.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Provide a secure location for Equipment shipped to the Installation Site and sign required documentation (e.g. packing slip) to confirm receipt of orderedEquipment at the Installation Site. Upon signing the required documentation, the Customer is responsible for all Equipment.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Wiring, cabling and connection to interface(s) of 3rd Party vendor equipment associated with the Installation (including headsets)</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Provide adequate conduit, duct and trough availability for required cabling associated with the installation.</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cls_009">• Prior to Project implementation, identify and remove all contaminated areas from asbestos or other hazardous materials. If Frontier discovers contaminatedareas during Installation, Frontier will cease all Project activity until all hazardous materials are removed. Customer is responsible for all costs associated withremoval of hazardous materials and additional costs incurred from Project delays due to the removal of hazardous materials.</span><br/>
+                </p>
+                
+                 <!-------------------Seventh page start---------------->
+                
+               <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> <br/><br/> <br/><br/> 
+                
+                <div style="text-align: center;" class="cls_005">Attachment 3</div>
+                <br/><div style="text-align: center;" class="cls_005">Maintenance</div><br/><br/>
+                <ol class="cls_009">
+                    <li>During the Initial Rental Term and any extension thereof Frontier will provide maintenance and repair services with respect to the Equipment (“Maintenance” atthe Installation Site. Only authorized agents and representatives of Frontier may perform such work. Any repair, alteration, configuration or servicing of theEquipment by Customer or third parties without the prior written consent of Frontier is a default of this Agreement and cause for termination of the Initial RentalTerm or any extension thereof , in whole or in part, at Frontier’s option.</li>
+                    <li>During the Initial Rental Term or any extension thereof , Frontier will maintain a point-of-contact twenty-four (24) hours a day, seven (7) days a week for Customerto report a problem with the Equipment to Frontier. When a problem occurs, after Customer has ascertained that it is not a result of an act or omission ofCustomer, Customer’s equipment or facilities, or any third party or their facilities, Customer must contact Frontier to identify the problem and initiate aninvestigation (“Trouble Ticket”). Responsibility for Trouble Ticket initiation rests solely with Customer. Once the Trouble Ticket has been opened, the appropriateFrontier departments will initiate diagnostic testing and isolation activities to determine the source and severity of the problem. Frontier and Customer willcooperate to restore the Equipment to operational condition. If the source of the problem is within the Equipment, Frontier will be responsible for the repair orreplacement of the Equipment, in Frontier’s sole discretion. If the source of the problem is not the Equipment, at Customer’s request Frontier will cooperate withCustomer to conduct testing and repair activities, subject to Frontier’s standard technician rates.</li>
+                    <li>If Frontier, in its sole discretion, determines that a unit of Equipment needs to be replaced, such Equipment will be replaced with equipment of like kind andfunctionality from a manufacturer of Frontier’s choice at the time of replacement (“Exchange Unit”). The Exchange Unit may not be new but will be in goodworking order and of like kind and functionality.</li>
+                    <li>Maintenance does not include or apply to:(i) electrical work external to the Equipment, including but not limited to power or back-up power to or from theEquipment; (ii) Equipment failures caused by factors not related to the Equipment or outside Frontier’s control, including but not limited to failure of the applicableInstallation Site to conform with Frontier’s specifications͖ (iii) use of the Equipment for any purpose other than as intended by the manufacturer;(iv) damagecaused by attempted maintenance or repairs performed by anyone other than an Frontier employee or representative; (v) Equipment supplies, accessories,painting, or refurbishing; and (vi) any activity related to anything not furnished by Frontier, or use of Equipment with other equipment which fails to conform tomanufacturer or Frontier specifications.</li>
+                    <li>Customer agrees that the Services provided by Frontier hereunder are subject to the terms, conditions and restrictions contained in any applicable agreements(including software or other intellectual property license agreements) between Frontier and Frontier’s vendors.</li>
+                </ol>
+            </div>
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,13 @@
+<apex:page standardController="Deduplication_Config__c" extensions="DeduplicationConfigOnDemand" action="{!executeDeduplicationScan}">
+    <apex:pageMessages />
+    <apex:form >
+        <apex:inputHidden value="{!Deduplication_Config__c.Name}"/>
+        <apex:inputHidden value="{!Deduplication_Config__c.Comparison_Fields__c}"/>
+        <apex:inputHidden value="{!Deduplication_Config__c.Non_Comparison_Fields__c}"/>
+        <apex:inputHidden value="{!Deduplication_Config__c.Object_API_Name__c}"/>
+        <apex:inputHidden value="{!Deduplication_Config__c.Last_Execution__c}"/>
+        <apex:inputHidden value="{!Deduplication_Config__c.Ignore_Case__c}"/>
+        <apex:inputHidden value="{!Deduplication_Config__c.Ignore_No_Data_Comparisons__c}"/>
+        <apex:inputHidden value="{!Deduplication_Config__c.Id}"/>
+    </apex:form>
+</apex:page>

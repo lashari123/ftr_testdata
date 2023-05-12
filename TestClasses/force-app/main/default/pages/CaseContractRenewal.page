@@ -1,0 +1,82 @@
+<apex:page standardController="case" extensions="CaseContractRenewal" tabStyle="case">
+<apex:sectionHeader title="Contract Renewal Edit" subtitle="Contract Renewal" />
+<script>
+window.onload = function(e){    
+    var url = window.location.href;
+    var paramSchedule = getQueryString('ScheduleId',url);
+    //alert('--paramSchedule --'+paramSchedule );
+    if(paramSchedule != 'Renewed'){ 
+        document.getElementById("{!$Component.frm:pgBlock:pgBlockSection:pgsectionitem:scheduleId}").style.display='none';
+        document.getElementById("{!$Component.frm:pgBlock:pgBlockSection:pgsectionitem:scheduleIdName}").style.display='none'; 
+    }    
+}
+
+var getQueryString = function ( field, url ) {
+    var href = url ? url : window.location.href;
+    var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    var string = reg.exec(href);
+    return string ? string[1] : null;
+};
+
+function fncheckLength(varLen){
+    if(varLen.length > 12){
+        alert('Please enter valid Schedule Id');
+        return false;
+    }
+}
+function fnResolutionCheck(varResoltution){
+    //var v = document.getElementById("{!$Component.frm:pgBlock:pgBlockSection:scheduleId}").style.display='none';
+    //v..style.display='none'
+
+if(varResoltution=='Renewed'){
+
+    document.getElementById("{!$Component.frm:pgBlock:pgBlockSection:pgsectionitem:scheduleId}").style.display = null;
+    document.getElementById("{!$Component.frm:pgBlock:pgBlockSection:pgsectionitem:scheduleIdName}").style.display = null;
+    document.getElementById("{!$Component.frm:pgBlock:pgBlockSection:pgsectionitem:scheduleId}").style.display="block";
+    document.getElementById("{!$Component.frm:pgBlock:pgBlockSection:pgsectionitem:scheduleIdName}").style.display="block";
+
+    
+}    
+else{
+    document.getElementById("{!$Component.frm:pgBlock:pgBlockSection:pgsectionitem:scheduleId}").style.display='none';
+    document.getElementById("{!$Component.frm:pgBlock:pgBlockSection:pgsectionitem:scheduleIdName}").style.display='none';
+}      
+//alert('rtr'+varResoltution);
+return false;
+}
+</script>
+    <apex:form id="frm">
+    <apex:pageMessages id="pgmesgs"/>
+        <apex:pageBlock mode="edit" id="pgBlock">
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="Save" reRender="pgmesgs"/>
+                <apex:commandButton action="{!saveAndClose}" value="Save & Close" reRender="pgmesgs"/>
+                <apex:commandButton action="{!cancelCase}" value="Cancel"/>
+                
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="2" id="pgBlockSection">
+               <apex:outputField value="{!objCase.RecordTypeId}"/>
+               <apex:inputField value="{!objCase.AccountId}"/>
+               <apex:inputField value="{!objCase.ContactId}"/>
+               <apex:outputField value="{!objCase.Origin}" />
+                <apex:outputField value="{!objCase.Case__c}"/>
+                <!--<apex:inputField value="{!objCase.Follow_up_Date_formulae__c}"/>
+                <apex:inputField value="{!objCase.Case_Owner_trial__c}"/>-->
+                <apex:inputField value="{!objCase.Status}"/>
+                <apex:inputField value="{!objCase.Priority}"/>
+                <apex:inputField value="{!objCase.Subject}"/>
+                <apex:inputField value="{!objCase.Resolution__c}" onchange="return fnResolutionCheck(this.value);"/>
+                <!--<apex:inputField value="{!objCase.Resolution__c}"/>-->
+                <apex:inputField value="{!objCase.Description}"/>                
+               
+                <apex:inputField value="{!objCase.Renewed_Reason__c}"/>
+                <apex:pageBlockSectionItem id="pgsectionitem">
+                    <apex:outputLabel value="Schedule ID" for="account__name" id="scheduleIdName"/>
+                    <apex:inputText value="{!strScheduleId}" id="scheduleId" / > 
+                </apex:pageBlockSectionItem>
+                <!--<apex:inputField value="{!objCase.Schedule_Id__c}"  id="scheduleId"/>-->
+                      
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

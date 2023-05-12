@@ -1,0 +1,106 @@
+.THIS {
+}
+
+.THIS.border{
+    border: 1px solid #d4d4d4;
+}
+
+.THIS .border2{
+    border: 1px solid #d4d4d4;
+}
+.THIS .border3{
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+}
+
+.THIS .placeholder{
+    color: #808080;
+}
+
+.THIS .accordion{
+    font-size: 15px;
+}
+.THIS .align{
+    font-size: 15px;
+    /*padding:35px;*/
+}
+
+.THIS .custom-box {
+    padding: 1.5rem;
+  
+}
+
+.THIS .padding{
+  padding-top: 25px;
+  padding-right: 25px;
+  padding-bottom: 0px;
+}
+
+.THIS .sty{
+   
+     display : block;
+    text-align: center;
+}
+
+.THIS .colorblue{
+    background-color:blue;
+    
+}
+.THIS input[name="checkBox"]:focus{
+    outline:2px solid red;
+}
+.THIS .bor{
+    border: none;
+}
+
+.THIS .circuit_btn{
+    font-size: 12px;
+    font-weight: 800;
+}
+.THIS .ht{
+        height: 600px;
+}
+.THIS .htt{
+        height: 550px;
+        width: 100%;
+    max-width: 100%;
+    line-height: 39;
+    vertical-align: middle;
+}
+
+.THIS.x-accordion-heading .x-accordion-toggle.collapsed {
+	background-color: red !important;
+}
+
+.THIS.x-accordion-heading .x-accordion-toggle {
+	background-color: red !important;
+}
+
+.THIS .x-accordion .x-accordion-group  .x-accordion-heading a .x-accordion-toggle {
+	color: red!important;
+}
+
+.THIS.lgc-bg {
+    background-color: rgb(242, 242, 242);
+}
+
+.THIS.lgc-bg-inverse {
+    background-color: rgb(22, 50, 92);
+}
+
+.THIS.charsremain {
+   font-size: 4px;
+}
+
+.THIS .font  .slds-form-element__label{
+   font-weight: 900;
+    font-size:12px;
+}
+
+.THIS.Accessfont {
+    font-weight: 900;
+    font-size:12px;
+}
+
+.THIS .btn, .THIS .btn:focus, .THIS .btn:active, .THIS .btn:hover 
+{ background-color: #C23934; color: white; border-color: #C23934; }

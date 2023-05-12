@@ -1,0 +1,43 @@
+<apex:page standardController="Physical_Site__c" extensions="Physical_Site_ExtensionController">
+   <apex:sectionHeader title="Physical Site"/>
+
+    <apex:form >
+        <apex:pageBlock title="Physical Site">
+            <apex:pageMessages id="showmsg"></apex:pageMessages>
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Edit" action="{!edit}" />
+                <apex:commandButton value="Delete" action="{!delete}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Edit" action="{!edit}" />
+                <apex:commandButton value="Delete" action="{!delete}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Information" columns="2">
+                <apex:outputField value="{!Physical_Site__c.Name}"/>
+                <apex:outputField value="{!Physical_Site__c.DGF__c}"/>
+				<apex:outputField value="{!Physical_Site__c.Service_Address_Street__c}"/>
+				<apex:outputField value="{!Physical_Site__c.DSAT_ID__c}"/>
+				<apex:outputField value="{!Physical_Site__c.Service_Address_City__c}"/>
+				<apex:outputField value="{!Physical_Site__c.Building_Number__c}"/>
+				<apex:outputField value="{!Physical_Site__c.Service_Address_State__c}"/>
+				<apex:outputField value="{!Physical_Site__c.Service_Address_Floor__c}"/>
+				<apex:outputField value="{!Physical_Site__c.Service_Address_Postal_Code__c}"/>
+				<apex:outputField value="{!Physical_Site__c.Room_Suite_Number__c}"/>
+			</apex:pageBlockSection>			
+			
+			<apex:pageBlockSection title="Contact Information" columns="2">
+				<apex:outputField value="{!Physical_Site__c.Site_Contact__c}"/>
+				<apex:outputField value="{!Physical_Site__c.Maintenance_Contact__c}"/>
+			</apex:pageBlockSection>			
+			
+			<apex:pageBlockSection title="Comments and Instructions" columns="2">
+				<apex:outputField value="{!Physical_Site__c.Scope_of_Work_Comments__c}"/>
+				<apex:outputField value="{!Physical_Site__c.Access_Hours_and_Special_Requiremens__c}"/>
+			</apex:pageBlockSection>			
+			
+		</apex:pageBlock>
+	</apex:form>
+   
+	<apex:relatedList list="UNIs__r" />
+	
+</apex:page>

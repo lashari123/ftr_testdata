@@ -1,0 +1,543 @@
+<apex:page cache="false" sidebar="false">
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=IE8" />
+</head>
+<body>
+    <apex:iframe scrolling="auto" id="theIframe" height="1200" width="100%" />
+   
+     <!-- End Default Content REMOVE THIS -->
+ <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"/>
+<script src="/soap/ajax/23.0/connection.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/js/functions.js"></script>
+   <script type="text/javascript">
+   sforce.connection.sessionId = "{!$Api.Session_ID}";
+   
+   $(document).ready(function() {      
+     try{
+        var records = [];
+        var envBtn = "ProductCatalog";
+        var obj = new Object();
+        obj.name = "sfdcSessionId";
+        obj.value = "{!$API.Session_ID}";
+        records[0] = obj;
+        sforce.connection.sessionId = "{!$Api.Session_ID}";
+        var userId = "{!$User.Id}";
+        var btnPhone = gup("btnPhone");
+        var wtn = gup("wtn"); 
+        //alert (wtn);
+        wtn = wtn.replace("%28","");
+        wtn = wtn.replace("%29","");
+        wtn = wtn.replace("+","");
+        wtn = wtn.replace("-","");
+        btnPhone = btnPhone.replace("%28","");
+        btnPhone = btnPhone.replace("%29","");
+        btnPhone = btnPhone.replace("+","");
+        btnPhone = btnPhone.replace("-","");
+        var accId = gup("accountId");
+        var leadId = gup("leadId");
+        var uiFlag = gup("uiFlag");
+        var addressType = gup("addressType");
+        addressType = addressType.replace(/\+/g," ");
+        var region = "";
+        //console.log('addressType'+addressType);
+        //console.log('uiFlag'+uiFlag);
+        //console.log('btnPhone'+btnPhone);
+        //Retrieve Account From Billing Object using Billing Number/Billing Id from Hierarchy VF Page
+         if(btnPhone!=wtn)
+            btnPhone=wtn;
+        if( uiFlag == "ONEVIEW" && btnPhone != "" && btnPhone != undefined && btnPhone != null ){           
+            try{
+                var query = sforce.connection.query("Select billing_id__c,WTN__c,Library_Id__c,BTN_Phone__c,Service_Control_Number__c,Customer_Number__c from hierarchy__c where WTN__c ='"+btnPhone+"'") ; 
+            }
+            catch(err){
+                alert(err);
+            }
+
+            var hierarchyRec = query.getArray("records");
+            var billingId = "";
+            var serviceCtrlNum = "";
+            if( hierarchyRec.length > 0 ){
+                billingId = hierarchyRec[0].get("billing_id__c");
+                serviceCtrlNum = hierarchyRec[0].get("Service_Control_Number__c");
+                
+            }
+            //console.log('billingId--'+billingId);
+            if( billingId != "" && billingId != null && billingId != undefined ){                   
+                try{            
+                    var accQuery = sforce.connection.query("Select First_Name__c,Address_Line_1__c,Address_Line_2__c,Address_Line_3__c,City__c,State_Abbreviation__c,Nine_D_Zip_Code__c,Last_Name__c,Account_Id__c,Library_ID__c,Street_Name__c,Street_Number__c,Zip_Code__c from Customer_Account__c where Account_Id__c ='"+billingId+"'") ; 
+                    
+                }
+                catch(err){
+                   alert(err);
+                }
+                try{
+                    //var userQueryRes = sforce.connection.query("Select CSR_ID__c from User where Id ='"+userId+"'") ; 
+                    //KJ:
+                    var userQueryRes = sforce.connection.query("Select CSR_ID__c,DPIID__c from User where Id ='"+userId+"'") ;
+                }
+                catch(err){
+                    alert(err);
+                }
+
+                var userRec = userQueryRes.getArray("records");
+                var csrId = userRec[0].get("CSR_ID__c");
+                var dpiId = userRec[0].get("DPIID__c");    
+        				
+                if( dpiId == null || dpiId == "null" )
+                    dpiId = "";
+                
+                
+                var custAccRec = accQuery.getArray("records");                
+                obj = new Object();
+                obj.name = "customerName";
+                if( custAccRec != null && custAccRec.length > 0){  
+                    var custName = "";
+                    if( custAccRec[0].get("First_Name__c") != null ){
+                        custName = custName + custAccRec[0].get("Last_Name__c");
+                    }  
+                    if( custAccRec[0].get("Last_Name__c") != null ){
+                        custName = custName + custAccRec[0].get("First_Name__c");
+                    }         
+                    obj.value = custName;               
+                }
+                else{
+                    obj.value = "NO ENTRY IN DATA TABLE";
+                }
+
+                records[1] = obj;
+                obj = new Object();
+                obj.name = "billingSystem";
+                obj.value = "CDPI";
+                records[2] = obj;
+                obj = new Object();
+                obj.name = "customerId";
+                obj.value = btnPhone;
+                records[3] = obj;
+                obj = new Object();
+                obj.name = "dataRegion";
+                obj.value = custAccRec[0].get("Library_ID__c") ;
+                records[4] = obj; 
+                obj = new Object();
+                obj.name = "cSRType";
+                obj.value = "SMB";
+                records[5] = obj; 
+                obj = new Object();
+                obj.name = "appId";
+                obj.value = "SFDC";
+                records[6] = obj; 
+                obj = new Object();
+                obj.name = "cSRId";
+                obj.value = csrId;
+                records[7] = obj; 
+                obj = new Object();
+                obj.name = "btnNumber";
+                obj.value = btnPhone;
+                records[8] = obj;
+                obj = new Object();
+                obj.name = "dpiID";
+                obj.value = dpiId;
+                records[9] = obj;  
+                obj = new Object();
+                obj.name = "customerNumber";
+                obj.value = hierarchyRec[0].get("Customer_Number__c");
+                records[10] = obj;
+                /* obj = new Object();
+                obj.name = "wtnnumber";
+                obj.value = hierarchyRec[0].get("WTN__c");
+                records[11] = obj;*/
+                
+                
+                
+                
+                
+                //SEND ADDRESS PARAMS BASED ON ADDRESSTYPE SELECTED
+                //console.log('latest address type-'+addressType);
+               
+                if( addressType == "Bill To Address" ){
+                    //console.log('city val'+custAccRec[0].get("City__c"));
+                        if( custAccRec != null && custAccRec.length > 0){
+                        obj = new Object();
+                        obj.name = "city";
+                        obj.value = custAccRec[0].get("City__c");
+                        records[11] = obj;
+                        obj = new Object();
+                        obj.name = "state";
+                        obj.value = custAccRec[0].get("State_Abbreviation__c");
+                        records[12] = obj;
+                        obj = new Object();
+                        obj.name = "zipCode";
+                        var zipCode = custAccRec[0].get("Nine_D_Zip_Code__c");
+                        zipCode = zipCode.replace(".","");
+                        zipCode = zipCode.replace("E8","");
+                        obj.value =zipCode;
+                        records[13] = obj;
+                        obj = new Object();
+                        obj.name = "streetName";
+                        obj.value = custAccRec[0].get("Street_Name__c");
+                        records[14] = obj;
+                        obj = new Object();
+                        obj.name = "streetNumber";
+                        obj.value = custAccRec[0].get("Street_Number__c");
+                        records[15] = obj;                   
+                    }                   
+                }else if( addressType == "Service Address" ){
+                    //List<Physical_Address__c> lstPhyAdd = [SELECT Building_Name__c,City_Abbreviation__c,State_Abbre__c,Street_Direction__c,Street_Name__c,Street_Number__c,Street_Subtitle__c,Zipcode__c FROM Physical_Address__c WHERE Library_id__c =:lstH[0].Library_Id__c AND Ser_Cntl_No__c =:lstH[0].Service_Control_Number__c];    
+                    var physAddQueryRes = sforce.connection.query("SELECT Building_Name__c,City_Abbreviation__c,State_Abbre__c,Street_Direction__c,Street_Name__c,Street_Number__c,Street_Subtitle__c,Zipcode__c FROM Physical_Address__c WHERE Library_id__c='"+custAccRec[0].get("Library_ID__c")+"' AND Ser_Cntl_No__c='"+serviceCtrlNum+"'") ;
+                    var phyAddRecs = physAddQueryRes.getArray("records");
+                   // console.log('city val'+phyAddRecs[0].get("City_Abbreviation__c"));
+                    if( phyAddRecs != null && phyAddRecs.length > 0 ){                      
+                        obj = new Object();
+                        obj.name = "city";
+                        obj.value = phyAddRecs[0].get("City_Abbreviation__c");
+                        records[11] = obj;
+                        obj = new Object();
+                        obj.name = "state";
+                        obj.value = phyAddRecs[0].get("State_Abbre__c");
+                        records[12] = obj;
+                        obj = new Object();
+                        obj.name = "zipCode";
+                        obj.value = phyAddRecs[0].get("Zipcode__c");
+                        records[13] = obj;
+                        obj = new Object();
+                        obj.name = "streetName";
+                        obj.value = phyAddRecs[0].get("Street_Name__c");                               
+                        records[14] = obj;
+                        obj = new Object();
+                        obj.name = "streetNumber";
+                        obj.value = phyAddRecs[0].get("Street_Number__c");
+                        records[15] = obj; 
+                        obj = new Object();
+                        var Streetdirection = phyAddRecs[0].get("Street_Direction__c");
+        								if( Streetdirection == null || Streetdirection == "null")
+                        Streetdirection = "";
+                        obj.name = "streetDirection";
+                        obj.value = Streetdirection;
+                        records[16] = obj;
+                        obj = new Object();
+                        var Streetsubtitle = phyAddRecs[0].get("Street_Subtitle__c");
+                        if( Streetsubtitle == null || Streetsubtitle == "null")
+                		    Streetsubtitle = "";
+                        obj.name = "streetSubtitle";
+                        obj.value = Streetsubtitle;
+                        records[17] = obj; 
+                                                            
+                    }
+                }
+                
+            }
+        }
+        else if( uiFlag == "LEAD" && leadId != "" && leadId != undefined && leadId != null ){
+          //REDIRECT TO STERLING VIA LEAD OBJECT
+          //Retrieve Lead Address Information
+          try{
+            var leadQry = sforce.connection.query("Select Street_Number__c,Street_Name__c,City__c,State_Value__c,Zip_Code__c From Lead where id='"+leadId+"'") ;  
+          }catch(err){
+            alert(err);
+          }
+          var leadRec = leadQry.getArray("records");
+          obj = new Object();
+        obj.name = "city";
+        obj.value = leadRec[0].get("City__c");
+        records[0] = obj;
+        obj = new Object();
+        obj.name = "state";
+        obj.value = leadRec[0].get("State_Value__c");
+        records[1] = obj;
+        obj = new Object();
+        obj.name = "zipCode";
+        obj.value = leadRec[0].get("Zip_Code__c");
+        records[2] = obj;                
+        obj = new Object();
+        obj.name = "streetNumber";
+        obj.value = leadRec[0].get("Street_Number__c");
+        records[3] = obj;
+        obj = new Object();
+        obj.name = "streetName";
+        obj.value = leadRec[0].get("Street_Name__c");                               
+        records[4] = obj;
+        obj = new Object();
+        obj.name = "cSRId";
+        obj.value = accountRec[0].get("CSR_ID__c");
+        records[5] = obj;
+        obj = new Object();
+        obj.name = "cSRType";
+        obj.value = "Direct";
+        records[6] = obj;
+        obj = new Object();
+        obj.name = "companyType";
+        obj.value = "Business";
+        records[7] = obj;
+        obj = new Object();
+        obj.name = "appId";
+        obj.value = "SFDC";
+        records[8] = obj;
+        obj = new Object();
+        obj.name = "btnNumber";
+        obj.value = "";
+        records[9] = obj;       
+        obj = new Object();
+        obj.name = "customerId";
+        obj.value = "";
+        records[10] = obj;
+        obj = new Object();
+        obj.name = "billingSystem";
+        obj.value = "CDPI";
+        records[11] = obj;
+
+        }
+        else{
+        //Retrieve Account/Company Objects Information using accountId from "Company" VF Page
+            if( accId != "" && accId != undefined && accId != null){ 
+            
+            try
+            {               
+                var qr = sforce.connection.query("Select CSR_ID__c,BAStreet_Number__c,BillingCity,BillingState,BAStreet_name__c,BillingPostalCode,SAStreet_Number__c,ShippingCity,ShippingState,SAStreet_Name__c,ShippingPostalCode,Street_Number__c,Street_Name__c,Legal_City__c,Legal_State__c,Legal_Zip__c,CustomerId__c,Name,Customer_Number__c,Company_Address__c,Phone,Fax,Company_Type__c,emailId1__c,BTN_Number__c,Id From Account where id='"+accId+"'") ;  
+                }
+                catch(err)
+                {
+                    alert(err);
+                }
+                var accountRec = qr.getArray("records");
+                obj = new Object();
+                obj.name = "cSRId";
+                obj.value = accountRec[0].get("CSR_ID__c");
+                records[1] = obj;
+                obj = new Object();
+                obj.name = "cSRType";
+                obj.value = "Direct";
+                records[2] = obj;
+                obj = new Object();
+                obj.name = "accountName";
+                obj.value = accountRec[0].get("Name");
+                records[3] = obj;
+                obj = new Object();
+                obj.name = "companyType";
+                obj.value = "Business";
+                records[4] = obj;
+                obj = new Object();
+                obj.name = "companyName";
+                obj.value = accountRec[0].get("Name");
+                records[5] = obj;
+                obj = new Object();
+                obj.name = "phoneNumber";
+                var phoneNumber = accountRec[0].get("Phone");
+                phoneNumber = phoneNumber.replace("(","");
+                phoneNumber = phoneNumber.replace(")","");
+                phoneNumber = phoneNumber.replace("-","");
+                phoneNumber = phoneNumber.replace(" ","");
+                obj.value = phoneNumber ; 
+                records[6] = obj;
+                obj = new Object();
+                obj.name = "faxNumber";
+                obj.value = accountRec[0].get("Fax");
+                records[7] = obj;
+                obj = new Object();
+                obj.name = "appId";
+                obj.value = "SFDC";
+                records[8] = obj;
+                obj = new Object();
+                obj.name = "emailId1";
+                obj.value = accountRec[0].get("emailId1__c");
+                records[9] = obj;
+                obj = new Object();
+                obj.name = "btnNumber";
+                obj.value = "";
+                records[10] = obj;
+                obj = new Object();
+                obj.name = "customerId";
+                obj.value = "";
+                records[11] = obj;
+                obj = new Object();
+                obj.name = "customerNumber1";
+                if(accountRec[0].get("Customer_Number__c")!= null || accountRec[0].get("Customer_Number__c")!=""){
+                obj.value = accountRec[0].get("Customer_Number__c"); 
+                records[12] = obj; }
+                
+               else if (accountRec[0].get("Customer_Number__c")== null || accountRec[0].get("Customer_Number__c")==""){
+                obj.value = accountRec[0].get("Id"); 
+                records[12] = obj;}
+                
+                
+                obj = new Object();
+                obj.name = "customerNumber";
+                if(accountRec[0].get("Customer_Number__c")== null || accountRec[0].get("Customer_Number__c")==""){
+                obj.value = accountRec[0].get("Id"); }
+                records[13] = obj;
+                obj = new Object();
+                obj.name = "businessName";
+                obj.value = accountRec[0].get("Name");
+                records[14] = obj;
+                obj = new Object();
+                obj.name = "billingSystem";
+                obj.value = "CDPI";
+                records[15] = obj;
+                
+                if( addressType == "Legal Address" ){
+                    obj = new Object();
+                    obj.name = "city";
+                    obj.value = accountRec[0].get("Legal_City__c"); 
+                    records[16] = obj;
+                    obj = new Object();
+                    obj.name = "state";
+                    obj.value = accountRec[0].get("Legal_State__c");
+                    records[17] = obj;
+                    obj = new Object();
+                    obj.name = "zipCode";
+                    obj.value = accountRec[0].get("Legal_Zip__c");
+                    records[18] = obj;                
+                    obj = new Object();
+                    obj.name = "streetNumber";
+                    obj.value = accountRec[0].get("Street_Number__c");
+                    records[19] = obj;
+                    obj = new Object();
+                    obj.name = "streetName";
+                    obj.value = accountRec[0].get("Street_Name__c");                               
+                    records[20] = obj;
+                }
+                else if( addressType == "Billing Address" ){
+                    obj = new Object();
+                    obj.name = "city";
+                    obj.value = accountRec[0].get("BillingCity");
+                    records[15] = obj;
+                    obj = new Object();
+                    obj.name = "state";
+                    obj.value = accountRec[0].get("BillingState");
+                    records[16] = obj;
+                    obj = new Object();
+                    obj.name = "zipCode";
+                    obj.value = accountRec[0].get("BillingPostalCode");
+                    records[17] = obj;                
+                    obj = new Object();
+                    obj.name = "streetNumber";
+                    obj.value = accountRec[0].get("BAStreet_Number__c"); 
+                    records[18] = obj;
+                    obj = new Object();
+                    obj.name = "streetName";
+                    obj.value = accountRec[0].get("BAStreet_name__c");                               
+                    records[19] = obj;
+                }
+                else if( addressType == "Service Address" ){
+                    obj = new Object();
+                    obj.name = "city";
+                    obj.value = accountRec[0].get("ShippingCity");
+                    records[15] = obj;
+                    obj = new Object();
+                    obj.name = "state";
+                    obj.value = accountRec[0].get("ShippingState");
+                    records[16] = obj;
+                    obj = new Object();
+                    obj.name = "zipCode";
+                    obj.value = accountRec[0].get("ShippingPostalCode");
+                    records[17] = obj;                
+                    obj = new Object();
+                    obj.name = "streetNumber";
+                    obj.value = accountRec[0].get("SAStreet_Number__c");  
+                    records[18] = obj;
+                    obj = new Object();
+                    obj.name = "streetName";
+                    obj.value = accountRec[0].get("SAStreet_Name__c");                               
+                    records[19] = obj; 
+                }                         
+            }       
+            else{
+                //If Product Catalog is clicked directly,then
+                try{
+                    //var userQueryRes = sforce.connection.query("Select CSR_ID__c from User where Id ='"+userId+"'") ; 
+                    //KJ:
+                    var userQueryRes = sforce.connection.query("Select CSR_ID__c,DPIID__c from User where Id ='"+userId+"'") ;
+                }
+                catch(err){
+                    alert(err);
+                }
+
+                var userRec = userQueryRes.getArray("records");
+                var csrId = userRec[0].get("CSR_ID__c");
+                var dpiId = userRec[0].get("DPIID__c");    
+        
+                if( dpiId == null || dpiId == "null" )
+                    dpiId = "";             
+                obj = new Object();
+                obj.name = "billingSystem";
+                obj.value = "CDPI";                
+                records[1] = obj;                
+                obj = new Object();
+                obj.name = "cSRType";
+                obj.value = "SMB";
+                records[2] = obj; 
+                obj = new Object();
+                obj.name = "appId";
+                obj.value = "SFDC";
+                records[3] = obj; 
+                obj = new Object();
+                obj.name = "cSRId";
+                obj.value = csrId;
+                records[4] = obj;                 
+                obj = new Object();
+                obj.name = "dpiID";
+                obj.value = dpiId;
+                records[5] = obj;   
+            }
+        
+        }
+
+        var formTags = "<form id='myForm'></form>";
+        //alert(records[15].value);
+        $("body").append(formTags);
+        
+            try{
+                var query1 = sforce.connection.query("Select URL_Value__c FROM Control_Call__c where URL_Name__c ='"+envBtn+"'") ;  
+        
+                var resultset = query1.getArray("records");
+                var envUrl = "";
+                if( resultset.length > 0 ){
+                        envUrl = resultset[0].get("URL_Value__c");
+                }        
+        }
+        catch(err){
+                alert(err);
+        }
+         
+
+                
+        $("#myForm").attr("action", envUrl);
+        //$("#myForm").attr("action", "https://esbdpruat.frontiercorp.com:60445/sfs/sfs/csr.do");
+
+     $("#myForm").attr("target", "theIframe"); 
+ 
+        $("#myForm").attr("method", "POST");
+        $("#myForm").attr("name", "SalesforceForm");
+
+    
+        for(var i=0; i < records.length; i ++) {
+           var hiddenFields = "<input type='hidden' id=\""+i.toString()+"\"/>";
+            var elemId = "#" + i.toString();
+            $("#myForm").append(hiddenFields);
+        //  alert(records[i].name+"----"+records[i].value);
+            $(elemId).attr("name", records[i].name);
+            $(elemId).attr("value", records[i].value);
+        }
+        $("#myForm").submit();
+    }
+    catch(err){
+         alert(err); //COMMENT LATER
+    }
+    }
+    );
+    
+    function gup( name ){
+        name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
+        var regexS = "[\\?&]"+name+"=([^&#]*)";  
+        var regex = new RegExp( regexS );  
+        var results = regex.exec( window.location.href ); 
+        
+        if( results == null )    
+            return "";  
+        else    
+            return results[1];
+    }
+ </script>
+ 
+</body>
+</html>
+</apex:page>

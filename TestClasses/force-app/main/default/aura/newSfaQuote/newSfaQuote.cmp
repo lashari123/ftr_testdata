@@ -1,0 +1,38 @@
+<aura:component controller="newSfaQuote_Controller"
+                description="New SFA Quote" 
+                implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:hasPageReference" 
+                access="global">
+    <aura:attribute name="recordTypeName" type="String" />
+    <aura:attribute name="opportunityId" type="String" />
+    <aura:attribute name="currentScreen" type="String" />
+    <aura:attribute name="selectedProducts" type="List" />
+    <aura:attribute name="selectedAddress" type="Object" />
+    <aura:attribute name="quoteName" type="String" />
+    <aura:attribute name="expDate" type="Date" />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>  
+
+    <aura:if isTrue="{! v.recordTypeName == 'Sterling' }">
+        <c:NewQualifiedQuoteLAC oppId="{!v.opportunityId}"/>
+    </aura:if>
+
+    <aura:if isTrue="{! v.recordTypeName == 'SFA' }">
+        <div style="height: 70px;" class="slds-align_absolute-center">
+            <lightning:button onclick="{!c.goPrev}" label="Previous" disabled="{! v.currentScreen == 'Address Selector'}" />
+            <lightning:button onclick="{!c.goNext}" label="Next" />
+        </div>
+        <div id="addressSelectorDiv">
+            <c:addressSelector aura:id="addrSelector" />
+        </div>
+        <div id="productSelectorDiv" style="display:none">
+            <c:productSelector aura:id="prodSelector" selected="{!v.selectedProducts}" numRecords="18" />
+        </div>
+        <div id="configureSfaQuoteDiv" style="display:none">
+            <c:configureSfaQuote products="{!v.selectedProducts}" />
+        </div>
+        <div id="finalSfaQuoteDiv" class="slds-align_absolute-center" style="display:none; width:30%;">
+            <ui:inputText aura:id="quoteName" label="Quote Name" class="field" value="{!v.quoteName}"/>
+            <ui:inputDate aura:id="expdate" label="Expiration Date" class="field" value="{!v.expDate}" displayDatePicker="true" />
+        </div>
+    </aura:if>
+</aura:component>

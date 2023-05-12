@@ -1,0 +1,180 @@
+<apex:page standardController="Account" extensions="Account_Extension" action="{!salesIndicators}">
+    <apex:form >
+        <div style="text-align:center">
+            <apex:commandbutton value="Accounts Receivable" rendered="{!AND(csaProfile,NOT(isDisabled))}" onClick="testOpenSubtabAccRec();return false"/>
+            <apex:commandbutton value="Provisioning Information" rendered="{!AND(csaProfile,NOT(isDisabled))}" onClick="testOpenSubtabProvisioningInformation();return false"/>
+            <apex:commandbutton value="Launch Frontier.com as Customer" rendered="{!AND(csaProfile,NOT(isDisabled))}" onClick="testOpenSubtablaunchCustomerPortal();return false"/>
+            <apex:commandbutton value="Manage a Frontier ID" rendered="{!AND(csaProfile,NOT(isDisabled))}" onClick="testOpenSubtablaunchFrontier();return false"/>
+            <apex:commandbutton value="Order" rendered="{!AND(csaProfile,NOT(isDisabled))}" onClick="testOpenSubtabOrderPage();return false"/>
+            
+            <apex:commandButton value="VM Passcode Reset" action="{!resetVoiceMailPasscode}" rendered="{!VmCode}" rerender="popup"/>           
+                
+            <apex:outputPanel id="popup" >
+                <apex:outputPanel styleClass="customPopup" layout="block" rendered="{!displayPopup}">
+                    <div style="background-color:grey;height:40px;width: 499px; border: 1px black thin;">
+                    <apex:commandButton value="CLOSE (X)" title="Voicemail Code" action="{!closePopup}" styleclass="closeButton" style="background: #490606;color:white; font-size: 270%;padding:2px" rerender="popup" oncomplete="componentRerender(); return false;"/>
+                    </div>
+                    <div style="background-color:#F2F2F2;height:40px;width: 490px; padding:5px; font-size: large;">
+                    
+                        {!message}
+                    
+                    </div>                
+                </apex:outputPanel>
+            </apex:outputPanel>
+            
+            <apex:includeScript value="/support/console/36.0/integration.js"/>           
+            <script type="text/javascript">
+                function showMessage(message) {
+                   alert('asdfasdf'+message);
+                }
+                
+                function testGetPrimaryTabIds(){
+                    //document.location.reload(true);
+                    //console.log(sforce.console.getEnclosingPrimaryTabObjectId('{!Account.Id}'));
+                    //console.log(tabid);
+                }
+               
+                var showTabId = function showTabId(result) {
+                //Display the primary tab IDs
+                //alert('Primary Tab IDs: ' + result.ids);
+                };
+                
+                 function testOpenSubtabAccRec() {
+                       sforce.console.getEnclosingPrimaryTabId(OpenSubtabAccRec);
+                 }
+                 
+                 var OpenSubtabAccRec = function openSubtab(result) {
+                    var primaryTabId = result.id;
+                    sforce.console.openSubtab(primaryTabId , '/apex/Account_AccountReceivableRedirectPage?accoutId={!Account.Id}', true, 
+                            'Account Receivable', null, openSuccess,'AccRecsubtab'); 
+                    sforce.console.focusSubtabByNameAndPrimaryTabName('AccRecsubtab', null);
+                     
+                    };
+                    
+                 function testOpenSubtabOrderPage() {
+                       sforce.console.getEnclosingPrimaryTabId(OpenSubtabOrderPage);
+                 }
+                 
+                 var OpenSubtabOrderPage = function openSubtab(result) {
+                    var primaryTabId = result.id;
+                    sforce.console.openSubtab(primaryTabId , '/apex/OrderPage?accoutId={!Account.Id}', true, 
+                        'Order', null, openSuccess,'Order');
+                    sforce.console.focusSubtabByNameAndPrimaryTabName('Order', null);     
+                    };
+                function testOpenSubtablaunchCustomerPortal() {
+                       sforce.console.getEnclosingPrimaryTabId(OpenSubtablaunchCustomerPortal);
+                 }
+                 
+                 var OpenSubtablaunchCustomerPortal = function openSubtab(result) {
+                    var primaryTabId = result.id;
+                    sforce.console.openSubtab(primaryTabId , '/apex/launchCustomerPortal?accoutId={!Account.Id}', true, 
+                        'Customer Portal', null, openSuccess, 'CustomerPortal');
+                    sforce.console.focusSubtabByNameAndPrimaryTabName('CustomerPortal', null);     
+                    };
+                 function testOpenSubtablaunchFrontier() {
+                       sforce.console.getEnclosingPrimaryTabId(OpenSubtablaunchFrontier);
+                 }  
+                 
+                 var OpenSubtablaunchFrontier = function openSubtab(result) {
+                    var primaryTabId = result.id;
+                    sforce.console.openSubtab(primaryTabId , '/apex/launchFrontier?accoutId={!Account.Id}', true, 
+                        'Frontier.com', null, openSuccess, 'Frontier.com'); 
+                    sforce.console.focusSubtabByNameAndPrimaryTabName('Frontier.com', null);    
+                    };
+                function testOpenSubtabProvisioningInformation() { 
+                      sforce.console.getEnclosingPrimaryTabId(OpenSubtabProvisioningInformation);
+                 }
+                             
+                
+                 var OpenSubtabProvisioningInformation = function openSubtab(result) {
+                    var primaryTabId = result.id;
+                    sforce.console.openSubtab(primaryTabId , '/apex/Account_ProvisioningInformation?accoutId={!Account.Id}', true, 
+                        'Provisioning Information', null, openSuccess, 'ProvisioningInformation');
+                    sforce.console.focusSubtabByNameAndPrimaryTabName('ProvisioningInformation', null);     
+                    };
+                    
+            var openSuccess = function openSuccess(result) {
+            //Report whether we succeeded in opening the subtab
+            if (result.success == true) {
+               // alert('subtab successfully opened');
+            } else {
+               // alert('subtab cannot be opened');
+            }
+        };
+                    
+            
+           </script> 
+       </div>
+            
+        <br/>
+            <table border="0" width="100%" height="1">
+                 <tr style="text-align:center;width:80%">
+                    <td style="width:10%">&nbsp;</td>
+                    <td>
+                         <div> 
+                         
+                             <table style="width:100%">
+                                 <tr  >
+                                  <td style="background-color:{!IF(strBroadband = 'green','#72A200', IF(strBroadband = 'yellow','#EC9601','#D70D0D'))};width:16.66%;padding:5px;border:1.5px solid black;"><font color="white"><b>Broadband</b></font></td>
+                                  <td style="background-color:{!IF(strPackage = 'green','#72A200', IF(strPackage = 'yellow','#EC9601','#D70D0D'))};width:16.66%;padding:5px;border:1.5px solid black;"><font color="white"><b>Package</b></font></td>
+                                  <td style="background-color:{!IF(strFsecure = 'green','#72A200', '#D70D0D')};width:16.66%;padding:5px;border:1.5px solid black;"><font color="white"><b>FSecure</b></font></td> 
+                                  <td style="background-color:{!IF(strLongDistance = 'red','#D70D0D', '#72A200')};width:16.66%;padding:5px;border:1.5px solid black"><font color="white"><b>Long Distance</b></font></td>
+                                  <td style="background-color:{!IF(strDish = 'green','#72A200', '#D70D0D')};width:16.66%;padding:5px;border:1.5px solid black;"><font color="white"><b>Dish</b></font></td>
+                                  <td style="background-color:{!IF(strCpe = 'green','#72A200', '#D70D0D')};width:16.66%;padding:5px;border:1.5px solid black;"><font color="white"><b>CPE</b></font></td> 
+                                 </tr>
+                             </table>
+                         </div>
+                    </td>
+                    <td style="width:10%">&nbsp;</td>
+                </tr>
+                
+                <tr style="text-align:center;width:80%">
+                    <td style="width:10%">&nbsp;</td>
+                    <td>
+                         <div> 
+                             <table style="width:100%">
+                                <tr>
+                                  <td style="width:40%;padding:5px;" align="left"><apex:outputPanel id="datePanel" style="float:center;"><apex:outputLabel value="{!account.Name}" style="color:black; font-size:10pt; font-weight: bold;"/></apex:outputPanel><br/>
+                                  <apex:outputPanel ><apex:outputLabel style="color:black; font-size:10pt; font-weight: bold;" value="{!account.Company_Name__c}"/></apex:outputPanel></td>
+                                  <td style="width:5%;padding:5px;"/>
+                                  <td style="width:10%;padding:5px;" align="center"></td> 
+                                  <td style="width:5%;padding:5px;"/>
+                                  <td style="width:40%;padding:5px;" align="right"><apex:outputPanel id="datePane3" style="float:center;"><apex:outputLabel value="{!account.shippingstreet}" style="color:black; font-size:10pt; font-weight: bold;"/></apex:outputPanel><br/>
+                                  <apex:outputPanel ><apex:outputLabel value="{!account.ShippingCity}, {!account.ShippingStateCode} {!account.ShippingPostalCode}" style="color:black; font-size:10pt; font-weight: bold;"/></apex:outputPanel></td>
+                                </tr>
+                             </table>
+                         </div>
+                    </td>
+                </tr>
+            </table>
+        <apex:actionPoller reRender="loading" interval="10"/>
+        <apex:outputPanel id="loading" rendered="{!ShowLoadingAnimation}"/>  
+    </apex:form>
+    
+    <style type="text/css">
+        .customPopup {
+            background-color: white;
+            border-style: solid;
+            border-width: 2px;
+            left: 30%;
+            padding: 5px;
+            position: absolute;
+            z-index: 9999;
+            width: 500px;
+            height: 90px;
+            top: 35%;
+        }
+        .closeButton {
+            float: center;
+            height: 38px;            
+            width: 496px;
+            font-size:200%;
+            font-color:red;
+            font-size: 35px;
+            font-family: Helvetica, Arial, Sans-Serif;
+            text-decoration: none;
+            vertical-align: middle;            
+        }
+        
+    </style>
+</apex:page>

@@ -1,0 +1,62 @@
+<apex:page standardController="UNI__c" extensions="UNI_ExtensionController">
+    <style>
+    	.notes {
+        	color: darkblue;
+        }
+    </style>
+    <apex:sectionHeader title="UNI" subtitle="{!UNI__c.name}" />
+    <apex:form id="UNI_Detail">
+        <apex:pageBlock title="UNI">
+            <apex:pageMessages id="showmsg"></apex:pageMessages>
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Edit" action="{!edit}" />
+                <apex:commandButton value="Delete" action="{!delete}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Edit" action="{!edit}" />
+                <apex:commandButton value="Delete" action="{!delete}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Information" columns="2">
+                <apex:outputField value="{!UNI__c.Name}" />
+                <apex:outputField value="{!UNI__c.Physical_Site__r.DGF__c}" />
+                <apex:outputField value="{!UNI__c.Physical_Medium__c}" />
+                <apex:outputField value="{!UNI__c.Physical_Site__c}" />
+                <apex:outputField value="{!UNI__c.Mode__c}" />
+                <apex:outputField value="{!UNI__c.Frame_Size__c}" />
+                <apex:outputField value="{!UNI__c.Negotiation__c}" />
+                <apex:outputField value="{!UNI__c.Speed__c}" />
+                <apex:outputField id="Tag" value="{!UNI__c.Tag_Value__c}" />
+                <apex:outputField value="{!UNI__c.Oversubscription__c}" />
+                <apex:outputText id="Tag_Notes" styleClass="notes" label=" " value=" " />
+                <apex:outputField value="{!UNI__c.Oversubscription_Authorizers_Email__c}" />
+                <apex:outputField value="{!UNI__c.Existing_M6_UNI_CNL_ID__c}" />
+                <apex:outputField value="{!UNI__c.UNI_Rate_Adjusted_BW__c}" />
+                <apex:outputField value="{!UNI__c.L2CP2__c}" />
+                <apex:outputField value="{!UNI__c.Fault_Propagation__c}" />
+                <apex:outputText value="{!UNI__c.DGF_Id__c}" rendered="false" />
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="EVCs" columns="1">
+            	<apex:repeat value="{!LinkedEVCs}" var="e">
+                    <apex:outputField value="{!e.EVC__c}" />
+                </apex:repeat>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    <script>
+    window.addEventListener('load', function() {
+        var tagVal = document.querySelector('span[id$=Tag]').innerHTML;
+        var tagNotesCmp = document.querySelector('span[id$=Tag_Notes]');
+        switch (tagVal) {
+            case 'All-to-One Bundling':
+                tagNotesCmp.innerHTML = 'L2CP is supported.<br />EVC may not specify a CEVLAN.<br />Fault Propagation is supported.<br />Only one EVC can be associated with this UNI.';
+                break;
+            case 'Service Multiplexing':
+                tagNotesCmp.innerHTML = 'L2CP is not supported (and will be disabled).<br />EVC may have a CEVLAN specified.';
+                break;
+            case 'Untagged': 
+                tagNotesCmp.innerHTML = 'L2CP is not supported.<br />EVC may not specify a CEVLAN.<br />Fault Propagation is supported.<br />Only one EVC can be associated with this UNI.';
+                break;
+        }
+    });
+    </script>
+</apex:page>

@@ -1,0 +1,64 @@
+<aura:component controller = "NewQualifiedQuoteLAC_Controller" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute  name="addresses" type="list"/>
+    <aura:attribute  name="addressTypes" type="list"/>
+    <aura:attribute name="selectedValue" type="String" />
+    <aura:attribute name="oppId" type="string" /> 
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:handler name="init" value="{! this }" action="{! c.init1 }"/> 
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <div class="slds-align_absolute-center">
+      
+    <aura:if isTrue="{!v.isModalOpen}">      
+	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+             class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container" style="max-width:80%;width:55%">
+			<header class="slds-modal__header">
+				<lightning:buttonIcon iconName="utility:close"
+									  onclick="{! c.closeModel }"
+									  alternativeText="close"
+									  variant="bare-inverse"
+									  class="slds-modal__close"/>
+				<h2 id="modal-heading-01" class="slds-text-heading_large slds-hyphenate">List of Addresses</h2>
+			</header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer">
+                        <tbody>
+                            <aura:iteration items="{!v.addresses}" var="address">
+                            <tr>
+                                <td scope="col" data-label="Address Type">
+                                    <div title="Address Type" class=" slds-text-align_center slds-size_2-of-6">{!address.strColumnOne}</div>		 
+                                </td>
+                                <td scope="col" data-label="Address Detail">
+                                    <div title="Address Detail" class="slds-text-align_center slds-size_4-of-6">{!address.strColumnTwo}</div>
+                                </td>
+                            </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                
+                
+                <lightning:select name="mySelect" label="Select an address from below dropdown" aura:Id="mySelect" value="{!v.selectedValue}">
+                    <aura:iteration items="{!v.addressTypes}" var="address">
+                        <option value="{!address}" selected="{!address.selected}" >{!address}</option>
+                    </aura:iteration>    
+                </lightning:select>	
+                
+            </div>
+			<footer class="slds-modal__footer">
+				<lightning:button variant="neutral" 
+								  label="Cancel"
+								  title="Cancel"
+								  onclick="{! c.closeModel }"/>
+				<lightning:button variant="brand" 
+								  label="Submit"
+								  title="Submit"
+								  onclick="{! c.submit }"/>
+			</footer>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+  </aura:if>
+ </div>
+</aura:component>

@@ -1,0 +1,27 @@
+<!--
+  @File Name          : sendAgreement.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 11/12/2019, 9:53:33 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/1/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="Send Agreement" icon-name="standard:record">
+
+                <template if:true={contract.data}>
+                        <div class="slds-m-around_medium">
+                                        <p>Click The Below Button to Send Agreement</p>
+                        </div>
+                        <div>
+                                <lightning-button variant="brand"  class="slds-m-around_medium" label="Click to Send Agreement" onclick={sendAgreement}></lightning-button>
+                            </div>
+                        </template>
+                <template if:true={order.error}>
+                    <!-- handle Apex error -->
+                </template>
+        </lightning-card>
+    </template>

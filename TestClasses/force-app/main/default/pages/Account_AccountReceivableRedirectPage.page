@@ -1,0 +1,3 @@
+<apex:page action="{!RedirectAR}" controller="Account_ARRedirectClass">
+  
+</apex:page>

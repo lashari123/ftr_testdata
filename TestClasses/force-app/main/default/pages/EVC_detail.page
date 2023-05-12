@@ -1,0 +1,78 @@
+<apex:page standardController="EVC__c" extensions="EVC_ExtensionController">
+    <style>
+    	.hidden {
+        	display:none;
+        }
+    </style>
+    <apex:sectionHeader title="EVC" subtitle="{!EVC__c.name}" />
+    <apex:form >
+        <apex:pageBlock title="EVC">
+            <apex:pageMessages id="showmsg"></apex:pageMessages>
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Edit" action="{!edit}" />
+                <apex:commandButton value="Delete" action="{!delete}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Edit" action="{!edit}" />
+                <apex:commandButton value="Delete" action="{!delete}" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Information" columns="2">
+                <apex:outputField value="{!EVC__c.Name}" />
+                <apex:outputField value="{!EVC__c.DGF__c}" /> 
+                <apex:outputField value="{!EVC__c.Type__c}" />
+                <apex:outputField value="{!EVC__c.ELAN_Identifier__c}" rendered="false" />
+                <apex:outputField value="{!EVC__c.Bandwidth__c}" />
+                <apex:outputField value="{!EVC__c.Subtype__c}" />
+                <apex:outputField value="{!EVC__c.Class_of_Service__c}" />
+                <apex:outputField value="{!EVC__c.Interstate_Intrastate__c}" />
+                <apex:outputField value="{!EVC__c.Custom_SLA__c}" />
+                <apex:outputField value="{!EVC__c.DIA_PE_Router_Termination_CLLI__c}" />
+                <apex:outputField value="{!EVC__c.Custom_SLA_Approver_Email__c}" />
+                <apex:outputField value="{!EVC__c.Existing_M6_Circuit_ID__c}" />
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="UNIs and CE-VLAN" columns="2">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="ceVlanId" value="{!CE_VLAN_ID_Label}" />
+                    <apex:outputText id="ceVlanId" value="{!EVC__c.CE_VLAN_ID__c}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="ceVlanIdPreservation" value="{!CE_VLAN_ID_Preservation_Label}" />
+                    <apex:outputText id="ceVlanIdPreservation" value="{!EVC__c.CE_VLAN_ID_Preservation__c}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="ceVlanId2"  value="{!CE_VLAN_ID_2_Label}" rendered="{!EVC__c.Type__c == 'ELINE'}" />
+                    <apex:outputText id="ceVlanId2" value="{!EVC__c.CE_VLAN_ID2__c}" html-ref="CE_VLAN_2" rendered="{!EVC__c.Type__c == 'ELINE'}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel for="ceVlanIdPreservation2" value="{!CE_VLAN_ID_Preservation_2_Label}" rendered="{!EVC__c.Type__c == 'ELINE'}" />
+                    <apex:outputText id="ceVlanIdPreservation2" value="{!EVC__c.CE_VLAN_ID_Preservation2__c}" html-ref="CE_VLAN_2" rendered="{!EVC__c.Type__c == 'ELINE'}" />
+                </apex:pageBlockSectionItem>
+                <apex:repeat value="{!LinkedUNIs}" var="j">
+                    <apex:outputField value="{!j.UNI__c}" /><br />
+                </apex:repeat>
+                <apex:outputField value="{!EVC__c.CE_VLAN_Class_of_Service_Preservation__c}" />
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    <script>
+    window.addEventListener('load', function() {
+        //handleCeVlan2();
+    });
+    
+    /*function handleCeVlan2() {
+        if ({!CE_VLAN_2_Rendered}) {
+            var evcType = {!EVC__c.Subtype__c};
+            var ceVlan2Cmps = document.querySelectorAll('[ref=CE_VLAN_2]');
+            if (ceVlan2Cmps) {
+                ceVlan2Cmps.forEach(function(el) {
+                    if (evcType === 'EVPL'){
+                        el.addClass('hidden');
+                    } else {
+                        el.removeClass('hidden');
+                    }
+                });
+            }
+        }
+    }   */                    
+    </script>
+</apex:page>

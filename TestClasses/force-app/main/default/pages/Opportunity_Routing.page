@@ -1,0 +1,2 @@
+<apex:page standardController="Opportunity" extensions="Opportunity_Routing" showHeader="true" sidebar="true" action="{!RouteOpportunity}">
+</apex:page>

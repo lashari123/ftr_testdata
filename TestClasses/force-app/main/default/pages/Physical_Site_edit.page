@@ -1,0 +1,42 @@
+<!-- 
+	Generated from https://visualforce-generator.herokuapp.com
+	dieffrei.com  
+-->
+<apex:page standardController="Physical_Site__c"  extensions="Physical_Site_ExtensionController">
+   <apex:sectionHeader title="Physical Site Edit"/>
+	<apex:form >
+		<apex:pageBlock title="Physical Site Edit" mode="edit">
+		     <apex:pageBlockButtons location="bottom">
+		        <apex:commandButton value="Save" action="{!save}"/>
+		        <apex:commandButton value="Cancel" action="{!cancel}"/>
+		     </apex:pageBlockButtons>
+						
+			<apex:pageBlockSection title="Information" columns="2">
+				<apex:inputField value="{!Physical_Site__c.Name}" required="true"/>
+				<apex:inputField value="{!Physical_Site__c.DGF__c}" required="true"/>
+                <apex:outputText label="Customer Network Link (CNL) Speed" value="{!cnlSpeed}"/>
+				<apex:inputField value="{!Physical_Site__c.Service_Address_Street__c}" required="true"/>
+				<apex:inputField value="{!Physical_Site__c.DSAT_ID__c}" required="true"/>
+				<apex:inputField value="{!Physical_Site__c.Service_Address_City__c}" required="true"/>
+				<apex:inputField value="{!Physical_Site__c.Building_Number__c}" required="false"/>
+				<apex:inputField value="{!Physical_Site__c.Service_Address_State__c}" required="true"/>
+				<apex:inputField value="{!Physical_Site__c.Service_Address_Floor__c}" required="false"/>
+				<apex:inputField value="{!Physical_Site__c.Service_Address_Postal_Code__c}" required="true"/>
+				<apex:inputField value="{!Physical_Site__c.Room_Suite_Number__c}" required="false"/>
+			</apex:pageBlockSection>			
+			
+			<apex:pageBlockSection title="Contact Information" columns="2">
+				<apex:inputField value="{!Physical_Site__c.Site_Contact__c}" required="false"/>
+				<apex:inputField value="{!Physical_Site__c.Maintenance_Contact__c}" required="false"/>
+			</apex:pageBlockSection>			
+			
+			<apex:pageBlockSection title="Comments and Instructions" columns="2">
+				<apex:inputField value="{!Physical_Site__c.Scope_of_Work_Comments__c}" required="false"/>
+				<apex:inputField value="{!Physical_Site__c.Access_Hours_and_Special_Requiremens__c}" required="false"/>
+			</apex:pageBlockSection>			
+			
+		</apex:pageBlock>
+	</apex:form>
+   
+
+</apex:page>

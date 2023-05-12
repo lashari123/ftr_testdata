@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>20.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>Page for CustRef lead record type, used for both &apos;New&apos; and &apos;Edit&apos; functionalities routed to this page from &apos;LeadpageOverride&apos; which is default for &apos;Default&apos; lead record type</description>
+    <label>LeadCustRef</label>
+</ApexPage>

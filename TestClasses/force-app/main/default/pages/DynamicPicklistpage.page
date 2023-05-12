@@ -1,0 +1,24 @@
+<apex:page controller="Dynamicpicklist" showHeader="false">
+  <apex:form >  
+   
+     <apex:pageBlock mode="maindetail">
+        <apex:pageBlockSection title="List of Addresses" id="custinfo" columns="1" rendered="{!displayAddressGrid}">
+
+               <tr><apex:pageblockTable value="{!addressinfo}" var="varVal">
+               <apex:column value="{!varVal.strColumnOne}" headerValue="Address Info" headerClass="TableTitle" style="font-weight: bold;" Width="200px"/>
+               <apex:column value="{!varVal.strColumnTwo}" headerValue="" headerClass="TableTitle" Width="250px"/>            
+               </apex:pageblocktable></tr>
+                                        
+                                    
+        </apex:pageBlockSection>
+           
+      </apex:pageBlock>  
+         <center>
+        <span>Select an address from below dropdown</span><br/><br/>
+        <apex:selectList value="{!defaultAddress}" size="1">
+        <apex:selectOptions value="{!dynamicOptions}" />   
+        </apex:selectList><br/><br/>
+        <apex:commandButton value="SUBMIT" action="{!reDirectToSterling}"/> 
+        </center>
+   </apex:form>
+</apex:page>

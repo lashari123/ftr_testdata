@@ -1,0 +1,204 @@
+<apex:page standardController="Opportunity" extensions="pdfClass" renderAs="pdf"  cache="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" docType="html-5.0" showHeader="false" sidebar="false">
+    <head>
+        <style>
+            @page { size: 9.8in 13.8in;  }
+            
+            @page {
+            padding-top : 65px;
+            @top-center {
+            content: element(header);
+            padding-top :32px;
+            
+            }
+            }
+            .header{
+            position: running(header);
+            }
+            .p1 {
+            text-align:right;
+            
+            }
+            .div2 {
+            margin-left: 50%;
+            margin-top: -65px;
+            font-size: 14px;float: right;
+            text-align:right;
+            }
+            .table2,.table3{
+            border-collapse: collapse;
+            width: 100%;
+            }
+            
+            .table2 td {
+            border: 1px solid black;
+            padding: 2px;
+            }
+            .table2 th {
+            border: 1px solid black;
+            padding: 4px;
+            }
+            
+            .table3 td {
+            border: 1px solid black;
+            padding: 4px;
+            width="25%";
+            height="35px";
+            }
+            .cls_003 {
+            font-family: "Calibri Bold",serif;
+            font-size: 12.5px;
+            color: rgb(0,0,0);
+            font-weight: bold;
+            font-style: normal;
+            text-decoration: none;
+            }
+            .cls_005 {
+            font-family: "Calibri Bold",serif;
+            font-size: 12.1px;
+            color: rgb(0,0,0);
+            font-weight: bold;
+            font-style: normal;
+            text-decoration: none;
+            }
+            .cls_006 {
+            font-family: "Calibri",serif;
+            font-size: 12.1px;
+            color: rgb(0,0,0);
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
+            }
+            .cls_012 {
+            font-family: "Calibri Bold",serif;
+            font-size: 12.1px;
+            color: rgb(0,0,0);
+            font-weight: bold;
+            font-style: normal;
+            text-decoration: underline;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div width="100%">
+            <div class="header">
+                <div>
+                    <apex:image url="{!$Resource.FrontierComunication}" width="140" height="85"/>
+                </div>
+                <div class="div2">
+                    <p class="p1">
+                        <span class="cls_003">LETTER OF AGENCY</span><br/>
+                        <span class="cls_003">Frontier Confidential</span>
+                    </p>
+                </div>
+                <div>
+                    <span class="cls_005">This Letter Of Agency</span><span class="cls_006">to the Frontier Services Agreement dated
+                    {!nowDate} </span><span class="cls_005">(“FSA”)</span><span class="cls_006"> by and between </span><span class="cls_005">{!acc.Name}</span><span class="cls_006"> (“Customer”) and</span><span class="cls_005"> Frontier Communications of America, Inc.</span><span class="cls_006"> on behalf of itself and its affiliates (“Frontier”)͘</span>
+                </div>
+            </div>
+            <br/><br/>
+            
+            <table width="100%">
+                <tr>
+                    <td width="20%"><span class="cls_005">Service Location:</span></td>
+                    <td style ="overflow-wrap: break-word;"><span class="cls_006">{!acc.BillingStreet} &nbsp; {!acc.BillingCity}&nbsp;{!acc.BillingState}&nbsp;{!acc.BillingPostalCode}</span></td>
+                    <td style="text-align: right;"><span class="cls_005">Schedule Date:</span></td>
+                    <td style="text-align: right;"><span class="cls_005">{!nowDate}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="cls_005">Street Address:</span></td>
+                    <td style ="overflow-wrap: break-word;"><span class="cls_008">{!acc.BillingStreet}<br/></span></td>
+                    <td style="text-align: right;"><span class="cls_005">Service Term:</span></td>
+                    <td style="text-align: right;"><span class="cls_005">{!opp.Contract_Term_Years__c}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="cls_005">City, State, Zip:</span></td>
+                    <td><span class="cls_006">{!acc.BillingCity}&nbsp;{!acc.BillingState}&nbsp;{!acc.BillingPostalCode}</span></td>
+                    
+                </tr>
+            </table><br/>
+            <div class="cls_006">
+                To comply with commission and State regulations, Frontier Communications requires your authorization before changing your long distanceor local carrier. Please provide us with the information below.
+            </div><hr/>
+            <div style="text-align: center;"><span class="cls_005"><u>ACCOUNT INFORMATION</u></span></div><br/>
+            <table class="table2">
+                
+                <tr>
+                    <td width="50%" class="cls_006">Customer Name:{!acc.Name}</td>
+                    <td  width="50%"  class="cls_006">Main Telephone Number:{!acc.Phone}</td>
+                </tr>
+                <tr>
+                    <td  width="50%" class="cls_006">Customer Billing Address:  {!acc.BillingStreet}&nbsp;, {!acc.BillingCity}&nbsp;,{!acc.BillingState}, &nbsp;{!acc.BillingPostalCode},&nbsp;{!acc.BillingCountry}</td>
+                    <td  width="50%" class="cls_006">Authorized Customer Contact:{!con.Name}</td>
+                    
+                </tr>
+                <tr>
+                    <td width="50%" ></td>
+                    <td width="50%" class="cls_006">Contact Number:{!con.Phone}</td>
+                    
+                </tr>
+                <tr class="sty1">
+                    <th colspan="2"><span  class="cls_006">Customer intends to change its authorized telephone company to Frontier Communications for the telephone numbers listed below, anddesignates Frontier Communications to act as Customer’s agent for this change. Customer acknowledges that this change may result in a fee.Only one telecommunications provider may be designated as my preferred carrier for local Exchange, InterLATA toll, and IntraLATA toll forany particular telephone number, and all such services will be provided subject to Frontier Communications tariffs, except as otherwisespecifically agreed. I will contact Frontier Communications at 1-800--if I have questions.</span></th>
+                    
+                </tr>
+                
+            </table><br/>
+            <div>
+                <span class="cls_006">All telephone numbers to be affected by this approval form:</span>
+            </div><br/>
+            <table class="table3">
+             
+                <tr>
+                    <td  class="cls_005">Telephone # to port</td>
+                    <td  class="cls_005">Current Carrier Account #</td>
+                    <td  class="cls_005">Password, if any</td>
+                    <td  class="cls_005">PIN, if any</td>
+                </tr>
+                 <tr>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                </tr>
+                 <tr>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                </tr>
+                 <tr>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                </tr>
+                 <tr>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                </tr>
+                 <tr>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                </tr>
+                 <tr>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                </tr>
+                 <tr>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                    <td  class="cls_005"></td>
+                </tr>
+                
+            </table><br/>
+            
+        </div>
+    </body>
+</apex:page>

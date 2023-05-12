@@ -1,0 +1,602 @@
+<aura:component controller="RemedySubmitTroubleTicket"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global"
+                >
+    <aura:attribute name="isModalOpen" type="boolean" default="false" />
+    <aura:attribute name="isHomePage" type="boolean" default="false" />
+    <aura:attribute type="Remedy_Ticket__c" name="ticketInfo" />
+    <aura:attribute type="Remedy_Ticket__c" name="ticketInfo1" />   
+    <aura:attribute name="showFields" type="boolean" default="true"/>
+    <aura:attribute name="escalated" type="boolean" default="false"/>
+    <aura:attribute name="disFields" type="Boolean" default="true" />
+    <aura:attribute name="reasons" type="string" />
+    <aura:attribute name="errorPhoneFields" type="String" default="" />
+    <aura:attribute name="errorNameFields" type="String" default="" />
+    <aura:attribute name="show" type="boolean" default="true"/>
+    <aura:attribute name="isEditMode" type="boolean" default="false"/>
+    <aura:attribute name="editDone" type="boolean" default="false"/>
+    <aura:attribute name="showButton" type="boolean" default="false"/>
+    <aura:attribute name="openReasonWindow" type="boolean" default="false" />
+    <aura:attribute name="label" type="string" default="Escalate Ticket"/>
+    <aura:attribute name="showPreferredMethod" type="boolean" default="false" />
+    <aura:attribute name="dis" type="boolean" default="false" />
+    <aura:attribute name="preferredStartTime" type="string" />
+    <aura:attribute name="preferredEndTime" type="string" />
+    <aura:attribute name="alternateStartTime" type="string" />
+    <aura:attribute name="selectedPreferredMethod" type="string" />
+    <aura:attribute name="alternateEndTime" type="string" />
+    <aura:attribute name="makeLCEmailRq" type="boolean" default="false" />
+    <aura:attribute name="makeRptByEmailRq" type="boolean" default="false" />
+    <aura:attribute name="showAccessHours" type="boolean" />
+    <aura:attribute name="tabChanged" type="boolean" default="false" />
+    
+    <aura:attribute name="preSun" type="boolean" default="false" />
+    <aura:attribute name="preMon" type="boolean" default="false" />
+    <aura:attribute name="preTue" type="boolean" default="false" />
+    <aura:attribute name="preWed" type="boolean" default="false" />
+    <aura:attribute name="preThr" type="boolean" default="false" />
+    <aura:attribute name="preFri" type="boolean" default="false" />
+    <aura:attribute name="preSat" type="boolean" default="false" />
+    <aura:attribute name="altSun" type="boolean" default="false" />
+    <aura:attribute name="altMon" type="boolean" default="false" />
+    <aura:attribute name="altTue" type="boolean" default="false" />
+    <aura:attribute name="altWed" type="boolean" default="false" />
+    <aura:attribute name="altThr" type="boolean" default="false" />
+    <aura:attribute name="altFri" type="boolean" default="false" />
+    <aura:attribute name="altSat" type="boolean" default="false" />
+    <aura:attribute name="preferredStartTimeLst" type="list" />
+    <aura:attribute name="preferredEndTimeLst" type="list" />
+    <aura:attribute name="alternateStartTimeLst" type="list" />
+    <aura:attribute name="alternateEndTimeLst" type="list" />
+    <aura:attribute name="is24x7" type="string" />
+    
+    <aura:attribute name="steps" type="List"/>
+    <aura:attribute name="selectedStage" type="string" default="-1"/>
+    <aura:attribute name="openTicketModel" type="boolean" default="false"/>
+    <aura:attribute name="buttonText" type="String" default="Ok"/>
+    <aura:attribute name="Cancel" type="String" default="Ok" />
+    <aura:attribute name="sub" type="String" /> 
+    <aura:attribute name="description" type="String" />
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="activeSections" type="List" default="['A']" />
+    <aura:attribute name="updateChild" type="Boolean" default="true"/>
+    <aura:attribute name="showNotesTab" type="Boolean" default="true"/>
+    <aura:attribute name="disableNoteDescription" type="boolean" default="false" />
+    <aura:attribute name="noteDescriptionRequired" type="boolean" default="true" />
+    <aura:attribute name="disableNoteDescriptionButton" type="boolean" default="false" />
+    <aura:attribute name="selectedIsIntrusiveTest" type="string" />
+    <aura:attribute name="accessHours" type="String" default=""/>
+    <aura:attribute name="hideEmail" type="boolean" default="true" />
+    <aura:attribute name="hideText" type="boolean" default="false" />
+    <aura:attribute name="hideAddContacts" type="boolean" default="true" />
+    <aura:attribute name="descSpecialChar" type="boolean" default="false" />
+    <aura:attribute name="noteSpecialChar" type="boolean" default="false" />
+    
+    <!--<aura:handler name="change" value="{!v.ticketInfo}" action="{!c.doInit}"/>-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <div class="slds-m-around_xx-large">
+        <!--Use aura:if tag to display/hide popup based on isModalOpen value-->
+        <div>
+            <aura:if isTrue="{!v.isModalOpen}">
+                <!-- Modal/Popup Box starts here-->
+                <section
+                         aura:id = 'modalId'
+                         role="dialog"
+                         tabindex="-1"
+                         aria-labelledby="modal-heading-01"
+                         aria-modal="true"
+                         aria-describedby="modal-content-id-1"
+                         class="slds-modal slds-fade-in-open"
+                         >
+                    <div class="slds-modal__container wid" >
+                        <!-- Modal/Popup Box Header Starts here-->
+                        <header class="slds-modal__header ">
+                            <lightning:buttonIcon
+                                                  iconName="utility:close"
+                                                  onclick="{! c.closeModel }"
+                                                  alternativeText="close"
+                                                  variant="bare-inverse"
+                                                  class="slds-modal__close"
+                                                  />
+                            <h2
+                                id="modal-heading-01"
+                                class="slds-text-heading_medium slds-hyphenate"
+                                >Ticket Details</h2
+                                >
+                        </header>
+                        <!--Modal/Popup Box Body Starts here-->
+                        <div
+                             class="slds-modal__content slds-p-around_medium"
+                             id="modal-content-id-1"
+                             >
+                            
+                            <aura:if isTrue="{!v.showFields &amp;&amp; v.buttonText != 'Save Contacts' &amp;&amp; !v.editDone}">
+                                <lightning:buttonGroup class="right" >
+                                    <lightning:button 
+                                                      variant="destructive"
+                                                      label="{!v.label}"
+                                                      title="Escalate Ticket"
+                                                      onclick="{! c.openEscalateWindow }"
+                                                      disabled = "{!v.showButton}"
+                                                      />  
+                                </lightning:buttonGroup>
+                                
+                            </aura:if><br/>
+                            <!--h3>Ticket Status:</h3-->
+                            
+                            <lightning:tabset>
+                                <lightning:tab label="Ticket Status"  onactive="{!c.handleStatusTab}">
+                                    <aura:if isTrue="{!v.showFields}">
+                                        <lightning:path
+                                                        aura:id="path"
+                                                        recordId="{!v.ticketInfo.Id}"
+                                                        hideUpdateButton="true"
+                                                        /> 
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.showFields == false}">
+                                        <lightning:progressIndicator  type="path" variant="base" currentStep="{!v.selectedStage}" >
+                                            <aura:iteration items="{! v.steps }" var="step">
+                                                <lightning:progressStep label="{! step.label }" value="{! step.value }"/>
+                                            </aura:iteration>
+                                        </lightning:progressIndicator>
+                                        
+                                    </aura:if>
+                                    
+                                    <aura:if isTrue="{! !v.isEditMode}">
+                                        
+                                        <lightning:recordViewForm
+                                                                  recordId="{!v.ticketInfo.Id}"
+                                                                  objectApiName="Remedy_Ticket__c"
+                                                                  >
+                                            <aura:if isTrue="{! !v.editDone}">
+                                                <div class="slds-p-around_small">
+                                                    <lightning:buttonGroup class="right" >
+                                                        <lightning:button variant="destructive" label="Edit" onclick="{!c.toggleEditMode}" />
+                                                    </lightning:buttonGroup>
+                                                </div>
+                                            </aura:if>
+                                            
+                                            <lightning:layout multipleRows="true">
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField
+                                                                           id="ticket_num"
+                                                                           fieldName="Customer_Ticket_Number__c"
+                                                                           />
+                                                </lightning:layoutItem>
+                                                <aura:if isTrue="{!v.showFields}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Ticket_Status_Detail__c" />
+                                                    </lightning:layoutItem>
+                                                </aura:if>
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Service_Address_State__c" />
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Customer_Address_City__c" />
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Customer_Address_Zip__c" />
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Company_Name__c" />
+                                                </lightning:layoutItem>
+                     
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Description__c" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Trouble_Type__c" />
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Circuit_Id__c" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="CreatedDate" />
+                                                    
+                                                </lightning:layoutItem>
+                                                <aura:if isTrue="{!v.showFields == false}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Comm__c" />
+                                                        <span style="padding-left:10px;">8:00 AM to 5:00 PM</span>                                        
+                                                    </lightning:layoutItem>
+                                                </aura:if>
+                                                <aura:if isTrue="{!v.showFields}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Is_Intrusive_Testing_Allowed__c" />
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem size="6" padding="around-small" >                      
+                                                        <lightning:outputField  fieldName="Preferred_Contact_method__c" />                                                        
+                                                    </lightning:layoutItem>
+                                                    
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Local_Contact_Name2__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Local_Contact_Phone2__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Local_Contact_Email2__c" />
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField aura:id="LocalContactText__c" fieldName="LocalContactText__c" />
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Send_update__c" />
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Local_Text_Send_Updates__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                </aura:if>
+                                                
+                                                <aura:if isTrue="{!v.showFields}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Reported_By_Name_Text__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Reported_By_Phone__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Reported_By_Email__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Reported_By_Text_Number__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Reported_By_Send_Update__c" />
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Reported_By_Text_Send_Updates__c" />
+                                                    </lightning:layoutItem>
+                                                </aura:if>
+                                                
+                                                <aura:if isTrue="{!v.showFields}">
+                                                    <aura:if isTrue="{!v.showButton}">
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                            <lightning:outputField  id="ticket_num" fieldName="Escalate_Reason__c" />
+                                                        </lightning:layoutItem>                                                
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                            <lightning:outputField  id="ticket_num" fieldName="Escalate_Time_Stamp__c" />
+                                                        </lightning:layoutItem>
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                            <lightning:outputField  id="ticket_num" fieldName="Escalated_Person_Name__c" />
+                                                        </lightning:layoutItem>
+                                                    </aura:if>
+                                                </aura:if>
+                                                
+                                            </lightning:layout>
+                                            
+                                        </lightning:recordViewForm>
+                                    </aura:if>
+                                    
+                                    <!-- Ticket Detail Edit Page Starts --> 
+                                    <aura:if isTrue="{!v.isEditMode}">
+                                        <lightning:recordEditForm
+                                                                  aura:id="editForm"
+                                                                  recordId="{!v.ticketInfo.Id}"
+                                                                  objectApiName="Remedy_Ticket__c"
+                                                                  onsuccess="{!c.toggleEditMode}">                                  
+                                            <lightning:layout multipleRows="true">
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField
+                                                                           id="ticket_num"
+                                                                           fieldName="Customer_Ticket_Number__c"
+                                                                           />
+                                                </lightning:layoutItem>
+                                                <aura:if isTrue="{!v.showFields}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Ticket_Status_Detail__c" />
+                                                    </lightning:layoutItem>
+                                                </aura:if>
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Service_Address_State__c" />
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Customer_Address_City__c" />
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Customer_Address_Zip__c" />
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Company_Name__c" />
+                                                </lightning:layoutItem>
+
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Description__c" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Trouble_Type__c" />
+                                                </lightning:layoutItem>
+                                                
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="Circuit_Id__c" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6" padding="around-small">
+                                                    <lightning:outputField fieldName="CreatedDate" />
+                                                    
+                                                </lightning:layoutItem>
+                                                <aura:if isTrue="{!v.showFields == false}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Comm__c" />
+                                                        <span style="padding-left:10px;">8:00 AM to 5:00 PM</span>                                        
+                                                    </lightning:layoutItem>
+                                                </aura:if>
+                                                <aura:if isTrue="{!v.showFields}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:inputField fieldName="Is_Intrusive_Testing_Allowed__c" aura:id ="Is_Intrusive_Testing_Allowed__c" required ="true" />
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem padding="around-small" size="6">
+                                                        <lightning:inputField required ="true" aura:id="Preferred_Contact_method__c" value="{!v.ticketInfo.Preferred_Contact_method__c}" fieldName="Preferred_Contact_method__c" onchange="{!c.setcontactmethod}" />
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:inputField required ="true" fieldName="Local_Contact_Name2__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:inputField required ="true" aura:id="Local_Contact_Phone2__c" fieldName="Local_Contact_Phone2__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                    <aura:if isTrue="{!v.hideEmail}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:inputField required ="true" aura:id="Local_Contact_Email2__c" value="{!v.ticketInfo.Local_Contact_Email2__c}" fieldName="Local_Contact_Email2__c" class="{! 'font ' + (v.makeLCEmailRq? 'slds-has-error' : '') }"/>
+                                                     </lightning:layoutItem>
+                                                    </aura:if>
+                                                    
+                                                    <aura:if isTrue="{!v.hideText}">
+                                                   	 <lightning:layoutItem size="6" padding="around-small">
+                                                         <lightning:inputField required ="true" aura:id="LocalContactText__c" value="{!v.ticketInfo.LocalContactText__c}"  fieldName="LocalContactText__c" />
+                                                   	 </lightning:layoutItem>
+         											 </aura:if>
+                                                    
+                                                    <aura:if isTrue="{!v.hideEmail}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                       	 <lightning:inputField required ="true" aura:id="Send_update__c" value="{!v.ticketInfo.Send_update__c}" fieldName="Send_update__c" onchange="{!c.onSendUpdateChange}" />
+                                                    </lightning:layoutItem>
+                                                     </aura:if>
+                                                    
+                                                    <aura:if isTrue="{!v.hideText}">
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:inputField required ="true" aura:id="Local_Text_Send_Updates__c" value="{!v.ticketInfo.Local_Text_Send_Updates__c}" fieldName="Local_Text_Send_Updates__c" onchange="{!c.onSendUpdateChange}" /> 
+                                                   </lightning:layoutItem>
+                                                    </aura:if>
+                                                    
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Reported_By_Name_Text__c" />
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem size="6" padding="around-small">
+                                                        <lightning:outputField fieldName="Reported_By_Phone__c" />
+                                                    </lightning:layoutItem>
+                                                    
+                                                     <aura:if isTrue="{!v.hideEmail}">
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                            <lightning:inputField required ="true" aura:id="Reported_By_Email__c"  value="{!v.ticketInfo.Reported_By_Email__c}" fieldName="Reported_By_Email__c" class="{! 'font ' + (v.makeRptByEmailRq? 'slds-has-error' : '') }"/>
+                                                        </lightning:layoutItem>            
+                                                    </aura:if>
+                                                    
+                                                     <aura:if isTrue="{!v.hideText}">
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                                <lightning:inputField required ="true"  aura:id="Reported_By_Text_Number__c" value="{!v.ticketInfo.Reported_By_Text_Number__c}"  fieldName="Reported_By_Text_Number__c" />
+                                                        </lightning:layoutItem>    
+                                                     </aura:if>
+                                                    
+                                                      <aura:if isTrue="{!v.hideEmail}">
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                            <lightning:inputField required ="true" aura:id="Reported_By_Send_Update__c"  value="{!v.ticketInfo.Reported_By_Send_Update__c}" fieldName="Reported_By_Send_Update__c"  onchange="{!c.sendRpbyEmailUpdate}"/>
+                                                       </lightning:layoutItem> 
+                                                     </aura:if>
+                                                    
+                                                    <aura:if isTrue="{!v.hideText}">
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                            <lightning:inputField required ="true" value="{!v.ticketInfo.Reported_By_Text_Send_Updates__c}" fieldName="Reported_By_Text_Send_Updates__c" />
+                                                         </lightning:layoutItem>
+                                                     </aura:if>
+                                                    
+                                                    <aura:if isTrue="{!v.showButton}">
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                            <lightning:outputField  id="ticket_num" fieldName="Escalate_Reason__c" />
+                                                        </lightning:layoutItem>
+                                                        
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                            <lightning:outputField  id="ticket_num" fieldName="Escalate_Time_Stamp__c" />
+                                                        </lightning:layoutItem>
+                                                        <lightning:layoutItem size="6" padding="around-small">
+                                                            <lightning:outputField  id="ticket_num" fieldName="Escalated_Person_Name__c" />
+                                                        </lightning:layoutItem>
+                                                    </aura:if>
+                                                </aura:if>      
+                                            </lightning:layout>
+                                        </lightning:recordEditForm>
+                                    </aura:if>    
+                                </lightning:tab>
+                                
+                                <aura:if isTrue="{!and(v.showFields,v.showNotesTab)}"> 
+                                    <lightning:tab label="Notes" onactive="{!c.handleNotesTab}">
+                                        <aura:if isTrue="{!v.showFields}">
+                                            <lightning:path
+                                                            aura:id="path"
+                                                            recordId="{!v.ticketInfo.Id}"
+                                                            hideUpdateButton="true"
+                                                            /> 
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.showFields == false}">
+                                            <lightning:progressIndicator  type="path" variant="base" currentStep="{!v.selectedStage}" >
+                                                <aura:iteration items="{! v.steps }" var="step">
+                                                    <lightning:progressStep label="{! step.label }" value="{! step.value }"/>
+                                                </aura:iteration>
+                                            </lightning:progressIndicator> 
+                                            
+                                        </aura:if>
+                                        <!-- <lightning:icon iconName="action:new_note" alternativeText="Approved" title="Approved" /> -->
+                                        <center>
+                                            
+                                            <b> Customer Ticket Number:  </b> <span  style="color:red;">{!v.ticketInfo.Customer_Ticket_Number__c}</span>
+                                        </center>
+                                        <lightning:accordion aura:id="accordion" activeSectionName="{!v.activeSections}" allowMultipleSectionsOpen="true">
+                                            
+                                            <lightning:accordionSection name="B" label="Create Note">
+                                                <lightning:recordViewForm
+                                                                          recordId="{!v.ticketInfo.Id}"
+                                                                          objectApiName="Remedy_Ticket__c"
+                                                                          >
+                 
+                                                    <div class="slds-border_top"></div>
+                                                    <div class="slds-border_top"></div>
+                                                    <br></br>
+                  
+                                                </lightning:recordViewForm>
+                                                <!-- <lightning:input name="input1" aura:id="field" label="Subject" value="{!v.sub}" required="true"/> -->
+                                                <div>
+                                                <lightning:textarea name="input1" aura:id="field" disabled="{!v.disableNoteDescription}" label="Note" value="{!v.description}" required="{!v.noteDescriptionRequired}" onchange="{!c.handleKeyup}"/>
+                                                    <aura:if isTrue="{!v.noteSpecialChar}">
+                                                        <span
+                                                          padding="around-small"
+                                                          class="slds-form-element__label" style="color:red">Special Characters are not allowed.</span> 
+                                                    </aura:if>
+                                                 </div>   
+                                                <!--   <c:Ftr_Files_and_Attachements/> -->
+                                                <div class="slds-clearfix">
+                                                    <div class="slds-float_right">
+                                                                                                       
+                                                        <lightning:button 
+                                                                          disabled="{!v.disableNoteDescriptionButton}"
+                                                                          variant="neutral"
+                                                                          label="{!v.Cancel}"
+                                                                          title="{!v.Cancel}"
+                                                                          onclick="{! c.closeModel }"
+                                                                          />
+                                                    </div>
+                                                </div>
+                                                
+                                                <!--  <div class="slds-border_top"></div>-->
+                                            </lightning:accordionSection>
+                                            <!--  <lightning:icon iconName="action:new_note" alternativeText="Note" title="Approved" /> -->
+                                            <lightning:accordionSection name="A" label="View All Notes">
+                                                <c:Community_notesListview 
+                                                                           ticketNo="{!v.ticketInfo.Id}"
+                                                                           callInIt="{!v.updateChild}"/>                                 
+                                            </lightning:accordionSection>
+                                        </lightning:accordion>                             
+                                    </lightning:tab>
+                                </aura:if>
+                               <!-- <aura:if isTrue="{! v.showPreferredMethod }">-->
+                                    <aura:if isTrue="{!v.hideAddContacts}">
+                                    <lightning:tab label="Additional Contacts" onactive="{!c.handleContactsTab}">
+                                        <c:addAdditionalContacts ticketInfo="{#v.ticketInfo}" errorPhoneFields="{!v.errorPhoneFields}" errorNameFields="{!v.errorNameFields}" />
+                                    </lightning:tab>
+                                        </aura:if>
+                               <!-- </aura:if>-->
+                            </lightning:tabset>
+                            
+                            <div class="{! v.showAccessHours? '' : 'slds-hide' }">
+                                <c:RemedyTicketAccessHours recordId="{!v.ticketInfo.Id}" editable="{!v.isEditMode}" accessHours="{!v.accessHours}" tabChanged="{!v.tabChanged}"/>
+                            </div>
+                        </div>
+                        
+                        <!--Modal/Popup Box Footer Starts here-->
+                        <footer class="slds-modal__footer">
+                            <aura:if isTrue="{!v.isEditMode}">
+                                <div class="">
+                                    <lightning:buttonGroup class="right" >
+                                        <lightning:button variant="neutral" label="Cancel" onclick="{!c.toggleEditMode}" />
+                                        <!--<lightning:button variant="destructive" label="Save" onclick="{!c.saveEditMode}"/>-->
+                                        <lightning:button variant="destructive"
+                                                          type="submit"
+                                                          name="update"
+                                                          label="Save" onclick="{!c.onSubmit}">
+                                        </lightning:button>
+                                    </lightning:buttonGroup>
+                                </div>
+                            </aura:if>                
+                            <aura:if isTrue="{! !v.isEditMode}">
+                                <lightning:button
+                                                  variant="neutral"
+                                                  label="{!v.buttonText}"
+                                                  title="{!v.buttonText}"
+                                                  onclick="{! c.closeModel }" /> 
+                            </aura:if>
+                        </footer>
+                    </div>
+                </section>
+                
+                <div class="slds-backdrop slds-backdrop_open"></div>
+                <aura:if isTrue="{!v.openReasonWindow}">
+                    
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container" >
+                            <!-- Modal/Popup Box Header Starts here-->
+                            <header class="slds-modal__header">
+                                <lightning:buttonIcon iconName="utility:close"
+                                                      onclick="{! c.closeWindow }"
+                                                      alternativeText="close"
+                                                      variant="bare-inverse"
+                                                      class="slds-modal__close"/>
+                                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Ticket Escalation</h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" >
+                                <lightning:recordViewForm
+                                                          recordId="{!v.ticketInfo.Id}"
+                                                          objectApiName="Remedy_Ticket__c"
+                                                          >
+                                    <!--   <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="6" padding="around-small">
+                                            <lightning:outputField
+                                                                   id="ticket_num"
+                                                                   fieldName="Customer_Ticket_Number__c"
+                                                                   />
+                                        </lightning:layoutItem>  -->
+                                    
+                                    <!--     <lightning:layoutItem size="6" padding="around-small">
+                                            <b>Escalation Person name </b>   <lightning:input type="text" label="" value="{!v.reasons}" style="margin-top:-20px;"/>
+                                        </lightning:layoutItem> -->
+                                    
+                                    
+                                    
+                                    <!--   <lightning:layoutItem size="6" padding="around-small">
+                                            <b>Escalation Contact Phone  </b>   <lightning:input type="text" label="" value="{!v.reasons}" style="margin-top:-20px;"/>
+                                        </lightning:layoutItem> -->
+                                    
+                                    <lightning:layoutItem size="12" padding="around-small">
+                                        <b>Escalation Reason</b>   <lightning:textarea label="" value="{!v.reasons}" style="margin-top:-20px;" onchange="{!c.handleKeyup}"/>
+                                        <aura:if isTrue="{!v.descSpecialChar}">
+                                            <span
+                                              padding="around-small"
+                                              class="slds-form-element__label" style="color:red">Special Characters are not allowed.</span> 
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                    <!--  </lightning:layout> -->
+                                </lightning:recordViewForm>
+                            </div>  
+                            <footer class="slds-modal__footer">
+                                <lightning:button variant="neutral"
+                                                  label="Cancel"
+                                                  title="Cancel"
+                                                  onclick="{! c.closeWindow }"/>
+                                <lightning:button variant="destructive"
+                                                  label="Submit"
+                                                  title="OK"
+                                                  onclick="{!c.submitDetails}"
+                                                  />
+                            </footer>
+                        </div>
+                        
+                    </section>
+                    
+                </aura:if>
+            </aura:if>
+            
+        </div>
+    </div>
+</aura:component>

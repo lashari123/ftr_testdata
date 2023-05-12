@@ -1,0 +1,16 @@
+<apex:page standardController="Account" extensions="C2FAccountController" showheader="false" action="{!updateAccountWithC2FData}">
+    <apex:form id="TheForm">
+        <apex:pageBlock mode="MainDetail">
+            <apex:pageBlockSection >
+                <apex:outputText value="{!latitude}" label="Latitude" />
+                <apex:outputText value="{!longitude}" label="Longitude" />
+                <apex:outputText value="{!accessMedium}" label="Access Medium" />
+<!-- Commented out per a 9/20/19 request
+                <apex:outputText value="{!fiberProductTier}" label="Fiber Product Tier" />
+-->
+                <apex:outputText value="{!fiberDistanceFeet}" label="Fiber Distance (Feet)" />
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>      
+    <apex:iframe src="https://connectedworld.connected2fiber.com/#/login" scrolling="true" id="theIframe"/>
+</apex:page>

@@ -1,0 +1,1002 @@
+<apex:page standardController="Opportunity" extensions="UCaaSpdf" renderAs="pdf" cache="false"  standardStylesheets="false"  showHeader="false" applyHtmlTag="false" docType="html-5.0" apiVersion="" action="{!updateOpp}" >
+    <html>
+        <head>
+            <style type="text/css">
+                
+                @page
+                
+                {
+                padding-top: 80px;
+                @top-center 
+                {
+                content: element(header);
+                }
+                }
+                div.header {
+                position: running(header);
+                }
+                
+                @page { size: 11.27in 12.69in;  }
+                @page {
+                margin-bottom: 3cm;
+                
+                @bottom-center {
+                content: element(footer);
+                }
+                }
+                
+                div.footer {
+                display: block;
+                padding: 10px;
+                position: running(footer);
+                }
+                .tab1 th{
+                border-top: 1px solid #DF4841;
+                border-bottom: 1px solid #DF4841;
+                color:#DF4841;
+                padding:10px;
+                }
+                .tab1 td{
+                padding:10px;
+                color : black;
+                
+                }
+                .tab2 th{
+                background-color:#DF4841;
+                color:white;
+                padding:10px;
+                }
+                .tab2 td{
+                color : #696969 ;
+                border-bottom: 1px solid #696969;
+                padding:10px;
+                }
+                .tab3 td{
+                padding:5px;
+                }
+                
+                .tab4{
+                border-collapse : collapse;
+                }
+                .tab4 th{
+                background-color: #DCDCDC  ;
+                color:black;
+                text-align:center; 
+                
+                padding:3px;
+                }
+                .tab4 td{
+                text-align:center;
+                border-bottom: 1px solid #DCDCDC;
+                color:#696969;
+                padding:3px;
+                }
+                .tab6 th{
+                background-color: #17355E  ;
+                color:white;
+                text-align:center;
+                
+                }
+                .tab6 td{
+                text-align:center;
+                
+                }
+                body{
+                font-family:SansSerif;
+                }
+                th,td{
+                font-family:SansSerif;
+                }
+                
+            </style>
+        </head>
+        
+        <body>
+            <form>
+                <div class="Container" style="font-family:SansSerif;">
+                    <div class="header" style="padding-top:20px;">
+                        <apex:image url="{!$Resource.FrontierLogo}" width="150px" height="70px"/>
+                        <apex:image url="{!$Resource.newUcaasLogo}" width="250px" height="50px" style="padding-left:20px;margin-top:-8px;"/>
+                        
+                    </div>
+                    <div class="footer" name="footer" >
+                        <!--my footer-->
+                    </div>
+                    <div class="content">
+                        <!-- <br/>
+<br/><br/>-->
+                        <h1>
+                            <span style="font-family:SansSerif;">Product and Service Quote</span> 
+                        </h1>
+                        <table width="100%"  class="tab1" Style="border-collapse : collapse;">
+                            <tr><th width="32%" >Quote Information</th>
+                                <th width="34%"  ></th>
+                                <th width="34%"  ></th>
+                            </tr> 
+                            <tr><td></td></tr>
+                            <tr>
+                                <td valign="top" style="border-right: 1px solid #696969;">Company Name<br/><span style="color:#696969">
+                                    
+                                    {!acc.Name} 
+                                    </span></td>
+                                <td valign="top" style="border-right: 1px solid #696969;">Main Contact Person<br/><span style="color:#696969">
+                                    {!con.Name}
+                                    </span></td>
+                                <td valign="top">Type of Quote<br/><span style="color:#696969">
+                                    {!brcbook.Account_Type__c}
+                                    </span></td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="border-right: 1px solid #696969;">Main Address<br/><span style="color:#696969">
+                                    {!acc.BillingStreet}, {!acc.BillingCity}, {!acc.BillingState}, {!acc.BillingPostalCode}             </span></td>
+                                <td valign="top" style="border-right: 1px solid #696969;">Contact Email<br/><span style="color:#696969">
+                                    {!con.Email}
+                                    </span></td>
+                                <td valign="top" >Contract Term (Years)<br/><span style="color:#696969">
+                                    {!opp.Contract_Term_Years__c} 
+                                    </span></td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="border-right: 1px solid #696969;"><br/><span style="color:#696969">
+                                    </span></td>
+                                <td valign="top" style="border-right: 1px solid #696969;">Contact Phone<br/><span style="color:#696969">
+                                    {!con.Phone}
+                                    </span></td>
+                                <td valign="top" >Number of sites<br/><span style="color:#696969">
+                                    {!opp.Company_size__c}
+                                    </span></td>
+                            </tr>
+                            <tr><td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td width="32%" valign="top" style="border-right: 1px solid #696969;background-color:#DCDCDC;">Account Executive Name<br/><span style="color:#696969">
+                                    {!user.Name}</span></td>
+                                <td width="34%" valign="top" style="border-right: 1px solid #696969;background-color:#DCDCDC;">Quote ID <br/><span style="color:#696969">
+                                    
+                                    </span></td>
+                                <td width="34%" valign="top" style="background-color:#DCDCDC;" >Date<br/><span style="color:#696969">
+                                    {!nowDate}
+                                    </span></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table width="100%"  class="tab2" Style="border-collapse : collapse;page-break-after:always;">
+                            <tr><th width="32%" >CATEGORIES</th>
+                                <th width="34%"  style="text-align:left;padding-left:120px;">MRC</th>
+                                <th width="34%"  style="text-align:left;left;padding-left:120px;">NRC</th>
+                            </tr>
+                            <tr>
+                                <td>Licenses</td>
+                                <td class="cls1" style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrclic}"/></apex:outputText></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrclic}"/></apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>IP Phones</td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcIp}"/></apex:outputText></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcIp}"/></apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>Add-on</td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcAddon}"/></apex:outputText></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcAddon}"/></apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>Toll Free Minutes</td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcToll}"/></apex:outputText></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcToll}"/></apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>Switches and PoE</td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcSwitch}"/></apex:outputText></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcSwitch}"/></apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>Accessories</td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcAccess}"/></apex:outputText></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcAccess}"/></apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>Activation Charges</td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcActivation}"/></apex:outputText></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcActivation}"/></apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>Installation</td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcInstall + mrcWarranty}"/></apex:outputText></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcInstall + ncWarranty}"/></apex:outputText></td>
+                            </tr>
+                            <!--  <tr>
+<td>Warranty</td>
+<td style="text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcWarranty}"/></apex:outputText></td>
+<td style="text-align:center;text-align:left;left;padding-left:120px;"><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!ncWarranty}"/></apex:outputText></td>
+</tr>-->
+                            
+                            <tr>
+                                <td style="color:black;">Totals for all Sites</td>
+                                <td style="color:black;text-align:center;text-align:left;left;padding-left:120px;"><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcTotal}"/></apex:outputText></td>
+                                <td style="color:black;text-align:center;text-align:left;left;padding-left:120px;"> <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcTotal}"/></apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>Other Products<br/><span style="font-size:12px;">*This products are not included in the Totals</span></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!mrcOther}"/></apex:outputText></td>
+                                <td style="text-align:center;text-align:left;left;padding-left:120px;"><apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!nrcOther}"/></apex:outputText></td>
+                            </tr>
+                        </table>
+                        
+                        <!-- <div style="page-break-after:always;">  </div>-->
+                        <!--<br/><br/><br/><br/>-->
+                        <apex:repeat value="{!siteAddressMap}" var="record1" >
+                            <table width="100%"  class="tab3" Style="border-collapse : collapse;page-break-before :always;">
+                                <tr>
+                                    <!--<td  width="36%"  style="padding-left:0px;padding-top:0px;border-right: 1px solid #DCDCDC;">
+<h2>
+Product Categories</h2>
+</td>-->
+                                    <td  width="32%" valign="bottom" style="text-align:center;border-right: 1px solid #DCDCDC;padding-top:0px;" >Site Number<br/><span style="color:#696969">
+                                        {!record1}/{!opp.Company_size__c}
+                                        </span></td>
+                                    <td width="32%" valign="bottom" style="text-align:left;padding-top:0px;">
+                                        <apex:outputPanel rendered="{!IF(siteAddressMap[record1].Site_Street__c != null, true, false )}">
+                                            <apex:outputText > Site Address<br/><span style="color:#696969">
+                                                {!siteAddressMap[record1].Site_Street__c},  {!siteAddressMap[record1].Site_city__c},  {!siteAddressMap[record1].State__c},  {!siteAddressMap[record1].Site_zipcode__c}
+                                                </span></apex:outputText></apex:outputPanel>
+                                        <apex:outputPanel rendered="{!IF(siteAddressMap[record1].Site_Street__c == null, true, false )}">
+                                            <apex:outputText > Site Name<br/><span style="color:#696969">
+                                                {!siteAddressMap[record1].Site_Name__c} 
+                                                </span></apex:outputText></apex:outputPanel>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table width="100%"  class="tab3" Style="border-collapse : collapse;">
+                                <tr>
+                                    <td width="40%" style="background-color:#DF4841;color:white;">
+                                        
+                                    </td>
+                                    <td width="12%" style="text-align:center;background-color:#DF4841;color:white;"></td>
+                                    <td width="12%" style="background-color:#DF4841;color:white;text-align:right;">MRC</td>
+                                    <td width="12%" style="background-color:#DF4841;color:white;text-align:left;"></td>
+                                    <td  width="12%" style="background-color:#DF4841;color:white;text-align:right;">NRC</td>
+                                    <td  width="12%" style="background-color:#DF4841;color:white;text-align:left;"></td>
+                                </tr>
+                                <tr>
+                                    <td width="40%" style="background-color:#DF4841;color:white;">
+                                        <span style="font-size: 1.5em;padding-left:15px;">Product Categories</span>
+                                    </td>
+                                    <td width="12%" style="text-align:center;background-color:#DF4841;color:white;">QTY</td>
+                                    <td width="12%" style="background-color:#DF4841;color:white;text-align:left;">Unit Price</td>
+                                    <td width="12%" style="background-color:#DF4841;color:white;text-align:left;">Total</td>
+                                    <td  width="12%" style="background-color:#DF4841;color:white;text-align:left;">Unit Price</td>
+                                    <td  width="12%" style="background-color:#DF4841;color:white;text-align:left;">Total</td>
+                                    
+                                    
+                                </tr>
+                            </table>
+                            
+                            <table class="tab4" width="100%">
+                                <apex:variable var="v" value="" rendered="{!IF(licensesItemList.size>0 && licenseMap[record1] == 'test', true, false )}">
+                                    <tr>
+                                        <th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+                                            LICENSES
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th width="12%" style="font-weight: normal;text-align:left;">
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </apex:variable>  
+                                <apex:repeat value="{!licensesItemList}" var="item">
+                                    <apex:variable var="v" value="" rendered="{!IF(item.Site_Number__c == record1, true, false )}">
+                                        <!--  <apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1 , false, true)}">-->
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                {!item.Product_Name__c}
+                                            </td>
+                                            <td width="12%">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity}"/>
+                                                </apex:outputText>
+                                                
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.Unit_Price__c != null && item.Unit_Price__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.Unit_Price__c != null && item.Unit_Price__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0 , true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                        </tr>
+                                    </apex:variable>
+                                    <!-- </apex:variable>-->
+                                </apex:repeat>
+                                <apex:variable var="v" value="" rendered="{!IF(ipPhoneItemList.size>0 && IpMap[record1] == 'test', true, false )}">
+                                    <tr>
+                                        <th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+                                            IP PHONES
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        
+                                        <th width="12%" style="font-weight: normal;text-align:left;">
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </apex:variable>  
+                                <apex:repeat value="{!ipPhoneItemList}" var="item">
+                                    
+                                    <apex:variable var="v" value="" rendered="{!IF(item.Site_Number__c == record1, true, false )}">
+                                        <!-- <apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                {!item.Product_Name__c}
+                                            </td>
+                                            <td width="12%">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity}"/>
+                                                </apex:outputText>
+                                            </td>
+                                            <td width="12%" style="text-align:left;"> 
+                                                <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+                                                </apex:outputPanel> 
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0 , true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                        </tr>
+                                        <!--   </apex:variable>-->
+                                    </apex:variable>
+                                </apex:repeat>
+                                <apex:variable var="v" value="" rendered="{!IF(adOnItemList.size>0 && AddMap[record1] == 'test', true, false )}">
+                                    <tr>
+                                        <th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+                                            ADD-ON
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th width="12%" style="font-weight: normal;text-align:left;">
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </apex:variable>  
+                                <apex:repeat value="{!adOnItemList}" var="item">
+                                    
+                                    <apex:variable var="v" value="" rendered="{!IF(item.Site_Number__c == record1, true, false )}">
+                                        <!-- <apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                {!item.Product_Name__c}
+                                            </td>
+                                            <td width="12%">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity}"/>
+                                                </apex:outputText>
+                                            </td>
+                                            <td width="12%" style="text-align:left;"> 
+                                                <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+                                                </apex:outputPanel> 
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                        </tr>
+                                        <!-- </apex:variable>-->
+                                    </apex:variable>
+                                </apex:repeat>
+                                <apex:variable var="v" value="" rendered="{!IF(tollItemList.size>0 && tollMap[record1] == 'test', true, false )}">
+                                    <tr>
+                                        <th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+                                            TOLL FREE MINUTES
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th width="12%" style="font-weight: normal;text-align:left;">
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </apex:variable>
+                                <apex:repeat value="{!tollItemList}" var="item">
+                                    
+                                    <apex:variable var="v" value="" rendered="{!IF(item.Site_Number__c == record1, true, false )}">
+                                        <!-- <apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                {!item.Product_Name__c}
+                                            </td>
+                                            <td width="12%">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity}"/>
+                                                </apex:outputText>
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.Unit_Price__c != null && item.Unit_Price__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                        </tr>
+                                        <!--</apex:variable>-->
+                                    </apex:variable>
+                                </apex:repeat>
+                                <apex:variable var="v" value="" rendered="{!IF(switchesItemList.size>0 && switchesMap[record1] == 'test', true, false )}">
+                                    <tr>
+                                        <th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+                                            SWITCHES AND PoE
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th width="12%" style="font-weight: normal;text-align:left;">
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </apex:variable>
+                                <apex:repeat value="{!switchesItemList}" var="item">
+                                    
+                                    <apex:variable var="v" value="" rendered="{!IF(item.Site_Number__c == record1, true, false )}">
+                                        <!--  <apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                {!item.Product_Name__c}
+                                            </td>
+                                            <td width="12%">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity}"/>
+                                                </apex:outputText>
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.Unit_Price__c != null && item.Unit_Price__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel> 
+                                            </td>
+                                        </tr>
+                                        <!-- </apex:variable>-->
+                                    </apex:variable>
+                                </apex:repeat>
+                                <apex:variable var="v" value="" rendered="{!IF(accessoriesItemList.size>0 && AccMap[record1] == 'test', true, false )}">
+                                    <tr>
+                                        <th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+                                            ACCESSORIES
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th width="12%" style="font-weight: normal;text-align:left;">
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </apex:variable>
+                                <apex:repeat value="{!accessoriesItemList}" var="item">
+                                    
+                                    <apex:variable var="v" value="" rendered="{!IF(item.Site_Number__c == record1, true, false )}">
+                                        <!--<apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                {!item.Product_Name__c}
+                                            </td>
+                                            <td width="12%">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity}"/>
+                                                </apex:outputText>
+                                            </td>
+                                            <td width="12%" style="text-align:left;"> 
+                                                <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+                                                </apex:outputPanel> 
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0 , true, false )}">
+                                                    <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                        </tr>
+                                        <!-- </apex:variable>-->
+                                    </apex:variable>
+                                </apex:repeat>
+                                
+                                <apex:variable var="v" value="" rendered="{!IF(setUpList.size>0 && setupMap[record1] == 'test' && opp.Contract_Term_Years__c == 1, true, false )}">
+                                    
+                                    <tr>
+                                        <th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+                                            ACTIVATION CHARGES
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th width="12%" style="font-weight: normal;text-align:left;">
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </apex:variable>
+                                <apex:repeat value="{!ActivationSite}" var="mapval">
+                                    
+                                    <apex:variable var="v" value="" rendered="{!IF(mapval == record1 , true, false )}">
+                                        <!--  <apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                <!-- {!item.Product_Name__c}--> Activation Charges
+                                            </td>
+                                            <td width="12%">
+                                                <!--<apex:outputText value="{0,number,#,##0}">    
+<apex:param value="{!item.Quantity}"/>
+</apex:outputText>-->
+                                            </td>
+                                            <td width="12%" style="text-align:left;"> 
+                                                <!-- <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.Unit_Price__c}"/></apex:outputText>
+</apex:outputPanel> -->
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <!-- <apex:outputPanel rendered="{!If(item.Unit_Price__c != null && item.Unit_Price__c != 0.0,true,false)}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+</apex:outputPanel>-->
+                                                
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <!-- <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0, true, false )}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.NRC__c}"/></apex:outputText>
+</apex:outputPanel>-->
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <!-- <apex:outputPanel rendered="{!IF(item.NRC__c != null && item.NRC__c != 0.0 , true, false )}">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText>
+</apex:outputPanel>-->
+                                                <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!ActivationSite[record1]}"/></apex:outputText>
+                                            </td>
+                                        </tr>
+                                        <!-- </apex:variable>-->
+                                    </apex:variable>
+                                </apex:repeat>
+                                <apex:repeat value="{!InstallationSite}" var="mapval">
+                                    <apex:variable var="v" value="" rendered="{!IF(mapval == record1 , true, false )}">
+                                        <tr>
+                                            <th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+                                                INSTALLATION
+                                            </th>
+                                            <th  width="12%" style="font-weight: normal;">
+                                                
+                                            </th>
+                                            <th  width="12%" style="font-weight: normal;text-align:left;">
+                                                
+                                            </th>
+                                            <th  width="12%" style="font-weight: normal;text-align:left;">
+                                                
+                                            </th>
+                                            <th  width="12%" style="font-weight: normal;text-align:left;">
+                                                
+                                            </th>
+                                            <th width="12%" style="font-weight: normal;text-align:left;">
+                                                Total
+                                            </th>
+                                        </tr>
+                                    </apex:variable>
+                                    
+                                    
+                                    <apex:variable var="v" value="" rendered="{!IF(mapval == record1 , true, false )}">
+                                        <!--<apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                <!-- {!item.Product_Name__c}-->Installation
+                                            </td>
+                                            <td width="12%">
+                                                
+                                            </td>
+                                            <td width="12%" style="text-align:left;"> 
+                                                
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!InstallationSite[record1]}"/></apex:outputText>
+                                            </td>
+                                        </tr>
+                                        <!-- </apex:variable>-->
+                                    </apex:variable>
+                                </apex:repeat>
+                                <!-- <apex:repeat value="{!WarrantySite}" var="mapval">
+<apex:variable var="v" value="" rendered="{!IF(mapval == record1 , true, false )}">
+<tr>
+<th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+Warranty
+
+</th>
+<th  width="12%" style="font-weight: normal;">
+
+</th>
+<th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+<th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+<th  width="12%" style="font-weight: normal;text-align:left;">
+
+</th>
+<th width="12%" style="font-weight: normal;text-align:left;">
+Total
+</th>
+</tr>
+</apex:variable>-->
+                                
+                                
+                                <!--<apex:variable var="v" value="" rendered="{!IF(mapval == record1 , true, false )}">-->
+                                <!--<apex:variable var="v" value="" rendered="{!IF(item.Term__c == 'Term' && opp.Contract_Term_Years__c > 1, false, true)}">-->
+                                <!--  <tr>
+<td width="40%" style="text-align:left;padding-left:20px;">-->
+                                <!-- {!item.Product_Name__c}--><!--Warranty
+
+</td>
+<td width="12%">
+<!-- <apex:outputText value="{0,number,#,##0}">    
+<apex:param value="{!item.Quantity}"/>
+</apex:outputText>-->
+                                <!-- </td>
+<td width="12%" style="text-align:left;"> 
+</td>
+
+<td width="12%" style="text-align:left;">
+</td>
+<td width="12%" style="text-align:left;">
+</td>
+
+<td width="12%" style="text-align:left;">
+<apex:outputText value="${0, number, ###,###,###,##0.00}"><apex:param value="{!WarrantySite[record1]}"/></apex:outputText>
+</td>
+</tr>
+<!-- </apex:variable>
+</apex:variable>
+</apex:repeat>-->
+                                
+                            </table>
+                            
+                            <table class="tab4" width="100%" style="">
+                                <tr>
+                                    <th  width="40%" style="text-align:left;padding-left:20px;">
+                                        SITE TOTAL
+                                    </th>
+                                    <th  width="12%" style="text-align:left;">
+                                        
+                                    </th>
+                                    <th  width="12%" style="text-align:left;">
+                                        
+                                    </th>
+                                    
+                                    <th width="12%" style="text-align:left;">
+                                        MRC</th>
+                                    <th width="12%" style="text-align:left;"></th>
+                                    
+                                    <th  width="12%" style="text-align:left;">
+                                        NRC
+                                    </th>
+                                    
+                                </tr>
+                                <apex:repeat value="{!wrapperMap}" var="mapval">
+                                    <apex:variable var="v" value="" rendered="{!IF(mapval == record1, true, false )}">
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <!-- <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!wrapperMap[record1].mrc*12+wrapperMap[record1].nrc}"/></apex:outputText>-->
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!wrapperMap[record1].mrc}"/></apex:outputText>
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!wrapperMap[record1].nrc}"/></apex:outputText>
+                                            </td>
+                                            
+                                        </tr>
+                                    </apex:variable>
+                                </apex:repeat>
+                                <apex:variable var="v" value="" rendered="{!IF(MiscellaneousList.size>0 && otherMap[record1] == 'test', true, false )}">
+                                    
+                                    
+                                    <tr>
+                                        <th  width="40%" style="font-weight: normal;text-align:left;padding-left:20px;">
+                                            OTHER PRODUCT
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th  width="12%" style="font-weight: normal;text-align:left;">
+                                            
+                                        </th>
+                                        <th width="12%" style="font-weight: normal;text-align:left;">
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </apex:variable>
+                                <apex:repeat value="{!MiscellaneousList}" var="item">
+                                    
+                                    <apex:variable var="v" value="" rendered="{!IF(item.NumberOfSites__c == record1, true, false )}">
+                                        <tr>
+                                            <td width="40%" style="text-align:left;padding-left:20px;">
+                                                {!item.ProductName__c}
+                                            </td>
+                                            <td width="12%">
+                                                <apex:outputText value="{0,number,#,##0}">    
+                                                    <apex:param value="{!item.Quantity__c}"/>
+                                                </apex:outputText>
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!If(item.Type_of_billing__c == 'MRC',true,false)}">
+                                                    <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!item.MrcPrice__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!If(item.Type_of_billing__c == 'MRC',true,false)}">
+                                                    <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!item.Total__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!If(item.Type_of_billing__c == 'NRC',true,false)}">
+                                                    <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!item.MrcPrice__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                            <td width="12%" style="text-align:left;">
+                                                <apex:outputPanel rendered="{!If(item.Type_of_billing__c == 'NRC',true,false)}">
+                                                    <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!item.Total__c}"/></apex:outputText>
+                                                </apex:outputPanel>
+                                            </td>
+                                            
+                                        </tr>
+                                    </apex:variable>
+                                </apex:repeat>
+                                
+                            </table> 
+                            <!-- <div style="page-break-after:always;">  </div>--> 
+                            <!-- <br/><br/><br/><br/>-->
+                            
+                        </apex:repeat>
+                        
+                       <!-- <table class="tab4" width="100%">
+                            <tr>
+                                <th  width="40%" style="text-align:left;padding-left:20px;">
+                                    TOTAL FOR ALL SITES
+                                </th>
+                                
+                                <th  width="12%" style="text-align:left;">
+                                    <!-- TCV-->
+                                <!--</th>
+                                <th width="12%" style="text-align:left;"></th>
+                                
+                                <th  width="12%" style="text-align:left;">
+                                    MRC   
+                                </th>
+                                <th width="12%" style="text-align:left;"></th>
+                                
+                                <th  width="12%" style="text-align:left;">
+                                    NRC
+                                </th>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td width="40%" style="text-align:left;">
+                                    
+                                </td>
+                                
+                                <td width="12%" style="text-align:left;">
+                                    <!-- <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!tottcv}"/></apex:outputText>-->
+                                <!--</td>
+                                <td width="12%" style="text-align:left;">
+                                    
+                                </td>
+                                
+                                <td width="12%" style="text-align:left;">
+                                    <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!totmrc}"/></apex:outputText>
+                                </td>
+                                <td width="12%" style="text-align:left;">
+                                    
+                                </td>
+                                
+                                <td width="12%" style="text-align:left;">
+                                    <apex:outputText value="{0, number, ###,###,###,##0.00}">$<apex:param value="{!totnrc}"/></apex:outputText>
+                                </td>
+                                
+                            </tr> 
+                        </table> -->
+                        <h3>
+                            Notice:  
+                        </h3>
+                        <ul>
+                            <li> &nbsp;&nbsp;This quote represents the costs of services discussed and is not inclusive of any services existing on your account. </li>
+                            <li> &nbsp;&nbsp;Monthly minimum spend levels or early termination fees may apply.</li>
+                            <li> &nbsp;&nbsp;Taxes Fees and other charges not included in quoted price. </li>
+                            <li> &nbsp;&nbsp;Not all products and services are available in all areas. </li>
+                            <li> &nbsp;&nbsp;Other terms and conditions apply.</li>
+                        </ul>  
+                    </div>
+                </div>
+            </form>
+        </body>
+    </html>
+    
+</apex:page>

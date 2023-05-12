@@ -1,0 +1,31 @@
+<apex:page sidebar="true" standardController="Account" extensions="Account_Extension" action="{!retrieveAccountDetails}">
+  <apex:includeScript value="/support/console/36.0/integration.js"/>
+  <div style="text-align:center"> 
+    <script type="text/javascript">
+      var accountId18 = '{!Account.Id}';
+      var accountId15 = accountId18.substring(0,15);    
+      var isFederalAccount = '{!Account.Federal__c}';
+      var isFederalUser = '{!isFederalUser}';
+      if(isFederalAccount == 'true' && isFederalUser == 'false'){
+        sforce.console.getEnclosingTabId(function(result) {
+        	var idToClose = result.id;
+          //sforce.console.openPrimaryTab(null,'/apex/Unauthorized_Federal?id={!Account.Id}',true);
+          sforce.console.openPrimaryTab(null,'/apex/Unauthorized_Federal',true);  
+          sforce.console.closeTab(idToClose);        
+        });
+      }else{
+        sforce.console.getEnclosingTabId(function(result) {             
+          var idToClose = result.id;
+          sforce.console.getEnclosingPrimaryTabObjectId(function(result) {          
+            if(result.id != accountId15) {
+              sforce.console.openPrimaryTab(null,'/{!Account.Id}',true);
+              sforce.console.closeTab(idToClose);
+            }
+          });        
+        });          
+      }
+      sforce.console.setTabTitle('{!Account.Name} | {!Account.Company_Name__c}');
+    </script>    
+  </div>
+  <apex:detail relatedlist="true" subject="{!account.Id}" id="detail" inlineEdit="false" />
+</apex:page>

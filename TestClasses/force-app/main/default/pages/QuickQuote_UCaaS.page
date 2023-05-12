@@ -1,0 +1,404 @@
+<apex:page controller="QuickQuote_UCaas_Controller" sidebar="false" showheader="false" contenttype="application/pdf" renderAs="PDF">
+<html>
+
+<head>
+<style>
+
+        div {
+            font-family: Arial, Helvetica, sans-serif;             
+        }
+        
+</style>
+
+</head>
+
+<body align="center" width="90%">
+
+<div>
+    <table width="100%" border="0">
+        <tr valign="bottom">
+            <td align="left">
+                <img src="{!$Resource.FrontierBusinessLogo}" width="129" height="64"/>
+            </td>
+            <td align="right">
+                <img src="{!$Resource.FrontierCertified}" width="139" height="59"/>              
+            </td>
+        </tr>
+        <tr valign="bottom">
+            <td align="left">
+                <span style="color:#5F6062;font-family: Arial;font-size: 36px;">Product and Service Quote</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="background-color:#C41230; height:3px;"/>
+        </tr>
+    </table>
+</div>
+
+<div id="quote_detail">
+    <table width="100%" border="0">
+        <tr>
+            <td width="58%" valign="top">
+                <table width="100%" border="0">
+                <tr>
+                    <td width="35%" valign="top"><font style="font-size:12.5px;"><b>Customer:</b></font></td>
+                    <td width="65%">
+                        <font style="font-size:10.5px;">
+                            <apex:variable var="name" rendered="{!NOT(opp.Account.Name==null)}" value="name">
+                                {!opp.Account.Name}<br/>
+                            </apex:variable>
+                            <apex:variable var="street" rendered="{!NOT(opp.Account.BillingStreet==null)}" value="street">
+                                {!opp.Account.BillingStreet}<br/>
+                            </apex:variable>
+                            <apex:variable var="city" rendered="{!NOT(opp.Account.BillingCity==null)}" value="city">
+                                {!opp.Account.BillingCity},
+                            </apex:variable>
+                            <apex:variable var="state" rendered="{!NOT(opp.Account.BillingState==null)}" value="state">
+                                {!opp.Account.BillingState},
+                            </apex:variable>
+                            <apex:variable var="code" rendered="{!NOT(opp.Account.BillingPostalCode==null)}" value="code">
+                                {!opp.Account.BillingPostalCode}<br/>
+                            </apex:variable>
+                            <apex:variable var="phone" rendered="{!NOT(opp.Account.Phone==null)}" value="phone">
+                                {!opp.Account.Phone}<br/>
+                            </apex:variable>
+                            {!opp.Account.SB_Email__c}
+                         </font>
+                    </td>
+                </tr>
+                </table>
+            </td>
+            <td  width="42%">
+                <table width="100%" border="0">
+                    <tr cellpadding="5">
+                        <td width="35%" align="right"><font style="font-size:12.5px;"><b>Date:</b></font></td>
+                        <td width="65%"><font style="font-size:10.5px;">
+                            <apex:outputText value="{0,date,MMMM dd, yyyy}"><apex:param value="{!TODAY()}" /></apex:outputText>
+                            </font>
+                        </td>
+                    </tr>
+                    <tr cellpadding="5">
+                        <td width="35%" align="right"><font style="font-size:12.5px;"><b>Valid Until:</b></font></td>
+                        <td width="65%"><font style="font-size:10.5px;">
+                            <apex:outputText value="{0,date,MMMM dd, yyyy}"><apex:param value="{!TODAY()+30}" /></apex:outputText>
+                            </font>
+                        </td>
+                    </tr>
+                    <tr cellpadding="5">
+                        <td width="35%" align="right"><font style="font-size:12.5px;"><b>Email:</b></font></td>
+                        <td width="65%"><font style="font-size:10.5px;">
+                            {!$User.Email}
+                            </font>
+                        </td>
+                    </tr>                                   
+                    <tr cellpadding="5">
+                        <td width="35%" align="right"><font style="font-size:12.5px;"><b>Prepared By:</b></font></td>
+                        <td width="65%"><font style="font-size:10.5px;">
+                            {!$User.FirstName} {!$User.LastName}
+                            </font>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="quote_products_services" style="margin-top:3%;{!IF(NumSQIs1 > 0, 'display:block', 'display:none')}">
+    <table width="100%" cellspacing="0" border="1" style="border:1px solid black;">
+        <tr valign="bottom" style="background-color:#C41230;color:white;font-size:12.5px;text-align:center">
+            <th width="10%">Quantity</th>
+            <th width="35%">Services</th>
+            <th width="10%">Contract Term<br/><font style="font-size:9px;">(in months)</font></th>
+            <th width="10%">Activation<br/> Fee- NRC</th>
+            <th width="10%">Monthly <br/> Fee- MRC</th>
+            <th width="10%">Total NRC</th>
+            <th width="10%">Total MRC</th>
+        </tr>
+        <apex:repeat value="{!firstQuickQuoteWrapper}" var="sqitem">
+        <tr style="font-size:10.5px;" border="1">
+             <td width="10%" style="text-align:center">{!sqitem.Quantity}</td>
+             <td width="35%">{!sqitem.Name}</td>
+             <td width="10%" style="text-align:center">{!sqitem.TermLength}</td>
+             <td width="10%" style="text-align:right">{!sqitem.AdjustedNRC}</td>
+             <td width="10%" style="text-align:right">{!sqitem.TotalMRC}</td> 
+             <td width="10%" style="text-align:right">{!sqitem.NRC}</td>
+             <td width="10%" style="text-align:right">{!sqitem.TotalCharge}</td>
+        </tr>
+        </apex:repeat>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Total Services</td>
+             <td width="30%" colspan="3"></td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue1}</b></td>
+             <td width="10%" style="text-align:right"><b>${!totalMRCValue1}</b></td>
+        </tr>
+    </table>
+</div>
+<div id="quote_products_installation" style="margin-top:3%;{!IF(NumSQIs2 > 0, 'display:block', 'display:none')}">
+    <table width="100%" cellspacing="0" border="1" style="border:1px solid black;">
+        <tr valign="bottom" style="background-color:#C41230;color:white;font-size:12.5px;text-align:center">
+            <th width="10%">Quantity</th>
+            <th width="35%">Installation</th>
+            <th width="10%">&nbsp;</th>
+            <th width="10%">NRC</th>
+            <th width="10%">&nbsp;</th>
+            <th width="10%">Total NRC</th>
+            <th width="10%">&nbsp;</th>
+        </tr>
+        <apex:repeat value="{!secondQuickQuoteWrapper}" var="sqitem">
+        <tr style="font-size:10.5px;" border="1">
+             <td width="10%" style="text-align:center">{!sqitem.Quantity}</td>
+             <td width="35%">{!sqitem.Name}</td>
+             <td width="10%" style="text-align:center">&nbsp;</td>
+             <td width="10%" style="text-align:right">{!sqitem.AdjustedNRC}</td>
+             <td width="10%" style="text-align:right">&nbsp;</td> 
+             <td width="10%" style="text-align:right">{!sqitem.NRC}</td>
+             <td width="10%" style="text-align:right">&nbsp;</td>
+        </tr>
+        </apex:repeat>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Total Installation</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue2}</b></td>
+             <td width="10%">&nbsp;</td>
+        </tr>
+    </table>
+</div>
+<div id="quote_products_hardware_materials" style="margin-top:3%;{!IF(NumSQIs3 > 0, 'display:block', 'display:none')}">
+    <table width="100%" cellspacing="0" border="1" style="border:1px solid black;">
+        <tr valign="bottom" style="background-color:#C41230;color:white;font-size:12.5px;text-align:center">
+            <th width="10%">Quantity</th>
+            <th width="35%">Hardware/Materials</th>
+            <th width="10%">Part #</th>
+            <th width="10%">Unit Price<br/> NRC</th>
+            <th width="10%">Monthly <br/> Fee- MRC</th>
+            <th width="10%">Total NRC</th>
+            <th width="10%">Total MRC</th>
+        </tr>
+        <apex:repeat value="{!thirdQuickQuoteWrapper}" var="sqitem">
+        <tr style="font-size:10.5px;" border="1">
+             <td width="10%" style="text-align:center">{!sqitem.Quantity}</td>
+             <td width="35%">{!sqitem.Name}</td>
+             <td width="10%" style="text-align:center">{!sqitem.PartNumber}</td>
+             <td width="10%" style="text-align:right">{!sqitem.AdjustedNRC}</td>
+             <td width="10%" style="text-align:right">{!sqitem.TotalMRC}</td> 
+             <td width="10%" style="text-align:right">{!sqitem.TotalNRC}</td>
+             <td width="10%" style="text-align:right">{!sqitem.TotalCharge}</td>
+        </tr>
+        </apex:repeat>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Total Hardware</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue3}</b></td>
+             <td width="10%" style="text-align:right"><b>${!totalMRCValue3}</b></td>
+        </tr>
+    </table>
+</div>
+<div id="quote_products_maintenance" style="margin-top:3%;{!IF(NumSQIs4 > 0, 'display:block', 'display:none')}">
+    <table width="100%" cellspacing="0" border="1" style="border:1px solid black;">
+        <tr valign="bottom" style="background-color:#C41230;color:white;font-size:12.5px;text-align:center">
+            <th width="10%">Quantity</th>
+            <th width="35%">Phone Power</th>
+            <th width="10%">Part #</th>
+            <th width="10%">Unit Price<br/> NRC</th>
+            <th width="10%">Monthly <br/> Fee- MRC</th>
+            <th width="10%">Total NRC</th>
+            <th width="10%">Total MRC</th>
+        </tr>
+        <apex:repeat value="{!fourthQuickQuoteWrapper}" var="sqitem">
+        <tr style="font-size:10.5px;" border="1">
+             <td width="10%" style="text-align:center">{!sqitem.Quantity}</td>
+             <td width="35%">{!sqitem.Name}</td>
+             <td width="10%" style="text-align:center">{!sqitem.PartNumber}</td>
+             <td width="10%" style="text-align:right">{!sqitem.AdjustedNRC}</td>
+             <td width="10%" style="text-align:right">{!sqitem.TotalMRC}</td> 
+             <td width="10%" style="text-align:right">{!sqitem.NRC}</td>
+             <td width="10%" style="text-align:right">{!sqitem.TotalCharge}</td>
+        </tr>
+        </apex:repeat>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Total Phone Power</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalUnitPriceNRCValue4}</b></td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue4}</b></td>
+             <td width="10%">&nbsp;</td>
+        </tr>
+    </table>
+</div>
+<div id="quote_products_write_in_parts" style="margin-top:3%;{!IF(NumSQIs5 > 0, 'display:block', 'display:none')}">
+    <table width="100%" cellspacing="0" border="1" style="border:1px solid black;">
+        <tr valign="bottom" style="background-color:#C41230;color:white;font-size:12.5px;text-align:center">
+            <th width="10%">Quantity</th>
+            <th width="35%">Write-In Parts</th>
+            <th width="10%">Part #</th>
+            <th width="10%">Unit Price<br/> NRC</th>
+            <th width="10%">Monthly <br/> Fee- MRC</th>
+            <th width="10%">Total NRC</th>
+            <th width="10%">Total MRC</th>
+        </tr>
+        <apex:repeat value="{!fifthQuickQuoteWrapper}" var="sqitem">
+        <tr style="font-size:10.5px;" border="1">
+             <td width="10%" style="text-align:center">{!sqitem.Quantity}</td>
+             <td width="35%">{!sqitem.Name}</td>
+             <td width="10%" style="text-align:center">{!sqitem.PartNumber}</td>
+             <td width="10%" style="text-align:right">{!sqitem.AdjustedNRC}</td>
+             <td width="10%" style="text-align:right">{!sqitem.TotalMRC}</td> 
+             <td width="10%" style="text-align:right">{!sqitem.TotalNRC}</td>
+             <td width="10%" style="text-align:right">{!sqitem.TotalCharge}</td>
+        </tr>
+        </apex:repeat>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Total Write-In Parts</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue5}</b></td>
+             <td width="10%" style="text-align:right"><b>${!totalMRCValue5}</b></td>
+        </tr>
+    </table>
+</div>
+<div id="quote_products_summaries" style="margin-top:3%;">
+    <table width="100%" cellspacing="0" border="1" style="border:1px solid black;">
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Upfront Service Cost</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue1}</b></td>
+        </tr>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Installation</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue2}</b></td>
+        </tr>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Hardware/Materials</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue3}</b></td>
+        </tr>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Phone Power</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue4}</b></td>
+        </tr>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Write-In Parts</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalNRCValue5}</b></td>
+        </tr>
+    </table>
+</div>
+<div id="quote_products_totals" style="margin-top:3%;">
+    <table width="100%" cellspacing="0" border="1" style="border:1px solid black;">
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Upfront Service Cost - Hardware</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalUpfrontCostHardware}</b></td>
+        </tr>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Monthly Recurring Hardware</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!monthlyRecurringHardware}</b></td>
+             <td width="10%">&nbsp;</td>
+        </tr>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Monthly Recurring Service Charge</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalMRCValue1}</b></td>
+             <td width="10%">&nbsp;</td>
+        </tr>
+        <tr style="font-size:10.5px;">
+             <td width="10%">&nbsp;</td>
+             <td width="35%" style="font-color:#C41230;text-align:left">Total Monthly Recurring Charge</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%">&nbsp;</td>
+             <td width="10%" style="text-align:right"><b>${!totalMonthlyRecurringCharge}</b></td>
+        </tr>
+    </table>
+</div>
+<div id="Disclaimer">
+    <table width="100%" border="0">
+     <tr>
+        <td style="font-size:10.5px;">* This quote presents the cost of the services discussed and is not inclusive of any services existing on your account</td>
+     </tr>
+     <tr>
+        <td style="font-size:10.5px;">** This quote does not include any applicable taxes</td>
+     </tr>
+    </table>
+</div>
+
+<div id="comments">
+    <table width="100%" border="0">
+     <tr>
+        <td width="18%">
+        <font style="font-size:12.5px;"><b>Notes:</b></font>
+        </td>
+        <td style="font-size:10.5px;">
+            {!comments}
+        </td>
+     </tr>
+    </table>
+</div>
+
+<!--
+
+<div id="footer" style="font-size:9px;background-color:#D3D3D3;">
+
+        <p style="height:15px;"/>
+        <p style="background-color:white; height:1px;"/>
+        <b>Thank you for the opportunity to quote this business!</b>
+        <p align="justify">
+            Frontier is pleased to present this proposal. The service set forth in this proposal will be provided by Frontier Communications Corporation. Frontier does not consider the proposal itself to be a legally binding offer to contract. Final installed price may vary based on site survey and other factors. This quote is valid for up to thirty days from the date hereof. Taxes and surcharges are not included.
+        </p>
+        <p align="justify">
+            This proposal is confidential and contains proprietary information.  The contents contained herein are not to be shared with parties other than the customer and employees named in this document. This document is confidential and the property of Frontier Communications Corporation.
+        </p>
+        <p style="background-color:white; height:1px;"/>
+        <p style="height:15px;"/>
+
+</div>
+-->
+
+</body>
+</html>
+</apex:page>

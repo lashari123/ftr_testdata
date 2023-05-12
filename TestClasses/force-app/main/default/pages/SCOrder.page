@@ -1,0 +1,301 @@
+<apex:page cache="false" >
+<html style="position:relative">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+</head>
+<body>
+    <apex:iframe scrolling="auto" id="theIframe" height="1200" width="100%" />
+ 
+  <!-- End Default Content REMOVE THIS -->
+ <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"/>
+<script src="/soap/ajax/23.0/connection.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/js/functions.js"></script>
+   <script type="text/javascript">
+   sforce.connection.sessionId = "{!$Api.Session_ID}";
+
+   $(document).ready(function() {      
+     try{
+     
+        var envBtn = "Order";
+        var records = [];
+        var obj = new Object();
+        obj.name = "sfdcSessionId";
+        obj.value = "{!$API.Session_ID}";
+        records[0] = obj;
+        sforce.connection.sessionId = "{!$Api.Session_ID}";
+        var userId = "{!$User.Id}";
+        var btnPhone = gup("btnPhone");
+        btnPhone = btnPhone.replace("%28","");
+        btnPhone = btnPhone.replace("%29","");
+        btnPhone = btnPhone.replace("+","");
+        btnPhone = btnPhone.replace("-","");
+        
+        var accId = gup("accountId");
+        var region = "";
+        console.log('btnPhone: '+btnPhone);
+        
+        if( btnPhone != "" && btnPhone != undefined && btnPhone != null){           
+
+
+            try{
+                var query = sforce.connection.query("Select ParentSequenceId__c,Library_ID__c, Company_Name__c from Account where Hierarchy_Level__c IN ('BILLING','SUMMARY') AND TNSequenceId__c ='"+btnPhone+"'") ;                
+                console.log('quer 1: '+query);  
+            }
+            catch(err){
+                alert(err);
+            }
+            
+            var accRec = query.getArray("records");
+            console.log('accRec 1st: '+accRec);
+            if (accRec != null)
+                console.log('Account Record count at Billing/Summary Level ::: '+accRec.length);
+            
+            if ((accRec == null) || (accRec.length == 0))
+            {
+                try{
+                    var query = sforce.connection.query("Select ParentSequenceId__c,Library_ID__c, Company_Name__c from Account where Hierarchy_Level__c = 'MEMBER' AND ParentSequenceId__c ='"+btnPhone+"'") ;
+                    console.log('quer 2: '+query);  
+                }
+                catch(err){
+                    alert(err);
+                }
+                accRec = query.getArray("records");
+                console.log('accRec 2nd: '+accRec);
+                
+                if (accRec != null)
+                    console.log('Account Record count at Member Level ::: '+accRec.length);
+                else 
+                    alert('ERROR :::  NOT ABLE TO FETCH ACCOUNT');
+            }
+            
+            var btnSequence = "";
+            console.log('Debug Phase 1');
+            if( accRec.length > 0 ){
+                btnSequence = accRec[0].get("ParentSequenceId__c");
+               
+            }
+            console.log('Debug Phase 2');
+            if( btnSequence != "" && btnSequence != null && btnSequence != undefined ){                   
+               
+                try{
+                    var userQueryRes = sforce.connection.query("Select CSR_ID__c,DPIID__c from User where Id ='"+userId+"'") ;
+                }
+                catch(err){
+                    alert(err);
+                }
+
+                var userRec = userQueryRes.getArray("records");
+                var csrId = userRec[0].get("CSR_ID__c");
+                var dpiId = userRec[0].get("DPIID__c");    
+        
+                if( dpiId == null || dpiId == "null" )
+                    dpiId = "";
+                //var accRec = accQuery.getArray("records");                
+                obj = new Object();
+                obj.name = "customerName";
+                if( accRec != null && accRec.length > 0){  
+                    obj.value =  accRec[0].get("Company_Name__c");
+                }
+                else{
+                    obj.value = "NO ENTRY IN DATA TABLE";
+                }
+                
+                records[1] = obj;
+                obj = new Object();
+                obj.name = "billingSystem";
+                obj.value = "CDPI";
+                records[2] = obj;
+                obj = new Object();
+                obj.name = "customerId";
+                obj.value = btnPhone;
+                records[3] = obj;
+                obj = new Object();
+                obj.name = "dataRegion";
+                obj.value = accRec[0].get("Library_ID__c") ;
+                records[4] = obj; 
+                obj = new Object();
+                obj.name = "cSRType";
+                obj.value = "SMB";
+                records[5] = obj; 
+                obj = new Object();
+                obj.name = "appId";
+                obj.value = "SFDC";
+                records[6] = obj; 
+                obj = new Object();
+                obj.name = "cSRId";
+                obj.value = csrId;
+                records[7] = obj; 
+                obj = new Object();
+                obj.name = "btnNumber";
+                obj.value = btnPhone.substr(0, 10);
+                records[8] = obj;
+                obj = new Object();
+                obj.name = "dpiID";
+                obj.value = dpiId;
+                records[9] = obj;   
+                console.log('Debug Phase 3');
+            }
+        }
+        else{
+        console.log('Debug Phase 4');
+        //Retrieve Account/Company Objects Information using accountId from "Company" VF Page
+            if( btnSequence != "" && btnSequence != undefined && btnSequence != null){ 
+             var profileId = "{!$User.ProfileId}";
+            //alert (profileId);
+           
+                console.log('Debug Phase 5');
+                //var accRec = qr.getArray("records");
+                obj = new Object();
+                obj.name = "cSRId";
+                obj.value = csrId;
+                records[1] = obj;
+                obj = new Object();
+                obj.name = "cSRType";
+                obj.value = "Direct";
+                records[2] = obj;
+                obj = new Object();
+                obj.name = "accountName";
+                obj.value = accRec[0].get("Name");
+                records[3] = obj;
+                obj = new Object();
+                obj.name = "companyType";
+                obj.value = "Business";
+                records[4] = obj;
+                obj = new Object();
+                obj.name = "companyName";
+                obj.value = accRec[0].get("Company_Name__c");
+                records[5] = obj;
+                obj = new Object();
+                obj.name = "phoneNumber";
+                var phoneNumber = btnPhone.substr(0, 10);
+                phoneNumber = phoneNumber.replace("(","");
+                phoneNumber = phoneNumber.replace(")","");
+                phoneNumber = phoneNumber.replace("-","");
+                phoneNumber = phoneNumber.replace(" ","");
+                obj.value = phoneNumber ; 
+                records[6] = obj;
+                obj = new Object();
+                obj.name = "faxNumber";
+                obj.value = accRec[0].get("Fax");
+                records[7] = obj;
+                obj = new Object();
+                obj.name = "appId";
+                obj.value = "SFDC";
+                records[8] = obj;
+                obj = new Object();
+                obj.name = "emailId1";
+                obj.value = accRec[0].get("emailId1__c");
+                records[9] = obj;
+                obj = new Object();
+                obj.name = "btnNumber";
+                obj.value = "";
+                records[10] = obj;
+                obj = new Object();
+                obj.name = "customerId";
+                obj.value = "";
+                records[11] = obj;
+                obj = new Object();
+                obj.name = "customerNumber";
+                obj.value = "";
+                records[12] = obj;
+                obj = new Object();
+                obj.name = "city";
+                obj.value = accRec[0].get("Billingcity");
+                records[13] = obj;
+                obj = new Object();
+                obj.name = "state";
+                obj.value = accRec[0].get("BillingState");
+                records[14] = obj;
+                obj = new Object();
+                obj.name = "zipCode";
+                obj.value = accRec[0].get("BillingPostCode");
+                records[15] = obj;
+                obj = new Object();
+                obj.name = "billingSystem";
+                obj.value = "CDPI";
+                records[16] = obj;
+            /*    obj = new Object();
+                obj.name = "streetNumber";
+                obj.value = accRec[0].get("BillingStreet"); */
+                records[16] = obj;
+                obj = new Object();
+                obj.name = "streetName";
+                obj.value = accRec[0].get("BillingStreet");                               
+                records[17] = obj;
+                obj = new Object();
+                obj.name = "businessName";
+                obj.value = accRec[0].get("Company_Name__c");
+                records[18] = obj;
+                          if (profileId=="00e40000000nYckAAE") {
+                alert('here');
+            }
+            }       
+        }
+        console.log('Debug Phase 6');
+        var formTags = "<form id='myForm'></form>";
+        $("body").append(formTags);
+     
+         //kj: 10/15/13
+        try{
+                console.log('Debug Phase 7');
+                var query1 = sforce.connection.query("Select URL_Value__c FROM Control_Call__c where URL_Name__c ='"+envBtn+"'") ;  
+        
+                var resultset = query1.getArray("records");
+                var envUrl = "";
+                if( resultset.length > 0 ){
+                        envUrl = resultset[0].get("URL_Value__c");
+                }        
+        }
+        catch(err){
+                alert(err);
+        }
+        console.log('Debug Phase 8'); 
+        $("#myForm").attr("action",envUrl);
+        
+        
+     $("#myForm").attr("target", "theIframe"); 
+ 
+        $("#myForm").attr("method", "POST");
+        $("#myForm").attr("name", "SalesforceForm");
+
+        console.log('Debug Phase 9');
+        for(var i=0; i < records.length; i ++) {
+           var hiddenFields = "<input type='hidden' id=\""+i.toString()+"\"/>";
+            var elemId = "#" + i.toString();
+            $("#myForm").append(hiddenFields);
+            $(elemId).attr("name", records[i].name);
+            $(elemId).attr("value", records[i].value);
+            
+            var profileId = "{!$User.ProfileId}";
+            //alert (profileId);
+            if (profileId=="00e40000000nYckAAE") {
+                //alert(records[i].value);
+            }
+            console.log('RECORDS[I]: '+records[i]);
+        }
+        $("#myForm").submit();
+    }
+    catch(err){
+         //alert(err);
+    }
+    }
+    );
+    console.log('Debug Phase 11');
+    function gup( name ){
+    console.log('Debug Phase 12');
+        name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
+        var regexS = "[\\?&]"+name+"=([^&#]*)";  
+        var regex = new RegExp( regexS );  
+        var results = regex.exec( window.location.href ); 
+        
+        if( results == null )    
+            return "";  
+        else    
+            return results[1];            
+    }
+    
+ </script>
+ 
+</body>
+</html>
+</apex:page>

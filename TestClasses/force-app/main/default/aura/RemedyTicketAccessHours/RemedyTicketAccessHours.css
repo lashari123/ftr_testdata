@@ -1,0 +1,6 @@
+.THIS.container {
+    width: 400px;
+}
+.THIS.container .slds-p-around_small {
+    padding: 5px;
+}

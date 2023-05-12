@@ -1,0 +1,7 @@
+<apex:page standardController="Churn_Item__c" extensions="ChurnItemController" recordSetVar="cases" action="{!verifySelectedChurnItems}">
+   <apex:form >
+       <apex:pageBlock title="Verifying Selected Churn Items">
+            Selected Churn Items have been marked verified. You may return to the Case if you weren't returned automatically.
+        </apex:pageBlock>
+    </apex:form>    
+</apex:page>

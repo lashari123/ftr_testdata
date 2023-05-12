@@ -1,0 +1,69 @@
+<apex:page standardController="Lead"  tabStyle="Lead">
+
+    <apex:form >
+        <apex:pageMessages />
+        <apex:pageBlock title="Lead Edit" mode="edit" >
+
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" title="Save" value="Save"/>
+                <apex:commandButton action="{!cancel}" title="Cancel" value="Cancel"/>
+            </apex:pageBlockButtons>
+     
+            <apex:pageBlockSection collapsible="false" columns="2" title="Lead Information" >
+                    <apex:outputField value="{!Lead.OwnerId}" /> 
+                    <apex:inputField value="{!Lead.Status}"  />
+                       <apex:pageBlockSectionItem >
+                           <apex:outputLabel value=" First Name"/>                       
+                           <apex:outputPanel >
+                            <apex:outputField value="{!Lead.Salutation}" />
+                            <apex:outputField value="{!Lead.FirstName}" />
+                           </apex:outputPanel>
+                       </apex:pageBlockSectionItem> 
+                    <apex:outputField value="{!Lead.Phone}" />
+                    <apex:outputField value="{!Lead.LastName}"  />
+                    <apex:outputField value="{!Lead.Email}" />                
+                    <apex:outputField value="{!Lead.Company}"  />
+                    <apex:outputField value="{!Lead.Rating}" />
+                    <apex:outputField value="{!Lead.Title}" />
+                    <apex:outputField value="{!Lead.Take_The_Lead_ID__c}" id="TTLId"/>
+                    <apex:outputField value="{!Lead.Region__c}" />
+                    <apex:outputField value="{!Lead.Local_Area_Market__c}" />
+                    <apex:outputField value="{!Lead.Disposition_Category__c}" />
+                    <apex:outputField value="{!Lead.Disposition__c}" />
+            </apex:pageBlockSection>       
+
+            <apex:pageBlockSection collapsible="false" columns="2" title="Address Information">
+                        <apex:outputField value="{!Lead.Street}" />
+                        <apex:outputField value="{!Lead.Website}" />
+                        <apex:outputField value="{!Lead.City}" />
+                        <apex:outputLabel />
+                        <apex:outputField value="{!Lead.State}" />
+                        <apex:outputLabel />
+                        <apex:outputField value="{!Lead.PostalCode}" />
+                        <apex:outputLabel />
+                        <apex:outputField value="{!Lead.Country}" />
+            </apex:pageBlockSection>
+                    
+            <apex:pageBlockSection collapsible="false" columns="2" title="Additional Information" >
+                    <apex:outputField value="{!Lead.Customer_Status__c}" />
+                    <apex:outputField value="{!Lead.LeadSource}" />
+                    <apex:outputField value="{!Lead.Description}" />
+                    <apex:outputField value="{!Lead.Switched_Access_Lines__c}" />
+                    <apex:outputField value="{!Lead.Total_Wire_Line_BIll__c}" />
+                    <apex:outputField value="{!Lead.VOIP_Index__c}" />
+                    <apex:outputField value="{!Lead.Metro_E_Index__c}" />
+                    <apex:outputField value="{!Lead.Node_Distance__c}" />
+                    <apex:outputField value="{!Lead.Node_City__c}" />
+                    <apex:outputField value="{!Lead.HSI_Lines_Replaced__c}" />
+
+            </apex:pageBlockSection>      
+
+            <apex:pageBlockSection collapsible="false" columns="1" >
+       
+                    <apex:inputField value="{!Lead.TTL_Journal_Update__c}" required="true" style="width:60%;height:80px;"/>
+                    
+            </apex:pageBlockSection>      
+            
+        </apex:pageBlock>        
+     </apex:form>
+</apex:page>

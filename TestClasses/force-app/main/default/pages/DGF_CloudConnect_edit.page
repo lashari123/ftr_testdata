@@ -1,0 +1,19 @@
+<apex:page standardController="DGF__c" extensions="DGF_ExtensionController">
+    <apex:form >
+        <apex:pageBlock title="Cloud connect" mode="edit">
+        	<apex:pageBlockSection columns="2">
+            	<apex:inputField id="CloudConnect_Service_Provider" value="{!DGF__c.CloudConnect_Service_Provider__c}" onchange="onCcServiceProviderChange(this)" />
+            	<apex:inputField id="CloudConnect_Service_Provider_Other" value="{!DGF__c.CloudConnect_Service_Provider_Other__c}" />
+            	<apex:inputField id="CloudConnect_Service_Provider_Metro" value="{!DGF__c.CloudConnect_Service_Provider_Metro__c}" />
+            	<apex:inputField id="CloudConnect_Local_Remote" value="{!DGF__c.CloudConnect_Local_Remote__c}" />
+            </apex:pageBlockSection>
+        	<apex:pageBlockSection id="CloudConnect_Microsoft" title="Microsoft Azure Information" columns="2">
+            	<apex:inputField id="CloudConnect_BGP_Peering" value="{!DGF__c.CloudConnect_BGP_Peering__c}" />
+            	<apex:inputField id="CloudConnect_Secondary_VLAN_ID" value="{!DGF__c.CloudConnect_Secondary_VLAN_ID__c}" />
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    <script>
+    	function onCcServiceProviderChange(cmp) {}
+    </script>
+</apex:page>

@@ -1,0 +1,74 @@
+<apex:page standardController="Lead"  tabStyle="Lead">
+
+
+<apex:pageBlock >
+             <apex:pageBlockSection title="Error" columns="1" >
+                    <font color="RED" size="3">
+                        </br>
+                        </br>
+                        <B> Leads of type, “Take the Lead” cannot be created from within Salesforce.com; these leads must originate in the Take the Lead system.  Please go <a href="/00Q/o">back</a> and create a different type of Lead. </B> 
+                        </br>
+                        </br>
+                        </br>
+                        
+                     </font>  
+                         
+              </apex:pageblockSection>
+         </apex:pageBlock> 
+
+   <!--
+    <apex:form >
+        <apex:pageMessages />
+        <apex:pageBlock title="Lead Edit" mode="edit" >
+
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" title="Save" value="Save"/>
+                <apex:commandButton action="{!cancel}" title="Cancel" value="Cancel"/>
+            </apex:pageBlockButtons>
+     
+            <apex:pageBlockSection collapsible="false" columns="2" title="Lead Information" >
+                    <apex:outputField value="{!Lead.OwnerId}" /> 
+                    <apex:inputField value="{!Lead.Status}"  />
+                       <apex:pageBlockSectionItem >
+                           <apex:outputLabel value=" First Name"/>                       
+                           <apex:outputPanel >
+                            <apex:inputField value="{!Lead.Salutation}" />
+                            <apex:inputField value="{!Lead.FirstName}" />
+                           </apex:outputPanel>
+                       </apex:pageBlockSectionItem> 
+                    <apex:inputField value="{!Lead.Phone}" />
+                    <apex:inputField value="{!Lead.LastName}"  />
+                    <apex:inputField value="{!Lead.Email}" />                
+                    <apex:inputField value="{!Lead.Company}"  />
+                    <apex:inputField value="{!Lead.Rating}" />
+                    <apex:inputField value="{!Lead.Title}" />
+                    <apex:inputField value="{!Lead.Region__c}" />
+                    <apex:inputField value="{!Lead.Local_Area_Market__c}" />
+                    <apex:inputField value="{!Lead.Take_The_Lead_ID__c}" required="true" />
+                   
+            </apex:pageBlockSection>       
+
+            <apex:pageBlockSection collapsible="false" columns="2" title="Address Information">
+                        <apex:inputField value="{!Lead.Street}" />
+                        <apex:inputField value="{!Lead.Website}" />
+                        <apex:inputField value="{!Lead.City}" />
+                        <apex:outputLabel />
+                        <apex:inputField value="{!Lead.State}" />
+                        <apex:outputLabel />
+                        <apex:inputField value="{!Lead.PostalCode}" />
+                        <apex:outputLabel />
+                        <apex:inputField value="{!Lead.Country}" />
+            </apex:pageBlockSection>
+                    
+            <apex:pageBlockSection collapsible="false" columns="2" title="Additional Information" >
+                    <apex:inputField value="{!Lead.Customer_Status__c}" />
+                    <apex:inputField value="{!Lead.LeadSource}" />
+                    <apex:inputField value="{!Lead.Description}" />
+                    <apex:inputField value="{!Lead.TTL_Journal_Update__c}" />
+                    
+            </apex:pageBlockSection>      
+            
+        </apex:pageBlock>        
+     </apex:form>
+  -->
+</apex:page>

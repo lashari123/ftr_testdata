@@ -1,0 +1,24 @@
+<apex:page standardController="order" extensions="OrderRedirectController" showheader="true"  >
+    <apex:form id="TheForm">
+        <apex:pageBlock title="Select Order Types">
+        <apex:pageBlockSection id="error">
+            <apex:pageMessages />
+        </apex:pageBlockSection>  
+        <apex:pageBlockSection >
+            <apex:inputField value="{!ord.RecordTypeId}" label="Record Type">
+                <apex:actionSupport event="onchange" reRender="productType"/>
+            </apex:inputField>
+            <apex:inputField value="{!ord.Product_Type__c}" label="Product Type" id="productType"/>
+        </apex:pageBlockSection>
+        <div align="center" draggable="false" >
+            <apex:commandButton action="{!Next}" value="Next" /> 
+        </div>
+        </apex:pageBlock>
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{!RecordTypeDescription}" var="recType">
+                <apex:column value="{!recType.Name}"/>
+                <apex:column value="{!recType.description}" />
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>      
+</apex:page>

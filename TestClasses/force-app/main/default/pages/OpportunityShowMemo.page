@@ -1,0 +1,51 @@
+<apex:page standardController="Opportunity" extensions="OpportunityOverride" > 
+<apex:form >
+    <apex:pageBlock >
+        <apex:pageBlockSection title="History" collapsible="false" columns="1" id="pbSavedMemos">
+        
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Saved Memo(s)"/>
+                        <apex:selectList id="sel1" value="{!selectedSavedMemo}" style="width:200px" size="1">
+                            <apex:selectOptions value="{!SavedMemoList}" />
+                                <apex:actionSupport event="onchange" rerender="opMemos" status="pleaseWait"/>
+                        </apex:selectList>                    
+                   </apex:pageBlockSectionItem>    
+                    
+                    <apex:actionStatus id="pleaseWait">
+                            <apex:facet name="start">
+                               <b>Loading...</b>    
+                             </apex:facet>
+                         </apex:actionStatus>
+                    <apex:outputPanel id="opMemos">                         
+                    <apex:pagemessages />           
+                        <apex:pageBlockTable value="{!SelectedMemoList}" var="item" >
+                            <apex:column headervalue="  Action performed.">
+                                <apex:outputLabel value="{!item.Operation__c}"/>
+                            </apex:column>                           
+                            <apex:column headervalue="User Email">
+                                <apex:outputLabel value="{!item.User__r.Email}"/>
+                            </apex:column>
+                            <apex:column headervalue="User CSRID">
+                                <apex:outputLabel value="{!item.User_csrid__c}"/>
+                            </apex:column>  
+                            <apex:column headervalue="DateTime">
+                                <apex:outputLabel value="{!item.CreatedDate}"/>
+                            </apex:column>                                                                      
+                            <apex:column headervalue="Field API Name">
+                                <apex:outputLabel value="{!item.FieldAPIName__c}"/>
+                            </apex:column>
+                            <apex:column headervalue="Field Old Value">
+                                <apex:outputLabel value="{!item.FieldOldVaue__c}"/>
+                            </apex:column>
+                            <apex:column headervalue="Field New Value">
+                                <apex:outputLabel value="{!item.FieldNewValue__c}"/>
+                            </apex:column>                  
+                            <apex:column headervalue="Memo">
+                                <apex:outputLabel value="{!item.Memo__c}"/>
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:outputPanel>             
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:form>   
+</apex:page>

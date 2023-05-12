@@ -1,0 +1,421 @@
+<apex:page standardController="Lead" extensions="AddressValidationController" sidebar="false">
+<style>          
+ .dropDownWidth {
+     width : 160px;         
+ }
+ .customPopup{
+    background-color: white;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #7E3517;
+    left: 50%;
+    position: absolute !important;
+    z-index: 9999;
+    /* These are the 3 css properties you will need to tweak so the pop 
+    up displays in the center of the screen. First set the width. Then set 
+    margin-left to negative half of what the width is. You can also add 
+    the height property for a fixed size pop up.*/
+    width: 650px;
+    margin-left: -250px;
+    top: 100px;
+    height: 40%;
+    overflow: auto;
+}
+.closeIconClass{
+    left: 50%;
+    position: absolute !important;
+    z-index: 9999;
+    /* These are the 3 css properties you will need to tweak so the pop 
+    up displays in the center of the screen. First set the width. Then set 
+    margin-left to negative half of what the width is. You can also add 
+    the height property for a fixed size pop up.*/
+    margin-left: 400px !important;
+    top: 77px !important;
+    height: 34px !important;
+}
+.activeTab {
+    background-color: #7E3517; 
+    color:white !important; 
+    background-image:none;
+    font-weight: bold !important;
+}
+.tableHeaderCol{
+    font-weight: bold !important;
+    font-size: 0.96em !important
+}
+.inactiveTab { 
+    background-color: lightgrey; 
+    color:black; 
+    background-image:none;
+}
+.buttonClass {
+  bgcolor:white;
+  background-image:url('{!$Resource.CloseIcon}')!important;
+  width:25px;
+  height:25px;
+  border-width:0px !important;
+  background-repeat:no-repeat !important;
+}
+.closeButtonClass{
+  background-image:url('{!$Resource.CloseButton}')!important;
+  width:24px;
+  height:24px;
+  border-width:0px !important;
+  background-repeat:no-repeat !important;
+  cursor:pointer !important;
+}
+
+</style>
+<script>
+        function colorPageBlock(pageblock, color) {
+            if (pageblock != null) pageblock.firstChild.style.cssText = "background-color: " + color + ";";
+        }
+</script>
+<apex:pageMessages id="msg"></apex:pageMessages>
+    <apex:form id="theform">
+        <apex:pageBlock id="addressValidationSection" title="Address Validation">            
+                    <apex:pageBlockSection id="dataCaptureSection" columns="1">    
+                        <apex:pageBlockSectionItem labelStyle="width:25%;align:right">
+                                <div><b>Select Criteria</b></div>
+                                <apex:selectList styleClass="dropDownWidth" id="searchCriteria" label="Search Criteria" value="{!selectCriteriaDef}" size="1" title="Search Criteria">                                                                     
+                                            <apex:actionSupport event="onchange" action="{!reLoadAddressValidation}" reRender="theform">
+                                            </apex:actionSupport>
+                                           <apex:selectOptions value="{!searchCritLst}"></apex:selectOptions>
+                                 </apex:selectList>                     
+                         </apex:pageBlockSectionItem>    
+                        <apex:pageBlockSectionItem > 
+                            <div style="height:1px"></div>
+                        </apex:pageBlockSectionItem> 
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}">
+                                <!-- <apex:outputLabel value="Street Number"/> -->
+                                <div><b>Street Number</b></div>
+                                <apex:inputText id="streetNumber" label="Street Number" value="{!selectedStrtNumber}"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}"> 
+                            <div style="height:1px"></div>
+                        </apex:pageBlockSectionItem>                        
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}">
+                                <!-- <apex:outputLabel value="Street Name"/> -->
+                                <div><b>Street Name</b><span style="color:red;font-size:12pt">*</span></div>
+                                <apex:inputText id="streetName" label="Street Name" value="{!selectedStrtName}" size="110"/>
+                           </apex:pageBlockSectionItem> 
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}"> 
+                            <div style="height:1px"></div>
+                        </apex:pageBlockSectionItem>                           
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}">
+                                <!-- <apex:outputLabel value="Street Subtitle (Ln,Ave,etc..)"/> -->
+                                <div><b>Street Subtitle (Ln,Ave,etc..)</b></div>
+                                <apex:inputText id="streetSubTitle" label="Street Subtitle (Ln,Ave,etc..)" value="{!selectedStrtSubtitle}" size="110"/>
+                            </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}"> 
+                            <div style="height:1px"></div>
+                        </apex:pageBlockSectionItem>                            
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}">
+                                <!-- <apex:outputLabel value="City"/> -->
+                                <div><b>City</b><span style="color:red;font-size:12pt">*</span></div>
+                                <apex:inputText id="cityId" label="City" value="{!selectedCity}" size="110"/>
+                            </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}"> 
+                            <div style="height:1px"></div>
+                        </apex:pageBlockSectionItem>                            
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}">
+                                <!-- <apex:outputLabel value="State"/> -->
+                                <div><b>State</b><span style="color:red;font-size:12pt">*</span></div>
+                                 <apex:selectList styleClass="dropDownWidth" id="stateList" label="State" value="{!stateListDef}" size="1" title="States">                            
+                                    <apex:selectOptions value="{!statesList}" ></apex:selectOptions>
+                                </apex:selectList>
+                            </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}"> 
+                            <div style="height:1px"></div>
+                        </apex:pageBlockSectionItem>                            
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}">
+                                <!-- <apex:outputLabel value="Zip Code"/> -->
+                                <div><b>Zip Code</b><span style="color:red;font-size:12pt">*</span></div>
+                                 <apex:inputText id="zipCode" label="Zip Code" value="{!selectedZipCode}"/>
+                            </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}"> 
+                            <div style="height:1px"></div>
+                        </apex:pageBlockSectionItem>                            
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}">
+                                <!-- <apex:outputLabel value="Street Subdescription (W, Apt B, etc..)"/> -->
+                                <div><b>Street Subdescription (W, Apt B, etc..)</b></div>
+                                 <apex:inputText id="streetSubDesc" label="Street Subdescription (W, Apt B, etc..)" value="{!selectedStrtSubDescription}" size="110"/>
+                            </apex:pageBlockSectionItem>                            
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef!='Address',true,false)}">
+                                <!-- <apex:outputLabel value="Telephone #"/> -->
+                                <div><b>Telephone #</b><span style="color:red;font-size:12pt">*</span></div>
+                                 <apex:inputText id="telephoneNum" label="Telephone #" value="{!selectedTelNum}"/>
+                         </apex:pageBlockSectionItem>                        
+                        <apex:pageBlockSectionItem rendered="{!IF(selectCriteriaDef='Address',true,false)}"> 
+                            <div style="height:1px"></div>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                                <apex:panelGrid columns="7">
+                                    
+                                    <apex:outputText > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</apex:outputText>                             
+                                    <apex:outputText > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</apex:outputText>                             
+                                    <apex:commandButton value="Validate Physical Address" action="{!validatePhysicalAddress}"/>
+                                    <apex:outputText > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</apex:outputText>
+                                    <apex:commandButton value="Search Physical Address" action="{!searchPhysicalAddress}" rendered="{!IF(selectCriteriaDef='Address',true,false)}"/>
+                                    <apex:outputText > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</apex:outputText>
+                                    <apex:commandButton value="Reset" action="{!resetFields}"/>
+                                </apex:panelGrid> 
+                        </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection>      
+                     <apex:outputPanel id="popupPanel">
+                        <apex:outputPanel styleClass="closeIconClass" rendered="{!displayPopup}">
+                            <apex:commandButton action="{!closePopup}" styleClass="closeButtonClass" rerender="popupPanel"/>
+                        </apex:outputPanel>
+                        <apex:outputPanel title="Service Address" styleClass="customPopup" layout="block" rendered="{!displayPopup}">                                                                                       
+                        <apex:outputPanel layout="block">
+                            <apex:pageBlockSection columns="2">    
+                        <apex:pageBlockSectionItem labelStyle="width:25%;align:right">
+                            <div><b>Street #</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.StreetNrFirst}"/>             
+                         </apex:pageBlockSectionItem> 
+                         <apex:pageBlockSectionItem labelStyle="width:25%;align:left">                             
+                            <div><b>Building #</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.BuildingNumber}"/>     
+                          </apex:pageBlockSectionItem>
+                         <apex:pageBlockSectionItem >                             
+                            <div><b>Street Name</b></div>
+                            <apex:outputText value="{!currentSelectedRecForPopup.StreetName}"/>     
+                          </apex:pageBlockSectionItem>  
+                         <apex:pageBlockSectionItem >                             
+                            <div><b>Building Name</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.BuildingName}"/>     
+                          </apex:pageBlockSectionItem>  
+                         <apex:pageBlockSectionItem >                             
+                            <div><b>Street Suffix</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.StreetNameSuffix}"/>     
+                          </apex:pageBlockSectionItem>      
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Building SubNumber</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.BuildingSubNumber}"/>     
+                          </apex:pageBlockSectionItem>  
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>City</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.Locality}"/>     
+                          </apex:pageBlockSectionItem>  
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Street Direction</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.StreetDirection}"/>     
+                          </apex:pageBlockSectionItem>  
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>State</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.StateOrProvince}"/>     
+                          </apex:pageBlockSectionItem>  
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Street SubDirection</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.StreetPostDirection}"/>     
+                          </apex:pageBlockSectionItem>  
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Zip Code</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.Postcode}"/>     
+                          </apex:pageBlockSectionItem>  
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>SubDivision</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.Subdivision}"/>     
+                          </apex:pageBlockSectionItem>  
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Locality ID</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.LocalityID}"/>     
+                          </apex:pageBlockSectionItem>  
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Tax District</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.TaxingDistrict}"/>     
+                          </apex:pageBlockSectionItem>  
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Wire Center</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.WireCenter}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Exchange</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.Exchange}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>HSI Capable</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.HSICapableFlag}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Fiber Capable</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.FiberProductCapableFlag}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>HSI Max Speed(Down/Up)</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.HSIMaxSpeed}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Fiber Speed(Down/Up)</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.FiberSpeed}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>HSI Premium Speed(Down/Up)</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.HSIPremiumSpeed}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Transport Medium</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.TransportMedium}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Line Card Status</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.LineCardStatus}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Data Region</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.DataRegion}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Pricing Segment</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.PricingSegmentIndicator}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Home Owner Association</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.HomeOwnerAssociationFlag}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Local Franchise Agreement</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.LocalFranchiseAgreementFlag}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Unit SequenceNumber</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.UnitSeqNumber}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Unit Designator</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.UnitDesignator}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Unit Number</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.UnitNumber}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Connected Line Cards Found</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.ConnectedLineCardsFoundFlag}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Fiber Video Available</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.FiberVideoAvailableFlag}"/>     
+                          </apex:pageBlockSectionItem> 
+                           <apex:pageBlockSectionItem >                             
+                            <div><b>Pair Count From</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.PairCountFrom}"/>     
+                          </apex:pageBlockSectionItem> 
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Pair Count To</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.PairCountTo}"/>     
+                          </apex:pageBlockSectionItem> 
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Fiber Drop Status</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.FiberDropStatus}"/>     
+                          </apex:pageBlockSectionItem> 
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Fiber Drop Type</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.FiberDropType}"/>     
+                          </apex:pageBlockSectionItem> 
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Dropped Flag</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.DroppedFlag}"/>     
+                          </apex:pageBlockSectionItem> 
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Dedicated Pair</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.DedicatedPair}"/>     
+                          </apex:pageBlockSectionItem> 
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Plant Type</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.PlantType}"/>     
+                          </apex:pageBlockSectionItem> 
+                          <apex:pageBlockSectionItem >                             
+                            <div><b>Wire Center CLLI</b></div>
+                             <apex:outputText value="{!currentSelectedRecForPopup.CentralOffice}"/>     
+                          </apex:pageBlockSectionItem>                                               
+                         </apex:pageBlockSection>
+                         <apex:pageBlockSection columns="1">
+                             <apex:pageBlockTable id="technologyTree" var="eachTechnologyRec" value="{!currentSelectedRecForPopup.TechGroupTableRows}"> 
+                                <apex:column headerValue="Technology Group" headerClass="tableHeaderCol">           
+                                    <apex:outputText value="{!eachTechnologyRec.TechnologyGroup}" />
+                                </apex:column> 
+                                <apex:column headerValue="Speed" headerClass="tableHeaderCol">               
+                                    <apex:outputText value="{!eachTechnologyRec.AvailableSpeed}" />
+                                </apex:column>
+                                <apex:column headerValue="Technology" headerClass="tableHeaderCol">
+                                    <apex:outputText value="{!eachTechnologyRec.Technology}" >
+                                    </apex:outputText>
+                                </apex:column>          
+                                <apex:column headerValue="Modem Item" headerClass="tableHeaderCol">
+                                    <apex:outputText value="{!eachTechnologyRec.DefaultModem}" />
+                                </apex:column>
+                                <apex:column headerValue="Download in KBS" headerClass="tableHeaderCol">
+                                    <apex:outputText value="{!eachTechnologyRec.MaxDslamSpeed}" />
+                                </apex:column>
+                             </apex:pageBlockTable>
+                            </apex:pageBlockSection> 
+                              </apex:outputPanel>
+                        </apex:outputPanel>
+                    </apex:outputPanel>  
+                                            
+                    <apex:tabPanel switchType="client" selectedTab="Address" id="addressesTabPanel"
+                        tabClass="activeTab" inactiveTabClass="inactiveTab">
+                        <apex:tab label="Address" name="Address" id="tabOne">
+                                <apex:pageBlockSection title="Service Address" id="serviceAddressPanel" rendered="true" columns="1">                                                        
+                                    <apex:pageBlockTable id="addressTable" var="eachAddressRecord" value="{!allAddressRecords}">        
+                                            <apex:column headerValue="Action" headerClass="tableHeaderCol">
+                                                <apex:commandLink value="View..." action="{!showPopup}">
+                                                    <apex:param name="recordId"
+                                                            value="{!eachAddressRecord.idVal}"
+                                                            assignTo="{!recordId}"/>
+                                                    </apex:commandLink>
+                                            </apex:column>                                              
+                                            <apex:column headerValue="Seq #" headerClass="tableHeaderCol">           
+                                                <apex:outputText value="{!eachAddressRecord.ServiceSequenceNumber}"/>
+                                            </apex:column>  
+                                            <apex:column headerValue="Street #" headerClass="tableHeaderCol">               
+                                                <apex:outputText value="{!eachAddressRecord.StreetNrFirst}"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Street Direction" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.StreetDirection}" >
+                                                </apex:outputText>
+                                            </apex:column>          
+                                            <apex:column headerValue="Street Name" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.StreetName}" />
+                                            </apex:column>
+                                            <apex:column headerValue="Street Subtitle" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.StreetSuffix}" />     
+                                            </apex:column>
+                                            <apex:column headerValue="Street Subdescription" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.StreetSubDescription}" />     
+                                            </apex:column>
+                                            <apex:column headerValue="City" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.Locality}" />     
+                                            </apex:column>
+                                            <apex:column headerValue="State" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.StateOrProvince}" />     
+                                            </apex:column>
+                                            <apex:column headerValue="Zip Code" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.Postcode}" />     
+                                            </apex:column>
+                                            <apex:column headerValue="HSI Capable" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.HSICapableFlag}" />     
+                                            </apex:column>
+                                            <apex:column headerValue="HSI Max Speed (Down/Up)" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.HSIMaxSpeed}" />     
+                                            </apex:column>
+                                            <apex:column headerValue="HSI Premium Speed (Down/Up)" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.HSIPremiumSpeed}" />     
+                                            </apex:column>
+                                            <apex:column headerValue="Fiber Capable" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.FiberProductCapableFlag}" />     
+                                            </apex:column>
+                                            <apex:column headerValue="Fiber Speed (Down/Up)" headerClass="tableHeaderCol">
+                                                <apex:outputText value="{!eachAddressRecord.FiberSpeed}" />     
+                                            </apex:column>
+                                    </apex:pageBlockTable>
+                                    <script>colorPageBlock(document.getElementById("{!$Component.serviceAddressPanel}"), "#7E3517");</script>
+                                </apex:pageBlockSection>
+                        </apex:tab>                     
+                    </apex:tabPanel>
+                    
+                    
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

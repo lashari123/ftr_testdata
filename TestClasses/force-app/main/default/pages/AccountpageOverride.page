@@ -1,0 +1,309 @@
+<apex:page standardController="Account" extensions="AccountOverrideController" tabStyle="account">
+<script>
+    function SetSIC(code, descr)
+    {
+        var Sicinput = document.getElementById('{!$Component.editForm.coEdit.coSales.sicSect.siccode}');
+        var hSicinput = document.getElementById('{!$Component.editForm.coEdit.coSales.hsiccode}');
+        
+        if (Sicinput != null)
+        {
+        //        alert("GetVars-- Old value was " + Sicinput.innerHTML + " and new is " + code);
+            Sicinput.innerHTML = code;
+            hSicinput.value = code ;
+        
+        }
+                /*  this works fine, use with hidden real siccode and descr
+                    var wsite = document.getElementById("{!$Component.editForm.coEdit.coInf.Website}");
+                    if (wsite != null)
+                        wsite.value = code;
+                    else alert("Wsite is " + wsite);
+                */
+                
+         var desc = document.getElementById('{!$Component.editForm.coEdit.coSales.sdesc.ShortDesc}');
+         var hdescinput = document.getElementById('{!$Component.editForm.coEdit.coSales.hdesc}');
+         if (desc != null){
+              desc.innerHTML = descr;
+              hdescinput.value = descr;
+
+        }
+    }
+
+</script>
+    <apex:form rendered="{!isPartnerRecord}">
+        <apex:pageblock title="Partner Edit" mode="edit">
+            <apex:pageBlockButtons >
+                <apex:commandButton id="save" action="{!save}" title="Save" value="Save"/>
+                <apex:commandButton id="cancel" action="{!cancel}" title="Cancel" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageblocksection collapsible="false">
+                <apex:inputfield value="{!account.Name}"/>
+                <apex:inputfield value="{!account.PartnerType__c}"/>
+
+                <apex:inputfield value="{!account.ParentId}"/>
+                <apex:inputfield value="{!account.PartnerStage__c}"/>                
+
+                <apex:inputfield value="{!account.PartnerMasterAgent__c}"/>
+                <apex:inputfield value="{!account.PartnerStatus__c}"/>
+                
+                <apex:inputfield value="{!account.PartnerReferredBy__c}"/>
+                <apex:inputfield value="{!account.NumberOfEmployees}"/>
+
+                <apex:pageblocksectionitem />
+                <apex:inputfield value="{!account.NumberOfCustomers__c}"/>
+
+                <apex:pageblocksectionitem />                                
+                <apex:inputfield value="{!account.NumberOfSubAgents__c}"/>
+            </apex:pageblocksection>
+            <apex:pageblocksection title="Address Information" collapsible="false">
+                <apex:inputfield taborderhint="1" value="{!account.BillingStreet}"/>
+                <apex:inputfield taborderhint="5" value="{!account.ShippingStreet}"/>
+                <apex:inputfield taborderhint="2" value="{!account.BillingCity}"/>
+                <apex:inputfield taborderhint="6" value="{!account.ShippingCity}"/>
+                <apex:inputfield taborderhint="3" value="{!account.BillingState}"/>
+                <apex:inputfield taborderhint="7" value="{!account.ShippingState}"/>
+                <apex:inputfield taborderhint="4" value="{!account.BillingPostalcode}"/>
+                <apex:inputfield taborderhint="8" value="{!account.ShippingPostalcode}"/>
+                <apex:pageblocksectionitem /><apex:pageblocksectionitem />
+                <apex:inputfield taborderhint="9" value="{!account.Description}"/>
+            </apex:pageblocksection>
+        </apex:pageblock>
+    </apex:form>
+
+    <apex:form id="editForm" rendered="{!NOT(isPartnerRecord)}">
+        <apex:pageMessages />
+        <apex:pageBlock title="Company Edit" mode="edit" id="coEdit">
+
+            <apex:pageBlockButtons >
+                <apex:commandButton id="save" action="{!save1}" title="Save" value="Save" />
+                <apex:commandButton id="save_new" action="{!saveAndnew}" title="Save & New" value="Save & New"/>
+                <apex:commandButton id="cancel" action="{!cancel}" title="Cancel" value="Cancel"/>
+            </apex:pageBlockButtons>
+            
+            <apex:outputPanel rendered="{!If(bolIsSmallBusinnessUser=true,false,true)}" >  <!-- Added for the SMB User purpose -->
+                <apex:pageBlockSection collapsible="false" columns="2" title="Company Information" id="coInf">
+                    <apex:inputField value="{!account.Name}" required="true"  id="Name"/>
+                    <apex:inputField value="{!account.Funding_Type__c}" id="Funding_Type__c"/>
+                    <apex:inputField value="{!account.Federal_Tax_ID_No__c}" id="FedTaxID"/>
+                    <apex:inputField value="{!account.accountNumber}" id="accountNumber"/>
+                    <!-- <apex:inputField value="{!account.Phone}"  required="true" id="Phone"/> -->
+                    <apex:inputField value="{!account.Phone}"  required="true" id="Phone"/>  <!-- KJ 10/16/13 -->
+                    <apex:inputField value="{!account.SCMS_No__c}" id="SCMS_No__c"/>                                    
+                    <apex:inputField value="{!account.Fax}" id="Fax"/>
+                    <apex:inputField value="{!account.emailId1__c}" id="emailId1__c"/>
+                    <apex:inputField value="{!account.Site}" id="Location"/>
+                    <apex:inputField value="{!account.Website}" id="Website"/>
+                    <apex:inputField value="{!account.ParentId}" id="ParentId"/>
+                    
+                    
+                   <apex:inputField value="{!account.DW_Account_Join_Key__c}" id="DW_Account_Join_Key__c" rendered="{!If(OR($Profile.Name=='System Administrator',$Profile.Name=='Frontier System Administrator'),true,false)}"/>
+                         <apex:inputField value="{!account.Acct_Cust_End_Date__c}" id="Acct_Cust_End_Date__c"/>
+                         <!-- <apex:inputField value="{!account.Acct_Bill_Sys_Cd__c}" id="Acct_Bill_Sys_Cd__c"/>--->
+                         <!--<apex:inputField value="{!account.Acct_Bill_SubSys_Cd__c}" id="Acct_Bill_SubSys_Cd__c"/>-->
+                         <apex:inputField value="{!account.Acct_Uniq_Cust_No__c}" id="Acct_Uniq_Cust_No__c" rendered="{!If(OR($Profile.Name=='System Administrator',$Profile.Name=='Frontier System Administrator'),true,false)}"/>
+                         <apex:inputField value="{!account.Acct_Stat_Cd__c}" id="Acct_Stat_Cd__c"/>
+                          <apex:inputField value="{!account.Acct_Activation_Dt__c}" id="Acct_Activation_Dt__c"/>
+                           
+                          <!-- <apex:inputField value="{!account.Customer_Number__c }" id="Customer_Number__c"/>-->
+                          <apex:inputField value="{!account.Owner.CRIS_ID__c}" id="Cust_Sales_Rep_Cd__c" rendered="{!If(OR($Profile.Name=='System Administrator',$Profile.Name=='Frontier System Administrator'),true,false)}"/>
+                           <!--<apex:inputField value="{!account.Cust_Sales_Rep_Last_Nm__c}" id="Cust_Sales_Rep_Last_Nm__c"/>-->
+                           <!--<apex:inputField value="{!account.Cust_Sales_Rep_First_Nm__c}" id="Cust_Sales_Rep_First_Nm__c"/>-->
+                          <!-- <apex:inputField value="{!account.Cust_Seg_Nm__c}" id="Cust_Seg_Nm__c"/>-->
+                           <apex:inputField value="{!account.Acct_Cust_Type_Ds__c}" id="Acct_Cust_Type_Ds__c" rendered="{!If(OR($Profile.Name=='System Administrator',$Profile.Name=='Frontier System Administrator'),true,false)}"/>
+                    <apex:pageBlockSectionItem >                        
+                        <apex:outputlabel value="Owner" for="owner"/>
+                        <apex:outputText id="owner" title="Owner" value="{!owner}"/>                        
+                    </apex:pageBlockSectionItem> 
+                    <!-- Next Line Added by Christophe Soulet for Salesforce -->
+                    <apex:inputField value="{!account.Inactive_Company__c}" id="inactiveCompany"/>                 
+                    <!-- end of addendum by Christophe Soulet for Salesforce -->   
+                    <!-- ISR 39220 - 04/20/2012 CFovel -->
+                    <apex:inputField value="{!account.Customer_Number__c}" id="CustomerNumber" rendered="{!If(OR($Profile.Name=='Frontier System Administrator'),true,false)}"/>
+                    <apex:outputField value="{!account.Customer_Number__c}" id="CustomerNumber1" rendered="{!If(OR($Profile.Name=='Frontier System Administrator'),false,true)}"/>
+                    
+                    <apex:inputField value="{!account.Take_The_Lead_ID__c}" id="TakeTheLeadID"/>                           
+            </apex:pageBlockSection>       
+            <apex:pageBlockSection collapsible="false" columns="2" title="Company Sales Information" id="coSales">
+                    <apex:inputField value="{!account.Type}" id="cType"/>
+                    <apex:inputField value="{!account.AnnualRevenue}" id="revenue"/>
+                    <apex:inputField value="{!account.Rating}" id="priority"/>
+                    <apex:inputField value="{!account.NumberOfEmployees}" id="employees"/>            
+                    <apex:pageBlockSectionItem id="sicSect" >
+                        <apex:outputLabel value="SIC Code" for="my_field"/>
+                        <apex:outputPanel id="p2">
+                             <apex:outputText value="{!account.Industry_SIC_Code__c}" id="siccode"></apex:outputText>
+                             <a href="javascript: openPopup(%27/apex/SIC_SearchPopUp?id={!account.Id}%27, %27CCBCCLookup%27, 520, 490, %27width=540,height=490,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=yes%27,true);" onclick="javascript: setLastMousePosition(event);" title="SIC Search"><img src="/s.gif" alt="SIC Search"  class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" title="SIC Search"/>
+                             </a>                                 
+                        </apex:outputPanel>                         
+                    </apex:pageBlockSectionItem>
+                    <apex:inputField value="{!account.Public_Company__c}" id="pCompany" />
+                    <apex:pageBlockSectionItem id="sdesc">                
+                        <apex:outputLabel value="SIC Description" for="my_field" />
+                        <apex:outputText value="{!account.SIC_Desc__c}" id="ShortDesc" />
+                    </apex:pageBlockSectionItem>
+                    <apex:inputHidden value="{!account.Industry_SIC_Code__c}" id="hsiccode"/>
+                    <apex:inputHidden value="{!account.SIC_Desc__c}" id="hdesc" /> 
+                    <apex:inputField value="{!account.Assigned_Base__c}" id="aBase"/>
+                    <!-- $Profile.Name='Internal Alternate Executives',$Profile.Name='Agents',$Profile.Name='SubAgents'-->
+                    <apex:inputField value="{!account.Region__c}"  id="region" required="{!IF( OR($Profile.Name='Internal Alternate Channel Executives',$Profile.Name='Agents',$Profile.Name='Sub Agents'),'false','true')}"/>
+                    <apex:inputField value="{!account.Communication_Spend__c}" id="cSpend"/>
+                    <apex:inputField value="{!account.Year_Incorporated__c}" id="yIncorporated"/>
+                    <apex:inputField value="{!account.IT_Spend__c}" id="ITSpend"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection collapsible="false" columns="2" title="Legal Address Information" id="legaladdrInfo">
+                    <apex:inputField value="{!account.Legal_Street__c}" id="lStreet" required="true"/>
+                    <apex:inputField value="{!account.Legal_City__c}" id="lCity" required="true"/>
+                    <apex:inputField value="{!account.Legal_State__c}" id="lState" required="true"/>                
+                    <apex:inputField value="{!account.Legal_Zip__c}" id="lZip" required="true"/>
+                    <apex:inputField value="{!account.Legal_Country__c}" id="lCountry" required="true"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection collapsible="false" columns="2" title="Address Information" id="addrInfo">
+                    <apex:inputField value="{!account.Copy_Legal_Address_to_Billing_Address__c}" id="CLTB"/>
+                    <apex:inputField value="{!account.Copy_Legal_Address_to_Service_Address__c}" id="CLTS"/>
+                    <apex:inputField value="{!account.BillingStreet}" id="bStreet"/>
+                    <apex:inputField value="{!account.ShippingStreet}" id="sStreet"/>
+                    <apex:inputField value="{!account.BillingCity}" id="bCity"/>
+                    <apex:inputField value="{!account.ShippingCity}" id="sCity"/>
+                    <apex:inputField value="{!account.BillingState}" id="bState"/>                
+                    <apex:inputField value="{!account.ShippingState}" id="sState"/>
+                    <apex:inputField value="{!account.BillingPostalCode}" id="bZip"/>
+                    <apex:inputField value="{!account.ShippingPostalCode}" id="sZip"/>
+                    <apex:inputField value="{!account.BillingCountry}" id="bCountry"/>
+                    <apex:inputField value="{!account.ShippingCountry}" id="sCountry"/>
+            </apex:pageBlockSection>  
+ 
+            <apex:pageBlockSection collapsible="false" columns="1" title="Authorized Buyer Contact Information" id="buyerContInfo">
+                    <apex:inputField value="{!account.Authorized_Buyer_Contact__c}" id="abContact"/>
+                    <apex:inputField value="{!account.AB_Phone__c}" id="AB_Phone"/>
+                    <apex:inputField value="{!account.AB_Fax__c}" id="AB_Fax"/>
+                    <apex:inputField value="{!account.AB_Cell__c}" id="AB_Cell"/>
+                    <apex:inputField value="{!account.AB_Email__c}" id="AB_Email"/>                
+            </apex:pageBlockSection>  
+            <apex:pageBlockSection collapsible="false" columns="2" title="Billing Contact Information" id="billContInfo">
+                    <apex:inputField value="{!account.Primary_Billing_Contact__c}" id="Primary_Billing_Contact"/>
+                    <apex:inputField value="{!account.Secondary_Billing_Contact__c}" id="Secondary_Billing_Contact"/>
+                    <apex:inputField value="{!account.PB_Phone__c}" id="PB_Phone"/>
+                    <apex:inputField value="{!account.SB_Phone__c}" id="SB_Phone"/> 
+                    <apex:inputField value="{!account.PB_Fax__c}" id="PB_Fax"/>
+                    <apex:inputField value="{!account.SB_Fax__c}" id="SB_Fax"/>                                               
+                    <apex:inputField value="{!account.PB_Cell__c}" id="PB_Cell"/>
+                    <apex:inputField value="{!account.SB_Cell__c}" id="SB_Cell"/>                
+                    <apex:inputField value="{!account.PB_Email__c}" id="PB_Email"/>
+                    <apex:inputField value="{!account.SB_Email__c}" id="SB_Email"/>                                 
+            </apex:pageBlockSection>
+            <apex:pageBlockSection collapsible="false" columns="2" title="Customer Products and Details" id="custProdDetail">
+                    <apex:inputField value="{!account.Customer_Status__c}" id="Customer_Status"/>
+                    <apex:inputField value="{!account.Bal_Customer__c}" id="Bal_Customer"/>
+                   <!-- <apex:inputField value="{!account.DW_Customer_Id__c}" id="DW_Customer_Id"/>-->
+                    <apex:inputField value="{!account.Bal_Count__c}" id="Bal_Count"/> 
+                    <apex:inputField value="{!account.DW_Account_Join_Key__c}" id="DW_Account_Join_Key"/>
+                    <apex:inputField value="{!account.Centrex_Line__c}" id="Centrex_Line"/>                                               
+                    <apex:inputField value="{!account.LAM__c}" id="LAM"/>
+                    <apex:inputField value="{!account.Centrex_Count__c}" id="Centrex_Count"/>                
+                    <apex:inputField value="{!account.Good_Credit__c}" id="Good_Credit"/>
+                    <apex:inputField value="{!account.Sal_Customer__c}" id="Sal_Customer"/>                                 
+                    <apex:inputField value="{!account.Do_Not_Contact__c}" id="Do_Not_Contact"/>
+                    <apex:inputField value="{!account.Package_Customer__c}" id="Package_Customer"/>
+                    
+                    <!--<apex:inputField value="{!account.Market_Segment_Type__c}" id="Market_Segment_Type" rendered="{!If(OR($Profile.Name=='System Administrator',$Profile.Name=='AccountExec',$Profile.Name=='Frontier System Administrator',account.Market_Segment_Type__c==null,account.Market_Segment_Type__c==''),true,false)}"/>-->
+                    <apex:inputField value="{!account.Market_Segment_Type__c}" id="Market_Segment_Type" rendered="{!If(OR($Profile.Name=='Frontier System Administrator', account.Market_Segment_Type__c==null,account.Market_Segment_Type__c==''),true,false)}"/>
+                    <apex:outputField value="{!account.Market_Segment_Type__c}" id="Market_Segment_Type1" rendered="{!If(OR($Profile.Name=='Frontier System Administrator', account.Market_Segment_Type__c==null,account.Market_Segment_Type__c==''),false,true)}"/>
+                       <apex:inputField value="{!account.Custsegcode__c}" id="Custsegcode__c" rendered="{!If(OR($Profile.Name=='Frontier System Administrator', account.Custsegcode__c==null,account.Custsegcode__c==''),true,false)}"/>
+                    <apex:outputField value="{!account.Custsegcode__c}" id="Custsegcode__c1" rendered="{!If(OR($Profile.Name=='Frontier System Administrator', account.Custsegcode__c==null,account.Custsegcode__c==''),false,true)}"/>
+                    
+                    
+                        
+                            
+                        
+                          
+                        
+                               
+                        
+                    <apex:inputField value="{!account.Feature_Pack__c}" id="Feature_Pack"/> 
+                    <apex:inputField value="{!account.Min_Contract_Dt__c}" id="Min_Contract_Dt"/>
+                    <apex:inputField value="{!account.BHSI_Customer__c}" id="BHSI_Customer"/>                                               
+                    <apex:inputField value="{!account.Max_Contract_DT__c}" id="Max_Contract_DT"/>
+                    <apex:inputField value="{!account.Dail_Up_Customer__c}" id="Dail_Up_Customer"/>                
+                    <apex:inputField value="{!account.Monthly_Bill__c}" id="Monthly_Bill"/>
+                    <apex:inputField value="{!account.Product_Update_Date__c}" id="Product_Update_Date"/>
+                    <apex:inputField value="{!account.Switched_Access_Lines__c}" id="Switched_Access_Lines"/>
+                    <apex:inputField value="{!account.Total_Wire_Line_Bill__c}" id="Total_Wire_Line_Bill"/>
+                    <apex:inputField value="{!account.VOIP_Index__c}" id="VOIP_Index"/>
+                    <apex:inputField value="{!account.Metro_E_Index__c}" id="Metro_E_Index"/>
+                    <apex:inputField value="{!account.Node_Distance__c}" id="Node_Distance"/>
+                    <apex:inputField value="{!account.Node_City__c}" id="Node_City"/>
+                    <apex:inputField value="{!account.HSI_Lines_Replaced__c}" id="HSI_Lines_Replaced"/>
+                     
+                                 
+            </apex:pageBlockSection> 
+            
+            
+            <!-- Added for the Small Bussiness User Requirements-->  
+             </apex:outputPanel>
+         
+         <apex:outputPanel rendered="{!If(bolIsSmallBusinnessUser=true,true,false)}" >
+             <apex:pageBlockSection collapsible="false" columns="2" title="Company Information" id="coInf1">
+                    <apex:inputField value="{!account.Name}"   id="Name"/>
+                    <apex:inputField value="{!account.Federal_Tax_ID_No__c}" id="FedTaxID"/>
+                    <apex:inputField value="{!account.Customer_Number__c}" id="CustomerNumber"/>
+                    <apex:inputField value="{!account.Memo__c}" id="Memo__c" required="true" rendered="{!IF(id == null || id == '',true,false)}"/>  
+                    <apex:outputField value="{!account.Memo__c}" id="MemoReadOnly" rendered="{!IF(id == null || id == '',false,true)}"/>
+                    <apex:inputField value="{!account.Additional_Notes__c}" id="AdditionalNotes" rendered="{!IF(id == null || id == '',false,true)}"/>
+                    <apex:inputField value="{!account.Phone}"  required="true" id="Phone"/>
+                    <apex:inputField value="{!account.emailId1__c}" id="emailId1__c"/>
+                   <!-- <apex:inputField value="{!account.CSR_Type__c}" id="CSR_Type__c"/>                   
+                    <apex:inputField value="{!account.CustomerId__c}" id="CustomerId__c"/>
+                    <apex:inputField value="{!account.Company_Address__c}" id="Company_Address__c"/>
+                    <apex:inputField value="{!account.Company_Name__c}" id="Company_Name__c"/>
+                    <apex:inputField value="{!account.Company_Type__c}" id="Company_Type__c"/>  
+                    <apex:inputField value="{!account.Emailid2__c}" id="Emailid2__c"/>--> 
+                    
+             </apex:pageBlockSection>
+             
+             <apex:pageBlockSection collapsible="false" columns="2" title="Legal Address Information" id="legaladdrInfo1">
+                    <apex:inputField value="{!account.Legal_Street__c}" id="lStreet" required="true"/>
+                    <apex:inputField value="{!account.Legal_City__c}" id="lCity" required="true"/>
+                    <apex:inputField value="{!account.Legal_State__c}" id="lState" required="true"/>                
+                    <apex:inputField value="{!account.Legal_Zip__c}" id="lZip" required="true"/>
+                    <apex:inputField value="{!account.Legal_Country1__c}" id="lCountry1" required="true"/>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection collapsible="false" columns="2" title="Address Information" id="addrInfo1">
+                    <apex:inputField value="{!account.Copy_Legal_Address_to_Billing_Address__c}" id="CLTB"/>
+                    <apex:inputField value="{!account.Copy_Legal_Address_to_Service_Address__c}" id="CLTS"/>           
+                    <apex:inputField value="{!account.BillingStreet}" id="bStreet"/>
+                    <apex:pageblocksectionItem >
+                        Service Address <apex:inputField value="{!account.ShippingStreet}" id="sStreet"/>
+                    </apex:pageblocksectionItem>
+                    
+                    <apex:inputField value="{!account.BillingCity}" id="bCity"/>
+                    <apex:pageblocksectionItem >Service City <apex:inputField value="{!account.ShippingCity}" id="sCity"/></apex:pageblocksectionItem>
+                    <apex:inputField value="{!account.BillingState}" id="bState"/>                
+                    <apex:pageblocksectionItem >Service State<apex:inputField value="{!account.ShippingState}" id="sState"/></apex:pageblocksectionItem>
+                    <apex:inputField value="{!account.BillingPostalCode}" id="bZip"/>
+                    <apex:pageblocksectionItem >Service Postal code<apex:inputField value="{!account.ShippingPostalCode}" id="sZip"/></apex:pageblocksectionItem>
+                    <apex:inputField value="{!account.BillingCountry}" id="bCountry"/>
+                    <apex:pageblocksectionItem >Service Country<apex:inputField value="{!account.ShippingCountry}" id="sCountry"/></apex:pageblocksectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection collapsible="false" columns="2" title="Contact Information" id="billContInfo1">
+                    <apex:inputField value="{!account.Primary_Billing_Contact__c}" id="Primary_Billing_Contact"/>
+                    <apex:inputField value="{!account.Secondary_Billing_Contact__c}" id="Secondary_Billing_Contact"/>
+                    <apex:inputField value="{!account.PB_Phone__c}" id="PB_Phone"/>
+                    <apex:inputField value="{!account.SB_Phone__c}" id="SB_Phone"/> 
+                    <apex:inputField value="{!account.PB_Fax__c}" id="PB_Fax"/>
+                    <apex:inputField value="{!account.SB_Fax__c}" id="SB_Fax"/>                                               
+                    <apex:inputField value="{!account.PB_Cell__c}" id="PB_Cell"/>
+                    <apex:inputField value="{!account.SB_Cell__c}" id="SB_Cell"/>                
+                    <apex:inputField value="{!account.PB_Email__c}" id="PB_Email"/>
+                    <apex:inputField value="{!account.SB_Email__c}" id="SB_Email"/>                                 
+            </apex:pageBlockSection>
+                <!--<apex:pageBlockSection title="url" >
+                        <apex:inputField value="{!account.testURL__c}" id="testURL"/>
+                </apex:pageBlockSection>-->
+          </apex:outputPanel>                         
+        
+      </apex:pageBlock>  
+        
+        
+        
+     </apex:form>
+</apex:page>

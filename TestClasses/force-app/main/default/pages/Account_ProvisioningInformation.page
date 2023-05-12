@@ -1,0 +1,148 @@
+<apex:page sidebar="false" showHeader="false" controller="Account_Provisioning_Controller">
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;
+        <apex:outputpanel title="HuntGroup Info"/>
+        
+        <apex:repeat value="{!HuntGroup}" var="key" >
+            <apex:pageBlock mode="maindetail">
+               <apex:pageBlockTable value="{!mapFinalPilotNumber[key]}" var="hunt"> 
+                <apex:column />
+                <apex:column value="{!hunt.huntSeqNumber}" headerValue="Sequence Number"/>
+                <apex:column value="{!hunt.pilPhNum}" headerValue="Hunt Pilot Number"/>
+                <apex:column value="{!hunt.cnt}" headerValue="Out of"/>
+                <apex:column value="{!hunt.huntPhoneNumber}" headerValue="Hunt Group"/>
+                <apex:column value="{!hunt.Type}" headerValue="Hunt Type"/>
+                
+               </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:repeat>  
+       <apex:outputText value="" rendered="{!outOf}">
+                	<center><b><font color="red">No Data Available</font></b></center><br/>
+        </apex:outputText>
+       
+        <apex:pageBlock mode="maindetail">
+            <apex:pageBlockSection columns="2" title="Special Access Info">
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Customer <apex:outputLabel value="{!acc.SpecialAccess_Customer__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Circuit(CIR) # <apex:outputLabel value="{!acc.SpecialAccess_CIR_Number__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Service/Circuit Des. <apex:outputLabel value="{!acc.SpecialAccess_Type_SVC__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Circuit ID <apex:outputLabel value="{!acc.SpecialAccess_HI_CAP__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Due Date <apex:outputLabel />
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Pass Info to Saturn? <apex:outputLabel value="{!acc.SpecialAccess_FDR__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Plant Ready Date <apex:outputLabel value="">&nbsp;&nbsp;&nbsp;&nbsp;</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Plant Test Date <apex:outputLabel value="">&nbsp;&nbsp;&nbsp;&nbsp;</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Customer Req Due Date <apex:outputLabel value="">&nbsp;&nbsp;&nbsp;&nbsp;</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Universal Service Order # <apex:outputLabel value="{!acc.SpecialAccess_USO_Number__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ATT CIR# <apex:outputLabel value="{!acc.SpecialAccess_AT_T_CR_No__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    CIR # (for other carriers) <apex:outputLabel value="{!acc.SpecialAccess_OCC_CIR_No__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Priority <apex:outputLabel value="{!acc.SpecialAccess_TSP__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    CES Best Order # <apex:outputLabel value="{!acc.SpecialAccess_BEST__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    AID 1 <apex:outputLabel value="{!acc.SpecialAccess_AID1__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    AID 2<apex:outputLabel value="{!acc.SpecialAccess_AID2__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ABC <apex:outputLabel value="{!acc.SpecialAccess_ABC__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    TARIFF<apex:outputLabel value="{!acc.SpecialAccess_Tariff__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    FRED # <apex:outputLabel value="{!acc.SpecialAccess_FRQ__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Related Order # <apex:outputLabel value="{!acc.SpecialAccessRO__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Cross Related Order #<apex:outputLabel value="{!acc.SpecialAccess_CRO__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ASR Received Date <apex:outputLabel value="{!acc.SpecialAccess_RCDT__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Originating Address <apex:outputLabel value="{!acc.SpecialAccess_OA01__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Origination Location <apex:outputLabel value="{!acc.SpecialAccess_OLOC__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Termination Address <apex:outputLabel value="{!acc.SpecialAccess_TA01__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ​Termination Location <apex:outputLabel value="{!acc.SpecialAccess_TLOC__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Purchase order # <apex:outputLabel value="{!acc.SpecialAccess_PON__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    % of Inerstate Usage <apex:outputLabel value="{!acc.SpecialAccess_PIU__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    NC Code from ASR  <apex:outputLabel value="{!acc.SpecialAccess_NC_Code__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Completed Order Stage Code <apex:outputLabel value="{!acc.SpecialAccess_QC_Stage__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ​Network Channel Interface Code <apex:outputLabel value="{!acc.SpecialAccess_NCI__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ​Secondary Network Channel Interface Code <apex:outputLabel value="{!acc.SpecialAccess_SECNCI__c}"/> 
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Terminal Group <apex:outputLabel value="{!acc.SpecialAccess_TG__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Unbundled Network Element <apex:outputLabel value="{!acc.SpecialAccess_UNE__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Telephone # <apex:outputLabel value="{!acc.SpecialAccess_ATN__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Hot cut <apex:outputLabel value="{!acc.SpecialAccess_HCUT__c}"/>
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Digital loop <apex:outputLabel value="{!acc.SpecialAccess_DIGT__c}"/>        
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        
+        
+            
+            <br/><b>HUNT GROUP information from oneview</b>    
+            
+        </apex:pageBlock>
+    
+    
+
+
+
+
+</apex:page>

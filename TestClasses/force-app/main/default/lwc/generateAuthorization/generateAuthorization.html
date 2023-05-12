@@ -1,0 +1,27 @@
+<!--
+  @File Name          : textlwc.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 10/29/2019, 1:05:09 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/4/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<template>
+        <lightning-card title="Generate Authorization" icon-name="standard:record">
+
+                <template if:true={authorization.data}>
+                    <div class="slds-m-around_medium">
+                            <p>Click the below button to Generate Authorization</p>
+                        </div>
+                        <div>
+                                <lightning-button variant="brand"  class="slds-m-around_medium" label="Generate Authorization" onclick={generateAuthorization}></lightning-button>
+                            </div>
+                        </template>
+                <template if:true={authorization.error}>
+                    <!-- handle Apex error -->
+                </template>
+        </lightning-card>
+    </template>

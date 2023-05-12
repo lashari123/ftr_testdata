@@ -1,0 +1,40 @@
+<aura:component controller="productSelector_Controller" 
+                description="New SFA Quote - Product Selector" 
+                implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens" 
+                access="global">
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="maxRowSelection" type="Integer" default="20"/>
+	<aura:attribute name="products" type="ftrProductWrapper[]"/>
+	<aura:attribute name="filter" type="String" />
+	<aura:attribute name="pageNum" type="Integer" default="1" />
+	<aura:attribute name="numRecords" type="Integer" default="100" />
+	<aura:attribute name="numPages" type="Integer" default="0" />
+	<aura:attribute name="selected" type="List" access="global" />
+	<aura:attribute name="initialProducts" type="List" access="global" />
+	<aura:attribute name="opportunityId" type="String" access="global" />
+    <aura:method name="getSelectedProducts" action="{!c.getSelectedProducts}" />
+    <aura:method name="setSelectedProducts" action="{!c.setSelectedProducts}" />
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <div style="height: 70px;">
+		<lightning:input type="search" value="{!v.filter}" label="Search" style="width:25%; display:inline-block; margin-right:10px" />
+        <lightning:button onclick="{!c.filter}" label="Search" title="Search products for entered value" />
+    </div>
+    
+    <div style="height: 60%">
+        <lightning:datatable
+            aura:id="selector"
+            columns="{! v.columns }"
+            data="{! v.products }"
+            keyField="Id"
+            maxRowSelection="{! v.maxRowSelection }"
+            onrowselection="{! c.updateSelectedProducts }" />
+    </div>
+    <div class="slds-align_absolute-center" style="margin-top:10px;">            
+        <lightning:button disabled="{!v.pageNum == 1}" label="Previous Page" onclick="{! c.navigate }" />            
+        <lightning:button disabled="{!v.pageNum == v.numPages}" aura:id="previousPage" label="Next Page" onclick="{! c.navigate }" />
+    </div>
+    <div class="slds-align_absolute-center">
+        Page &nbsp; <ui:outputText value="{!v.pageNum}" /> &nbsp; of &nbsp; <ui:outputText value="{!v.numPages}" />
+    </div>
+</aura:component>

@@ -1,0 +1,18 @@
+<apex:page standardController="Opportunity" extensions="Smartvoicequote" docType="html-5.0">
+    <apex:pageBlock title="Fill Contract Pdf Data" >
+        <apex:pageBlockSection title="Contract Input Data"  >
+            <apex:form id="TheForm">
+                
+                
+                SCHEDULE ID &nbsp; &nbsp; &nbsp;<apex:inputText value="{!scheduleId}"  />
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; FSA DATE&nbsp; &nbsp; &nbsp; <apex:input type="date" value="{!todayDate}"  /><br/><br/><br/>
+                ADDITIONAL FRONTIER RESPONSIBILITES&nbsp; &nbsp; &nbsp;  <apex:inputTextarea value="{!addFrontierInfo}"  /><br/><br/><br/>
+                ADDITIONAL SITE INFORMATION&nbsp; &nbsp; &nbsp;  <apex:inputTextarea value="{!addSiteInfo}"  />
+                <br/><br/><br/>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <apex:commandButton action="{!save}" value="Save" id="theButton" />
+                
+                
+            </apex:form>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>

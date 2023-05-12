@@ -1,0 +1,58 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride" 
+    access="global" 
+    controller="sfaQuoteView_Controller">
+
+    <aura:attribute name="selectedProducts" type="List" />
+    <aura:attribute name="quoteItems" type="List" />
+    <aura:attribute name="products" type="List" />
+    <aura:attribute name="productSelectorShown" type="Boolean" default="true" />
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <lightning:card title="Quote Details">
+        <lightning:recordForm
+            aura:id="quoteDetails"
+            recordId="{!v.recordId}"
+            objectApiName="SterlingQuote__c"
+            layoutType="Full"
+            columns="2"
+            mode="edit" 
+            onsubmit="{!c.saveQuote}" />
+    </lightning:card>    
+
+    <lightning:card title="Selected Products">
+        <c:configureSfaQuote aura:id="configureProducts" products="{!v.quoteItems}" />
+    </lightning:card>
+
+    <aura:if isTrue="{!v.productSelectorShown}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                            onclick="{!c.hideProductSelector}"
+                                            alternativeText="close"
+                                            variant="bare-inverse"
+                                            class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add Products</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <c:productSelector aura:id="prodSelector" selected="{!v.selectedProducts}" initialProducts="{! v.quoteItems }" numRecords="18" />
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" 
+                                        label="Cancel"
+                                        title="Cancel"
+                                        onclick="{! c.hideProductSelector }" />
+                    <lightning:button variant="neutral" 
+                                        label="Add"
+                                        title="Add selected products to quote"
+                                        onclick="{! c.addSelectedProducts }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+
+    <div class="slds-align_absolute-center" style="padding:10px;">
+        <lightning:button label="Add Products" title="Add Products" onclick="{! c.showProductSelector }" />
+    </div>
+</aura:component>

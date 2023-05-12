@@ -1,0 +1,86 @@
+<aura:component controller="RemedySubmitTroubleTicket" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="data" type="List"/>
+    <aura:attribute name="filterdData" type="List"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute type="Boolean" name="displayTicketInfo" />
+    <aura:attribute type="Remedy_Ticket__c" name="ticketInfo" />
+    <aura:attribute type="Map" name="ticketsMap" />
+    <aura:attribute type="User" name="userInfo" />
+    <aura:attribute name="refreshData" type="boolean" default="false"/>
+    <aura:attribute name="showFields" type="boolean" default="true"/>
+    <aura:attribute name="openTicketModel" type="boolean" default="false"/>
+    <aura:attribute type="Boolean" name="isHomePage" default="false" />
+    
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    
+    <aura:attribute name="filter" type="String" />
+    
+    <aura:attribute name="sortBy" type="String"/>
+    <aura:attribute name="sortDirection" type="String"/>
+    <aura:attribute name="remedyList" type="Remedy_Ticket__c[]"/> 
+    
+    
+    <!-- handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.init }"/>
+    <aura:handler name="doChange" value="{!v.refreshData}" action="{!c.init}"/>
+    
+    <hr />
+    
+    <div style="height: 500px">
+        
+        <lightning:layout >          
+            <aura:if isTrue="{!v.isHomePage}" >
+                <lightning:layoutItem  class="slds-var-p-around_x-small">
+                    <span class="open_tickets">Open Tickets</span>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-var-p-around_x-small">
+                    <a class="slds-button slds-button_destructive" href="/Commercial/s/submit-new-ticket?app=commeditor">Create New Ticket</a>
+                </lightning:layoutItem>
+                <aura:set attribute="else">
+                    <lightning:layoutItem class="slds-var-p-around_x-small">
+                        <span class="open_tickets">Ticket Details</span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem class="slds-var-p-around_x-small">
+                        <img src="{!$Resource.troubleticket}"  height="30" width="30" />
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small">
+                        
+                        <a class="slds-button slds-button_destructive" href="/Commercial/s/submit-new-ticket?app=commeditor">Create New Ticket</a>
+                    </lightning:layoutItem>
+                    
+                </aura:set>
+                </aura:if>     
+           
+            <lightning:layoutItem alignmentBump="left" padding="around-small">            
+				<lightning:button class="slds-button slds-button_destructive" label="Export tickets as CSV" title="Export tickets as CSV file" onclick="{!c.download}" />
+            </lightning:layoutItem>   
+            
+           <lightning:layoutItem padding="around-small">
+                <c:Feedback pageName="Tickets" />
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem padding="around-small">
+                <lightning:input type="text" onchange="{!c.filter}" value="{!v.filter}" placeholder="Search"  variant="label-hidden" />
+                 </lightning:layoutItem> 
+            
+            </lightning:layout>        
+        
+        <hr style="margin-top:0px; margin-bottom:0px;"/>
+        <lightning:datatable
+                             keyField="Id"
+                             data="{!v.filterdData }"
+                             columns="{!v.columns }"
+                             hideCheckboxColumn="true"
+                             onrowaction="{!c.viewRecord}"
+                             sortedBy="{!v.sortBy}"
+                             sortedDirection="{!v.sortDirection}"
+                             onsort="{!c.handleSort}"
+                             />
+    </div>
+    <br />
+    <br />
+    <aura:if isTrue="{!v.openTicketModel}">
+        <c:TicketModal isModalOpen="{!v.isModalOpen}" ticketInfo="{!v.ticketInfo}" showFields="{!v.showFields}" openTicketModel="{!v.openTicketModel}"/>
+    </aura:if>
+</aura:component>

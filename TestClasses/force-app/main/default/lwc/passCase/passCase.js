@@ -1,0 +1,61 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-alert */
+import { LightningElement,api, track, wire } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { getRecord,} from 'lightning/uiRecordApi';
+import { updateRecord } from 'lightning/uiRecordApi';
+import { refreshApex } from '@salesforce/apex';
+import ID_FIELD from '@salesforce/schema/Case.Id';
+import STATE_FIELD from '@salesforce/schema/Case.Status';
+const fields = [
+    'Case.Id',
+    'Case.Status'];
+export default class passCase extends LightningElement {
+   
+    @track error;
+
+    @api recordId;
+    @track case11 = 'Pass';
+
+    @wire(getRecord, { recordId: '$recordId', fields })
+    cases;
+    get id() {
+        return this.cases.data.fields.Id.value;
+    }
+    get state() {
+        return this.cases.data.fields.Status.value;
+    }
+    passCase() {
+
+            const record = {
+                fields: {
+                    [ID_FIELD.fieldApiName]: this.id,
+                    [STATE_FIELD.fieldApiName]: this.case11,
+                }
+            };  
+
+            updateRecord(record)
+                .then(() => {
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: 'Success',
+                            message: 'Case Status updated to Pass',
+                            variant: 'success',
+                        }),
+                    );
+                    return refreshApex(this.cases);
+                })
+                .catch(error => {
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: 'Error creating record',
+                            message: error.body.message,
+                            variant: 'error',
+                        }),
+                    );
+                    console.log("Error:--->  ",error);
+                });
+            }
+        
+    }

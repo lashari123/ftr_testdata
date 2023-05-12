@@ -1,0 +1,100 @@
+<apex:page standardController="DGF__c" extensions="DGF_ExtensionController">
+   <apex:sectionHeader title="Data Gathering Form Edit" subtitle="New Data Gathering Form"/>
+	<style>
+        #CloudConnect_Microsoft h4 {
+        	display: block;
+        	padding: 20px 0 0 60px;
+        }
+    </style>
+	<apex:form >
+		<apex:pageBlock title="Data Gathering Form Edit" mode="edit">
+		     <apex:pageBlockButtons location="top">
+		        <apex:commandButton value="Save" action="{!save}"/>
+		        <apex:commandButton value="Cancel" action="{!cancel}"/>
+		     </apex:pageBlockButtons>
+		     <apex:pageBlockButtons location="bottom">
+		        <apex:commandButton value="Save" action="{!save}"/>
+		        <apex:commandButton value="Cancel" action="{!cancel}"/>
+		     </apex:pageBlockButtons>
+						
+			<apex:pageBlockSection title="Information" columns="2">
+				<apex:inputField value="{!DGF__c.Name}" required="true"/>
+				<apex:outputField value="{!DGF__c.Opportunity__c}" />
+				<apex:outputField value="{!DGF__c.Customer_Name__c}" />
+				<apex:inputField value="{!DGF__c.Contract_Schedule__c}" />
+				<apex:outputField value="{!DGF__c.Customer_Address__c}" />
+				<apex:outputField value="{!DGF__c.Contract_Term__c}" />
+				<apex:outputField value="{!DGF__c.Customer_Phone__c}" />
+				<apex:inputField value="{!DGF__c.Pricing_Methodology__c}" required="false"/>
+				<apex:inputField value="{!DGF__c.Customer_Contact__c}" />
+				<apex:outputField value="{!DGF__c.MRC__c}" />
+				<apex:inputField value="{!DGF__c.Customer_Contact_Phone__c}" />
+				<apex:outputField value="{!DGF__c.NRC__c}" />
+				<apex:inputField value="{!DGF__c.Customer_Contact_Email__c}" />
+			</apex:pageBlockSection>			
+
+			
+			<apex:pageBlockSection title="Global Contact Information (Automatically copied to new physical site records)" columns="2">
+				<apex:inputField value="{!DGF__c.Global_Site_Contact__c}" required="false"/>
+				<apex:inputField value="{!DGF__c.Global_Maintenance_Contact__c}" required="false"/>
+			</apex:pageBlockSection>			
+			
+			<apex:pageBlockSection title="Products" columns="2">
+				<apex:inputField id="Products_Requested" value="{!DGF__c.Product_Requested__c}" required="true" onchange="onProductChange(this)" />
+			</apex:pageBlockSection>		
+
+            <div id="CloudConnect" hidden="true">
+                <apex:pageBlockSection title="Connect - Cloud" columns="2">
+                    <apex:inputField id="CloudConnect_Service_Provider" value="{!DGF__c.CloudConnect_Service_Provider__c}" onchange="onCcServiceProviderChange(this)" />
+                    <apex:inputField id="CloudConnect_Service_Provider_Other" value="{!DGF__c.CloudConnect_Service_Provider_Other__c}" />
+                    <apex:inputField id="CloudConnect_Service_Provider_Metro" value="{!DGF__c.CloudConnect_Service_Provider_Metro__c}" />
+                    <apex:inputField id="CloudConnect_Local_Remote" value="{!DGF__c.CloudConnect_Local_Remote__c}" />
+                </apex:pageBlockSection>
+    			
+                <div id="CloudConnect_Microsoft" hidden="true">
+                    <h4>Microsoft Azure ExpressRoute Options</h4>
+                    <apex:pageBlockSection columns="1">
+                        <apex:inputField id="CloudConnect_BGP_Peering" value="{!DGF__c.CloudConnect_BGP_Peering__c}" />
+                    </apex:pageBlockSection>
+                </div>
+            </div>			
+			
+            <apex:pageBlockSection title="Description/Comments" columns="1">
+                <apex:outputText label="" value="{!DGF__c.Additional_Notifications__c}" />
+				<apex:inputField label="" value="{!DGF__c.Description__c}" required="false"/>
+			</apex:pageBlockSection>			
+
+        </apex:pageBlock>
+	</apex:form>
+	
+    <script>
+        window.addEventListener('load', function() {
+            handleCloudConnect();
+        	handleCcMicrosoft();
+        });
+    
+    	var onProductChange = function(cmp) {
+            handleCloudConnect();
+        }
+
+    	function handleCloudConnect() {            
+            var selectedOpts = document.querySelectorAll('select[Id$=Products_Requested_selected] option');
+            var hideCC = true;
+            selectedOpts.forEach(function (o) {
+            	if (o.innerHTML === 'Connect - Cloud') hideCC = false;
+            });
+        	document.getElementById('CloudConnect').hidden = hideCC;
+        }
+    
+    	function onCcServiceProviderChange(cmp) {
+            handleCcMicrosoft();
+        }
+    
+    	function handleCcMicrosoft() {
+            var cmp = document.querySelector('select[Id$=CloudConnect_Service_Provider]');
+            var msAzureCmp = document.getElementById('CloudConnect_Microsoft');
+            msAzureCmp.hidden = cmp.value !== 'Microsoft Azure ExpressRoute';
+        }
+    </script>
+
+</apex:page>
